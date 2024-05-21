@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import Button from "react-bootstrap/Button";
 import dbConnect from "@/lib/mongoConnect";
 import Aaas from "@/models/aaaModel";
+import { create } from "./server";
 
 export default async function Home() {
     await dbConnect();
@@ -14,11 +15,15 @@ export default async function Home() {
         <main className={styles.main}>
             <Button>Test bootstrap</Button>
             {process.env.MONGO_URI}
-            <p>
-                {doc.map((x, i) => (
-                    <p key={i}>{x.name}</p>
-                ))}
-            </p>
+            {doc.map((x, i) => (
+                <p key={i}>{x.name}</p>
+            ))}
+
+            <form action={create}>
+                <label>Name</label>
+                <input type="text" name="name" />
+                <button type="submit">Submit</button>
+            </form>
         </main>
     );
 }

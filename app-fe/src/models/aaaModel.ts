@@ -7,19 +7,6 @@ const aaaSchema = new Schema(
             required: [true, "aaa name is Requiredd"],
             unique: [true, "aaa name is not duplicate"],
         },
-        price: {
-            type: Number,
-            required: true,
-            min: [0, "Price muse be greater than or equals to zero"],
-        },
-        description: {
-            type: String,
-            required: true,
-        },
-        category: {
-            type: String,
-            required: true,
-        },
     },
     {
         // auto createAt, updateAt

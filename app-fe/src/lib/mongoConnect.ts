@@ -1,5 +1,4 @@
 import mongoose, { connection } from "mongoose";
-import { loadEnvConfig } from "@next/env";
 
 const connectData = {
     isConnected: 0,
