@@ -1,0 +1,30 @@
+.gg {
+    border: 10px solid blue;
+}
+
+.layout {
+    display: grid;
+    flex: 1;
+    grid-template:
+        "l m r" 1fr
+        "t t t" auto / auto 1fr auto;
+}
+
+.tab-active {
+    background: #d9d9d944;
+}
+
+.main-content-panel {
+    grid-area: m;
+}
+
+@media (min-width: 768px) {
+    .main-content-panel {
+        grid-area: m;
+        box-shadow: 2px 1px 11px 0px var(--clr-primary-1),
+            0 0 0 1px var(--clr-primary-1);
+
+        border-top-left-radius: var(--bs-border-radius);
+        border-bottom-left-radius: var(--bs-border-radius);
+    }
+}
