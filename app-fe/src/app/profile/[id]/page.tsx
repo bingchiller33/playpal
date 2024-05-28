@@ -1,52 +1,27 @@
-import Image from "next/image";
 import styles from "./page.module.css";
-import { use, useEffect, useState } from "react";
-import { NextPageProps } from "@/utils/types";
+import dbConnect from "@/lib/mongoConnect";
+import Profiles from "@/models/profileModel";
+import AddFriendButton from "@/components/AddFriendButton";
 
-interface Profile {
-  profile_id: string;
-  account_id: string;
-  avatar_url: string;
-  username: string;
-  bio: string;
-  riot_id: string;
-  preferences: any;
-}
+const fetchProfile = async (profile_id: string) => {
+  await dbConnect();
 
-const mockProfiles: Record<string, Profile> = {
-  profile1: {
-    profile_id: "1",
-    account_id: "account1",
-    avatar_url:
-      "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    username: "Test User 1",
-    bio: "This is test user 1.",
-    riot_id: "test123",
-    preferences: {},
-  },
-  profile2: {
-    profile_id: "2",
-    account_id: "account2",
-    avatar_url:
-      "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    username: "Test User 2",
-    bio: "This is test user 2.",
-    riot_id: "test456",
-    preferences: {},
-  },
+  const profile = await Profiles.findOne({ profile_id }).lean();
+  return profile;
 };
 
-const fetchProfile = (profile_id: string): Profile | null => {
-  return mockProfiles[profile_id] || null;
-};
+export default async function ProfilePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const profile = await fetchProfile(params.id);
 
-const ProfilePage = ({ params }: NextPageProps) => {
-  const { id } = params;
-  const profile: Profile | null = fetchProfile(id);
+  const senderId = "1";
+
   if (!profile) {
     return <div>Loading...</div>;
   }
-
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
@@ -54,7 +29,7 @@ const ProfilePage = ({ params }: NextPageProps) => {
         <div className={styles.profileInfo}>
           <h1>{profile.username}</h1>
           <p>Friends Count Placeholder</p>
-          <button className={styles.addFriendButton}>Add Friend</button>
+          <AddFriendButton senderId={senderId} receiverId={params.id} />
         </div>
       </div>
       <div className={styles.playerDetails}>
@@ -73,6 +48,4 @@ const ProfilePage = ({ params }: NextPageProps) => {
       </div>
     </div>
   );
-};
-
-export default ProfilePage;
+}
