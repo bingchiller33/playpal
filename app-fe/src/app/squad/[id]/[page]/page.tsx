@@ -70,7 +70,7 @@ const SquadPage = (pageProps: NextPageProps) => {
                 className="  d-none d-md-block border-primary-glow rounded background-1 border-bl-0 border-tl-0"
                 style={{
                     gridArea: "r",
-                    width: "20vw",
+                    width: "15vw",
                 }}
             >
                 <SquadMember {...pageProps} />
