@@ -184,3 +184,22 @@ a {
     border-color: #ed154c;
     background-color: transparent;
 }
+
+.footer {
+    background-color: #242034;
+}
+
+.footer .footer-logo {
+    font-size: 4.5rem;
+    margin-top: 25px;
+    color: #ed154c;
+}
+
+.footer h5 {
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.footer li {
+    margin: 8px 0;
+}
