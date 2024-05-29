@@ -5,14 +5,16 @@ import { CiCirclePlus } from "react-icons/ci";
 
 const SquadsRibbon = ({ squads }: SquadsRibbonProps) => {
     return (
-        <ul className="unstyled-list d-flex flex-column align-items-center">
+        <ul className="unstyled-list d-flex flex-column align-items-center p-1">
             {squads.map((squad) => (
-                <li key={squad._id} className="m-2">
-                    {squad.avatar ? (
-                        <Avatar size={36} src={squad.avatar} />
-                    ) : (
-                        <Avatar size={36} initials={squad.name[0]} />
-                    )}
+                <li key={squad._id}>
+                    <IconButton>
+                        {squad.avatar ? (
+                            <Avatar size={36} src={squad.avatar} />
+                        ) : (
+                            <Avatar size={36} initials={squad.name[0]} />
+                        )}
+                    </IconButton>
                 </li>
             ))}
 
