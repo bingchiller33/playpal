@@ -10,8 +10,6 @@ import Footer from "@/components/Footer";
 import { Row, Col } from "react-bootstrap";
 
 export default async function Login() {
-
-  
   return (
     <main>
       <Header />
@@ -19,7 +17,16 @@ export default async function Login() {
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={4}>
             <div className={styles["form-container"]}>
-              <h1 className="">Login</h1>
+              <h2 className={styles["title"]}>Welcome back!</h2>
+              <p className="">
+                Don't have an account?{" "}
+                <a href="/auth/register">
+                  <span style={{ color: "#ED154C" }}>
+                    Create a new account now
+                  </span>
+                </a>
+              </p>
+              <p className="">It's FREE! Take less than a minute</p>
               <Form action={create}>
                 <Form.Group
                   controlId="formEmail"
@@ -29,7 +36,7 @@ export default async function Login() {
                     className={styles["form-control-custom"]}
                     type="email"
                     name="email"
-                    placeholder="Enter email"
+                    placeholder="Email"
                     required
                   />
                 </Form.Group>
@@ -49,6 +56,14 @@ export default async function Login() {
 
                 <Button variant="danger" type="submit" className="w-100 mt-1">
                   Login
+                </Button>
+                <Button className={`${styles["login_with_google"]} w-100 mt-2`}>
+                  <img
+                    src="" // Update this path to your logo location
+                    alt="Google logo"
+                    className={styles["google-logo"]}
+                  />
+                  Login with Google
                 </Button>
               </Form>
             </div>

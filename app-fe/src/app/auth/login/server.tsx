@@ -20,6 +20,6 @@ export async function create(formData: FormData) {
 
     const userExist = await Account.findOne({email}).exec();
     if(await compare(password, userExist.password))
-        console.log("login successfully");
+        console.log(userExist.id);
     revalidatePath("/auth/login");
 }
