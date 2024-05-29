@@ -1,20 +1,21 @@
-// "use client"
-// import { useSession } from 'next-auth/react';
-// import { useRouter } from 'next/navigation';
-
-// export default function Profile() {
-//   const { data: session } = useSession();
-//   const router = useRouter();
-
-//   if (!session) {
-//     router.push('/login');
-//     return null;
-//   }
-
-//   return (
-//     <div>
-//       <h1>Welcome, {session.user?.email}</h1>
-//       <button>Sign out</button>
-//     </div>
-//   );
-// }
+"use client"
+import { useSession, signIn, signOut } from "next-auth/react"
+export default function Component() {
+  const { data: session } = useSession()
+  console.log(session);
+  
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        <button onClick={() => signOut()}>Sign out</button>
+      </>
+    )
+  }
+  return (
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn()}>Sign in</button>
+    </>
+  )
+}
