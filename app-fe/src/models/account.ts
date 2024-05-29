@@ -10,6 +10,12 @@ const AccountSchema = new Schema(
         password: {
             type: String,
             required: [false],
+        },
+        token: {
+            type: String
+        },
+        verified:{
+            type: Boolean
         }
     },
     {

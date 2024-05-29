@@ -4,12 +4,31 @@ import styles from "./page.module.css";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import { create } from "./server";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Row, Col } from "react-bootstrap";
+import { signIn } from "next-auth/react";
+import { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 export default async function Login() {
+  const router = useRouter();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const response = await signIn('credentials', {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      redirect: false,
+    });
+    
+    
+    console.log({ response });
+    if (!response?.error) {
+      console.log("vailon success");
+    }
+  };
+
   return (
     <main>
       <Header />
@@ -27,7 +46,7 @@ export default async function Login() {
                 </a>
               </p>
               <p className="">It's FREE! Take less than a minute</p>
-              <Form action={create}>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group
                   controlId="formEmail"
                   className={styles["form-group-margin"]}

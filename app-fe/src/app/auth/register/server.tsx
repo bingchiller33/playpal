@@ -19,7 +19,7 @@ export async function create(formData: FormData) {
         throw new Error("Invalid form data");
     }
     
-    // await sendVerificationEmail(email, token);
+    await sendVerificationEmail(email, token);
 
     const hashedPass = await hash(password,10);
 
@@ -29,6 +29,6 @@ export async function create(formData: FormData) {
     console.log(re_password);   
     console.log(hashedPass);
 
-    await Account.create({ email, password: hashedPass});
+    await Account.create({ email, password: hashedPass, token, verified:0});
     revalidatePath("/auth/register");
 }

@@ -3,8 +3,9 @@ import { compare, hash } from 'bcryptjs';
 import dbConnect from "@/lib/mongoConnect";
 import Account from "@/models/account";
 import { revalidatePath } from "next/cache";
+import { signIn } from 'next-auth/react';
 
-export async function create(formData: FormData) {
+export async function login(formData: FormData) {
     "use server";
     await dbConnect();
     const email = formData.get("email");
@@ -13,6 +14,7 @@ export async function create(formData: FormData) {
     if (typeof email !== 'string' || typeof password !== 'string' ) {
         throw new Error("Invalid form data");
     }
+
     console.log(email);
     console.log(password);
     
