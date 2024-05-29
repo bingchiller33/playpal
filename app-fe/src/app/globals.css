@@ -110,6 +110,15 @@ a {
     }
 }
 
+@font-face {
+    font-family: AllStar;
+    src: url(/assets/fonts/AllStar4.ttf);
+}
+
+.font-all-star {
+    font-family: "AllStar", sans-serif;
+}
+
 .unstyled-button {
     background: none;
     color: inherit;

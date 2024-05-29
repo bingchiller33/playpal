@@ -7,20 +7,13 @@ import {
 } from "primereact/dropdown";
 import { useState } from "react";
 
-const Dropdown = ({ className }: DropdownProps) => {
-    const values = [
-        {
-            value: "1",
-            label: "One",
-            iconUrl: "/assets/games/lol/rank-badges/iron.webp",
-        },
-        {
-            value: "2",
-            label: "On2e",
-            iconUrl: "/assets/games/lol/rank-badges/iron.webp",
-        },
-    ];
-
+const Dropdown = ({
+    className,
+    options,
+    onChange,
+    value,
+    disabled,
+}: DropdownProps) => {
     const selectedCountryTemplate = (
         option: DropDownItem,
         props: PrimeDropdownProps
@@ -28,12 +21,15 @@ const Dropdown = ({ className }: DropdownProps) => {
         if (option) {
             return (
                 <div className="d-flex gap-2 align-items-center">
-                    <Image
-                        alt={option.label}
-                        src={option.iconUrl || ""}
-                        width={32}
-                        height={32}
-                    />
+                    {option.iconUrl && (
+                        <Image
+                            alt={option.label}
+                            src={option.iconUrl || ""}
+                            width={32}
+                            height={32}
+                        />
+                    )}
+
                     <div>{option.label}</div>
                 </div>
             );
@@ -45,47 +41,49 @@ const Dropdown = ({ className }: DropdownProps) => {
     const countryOptionTemplate = (option: DropDownItem) => {
         return (
             <div className="d-flex gap-2 align-items-center">
-                <Image
-                    alt={option.label}
-                    src={option.iconUrl || ""}
-                    width={32}
-                    height={32}
-                />
+                {option.iconUrl && (
+                    <Image
+                        alt={option.label}
+                        src={option.iconUrl || ""}
+                        width={32}
+                        height={32}
+                    />
+                )}
+
                 <div>{option.label}</div>
             </div>
         );
     };
 
-    const [selected, setSelected] = useState<DropDownItem | null>(null);
-
     return (
         <PrimeDropdown
-            onChange={(e) => setSelected(e.value)}
-            value={selected}
+            onChange={(e) => onChange(e.value)}
+            value={value}
             optionLabel="label"
-            options={values}
+            options={options}
             itemTemplate={countryOptionTemplate}
             valueTemplate={selectedCountryTemplate}
             placeholder="Select..."
             filterPlaceholder="Search..."
-            showClear
             className={className}
+            disabled={disabled}
             filter
         />
     );
 };
 
 export interface DropDownItem {
-    value: string;
+    value: any;
     label: string;
     iconUrl?: string;
 }
 
 export interface DropdownProps {
     options: DropDownItem[];
-    value: DropDownItem;
+    value: any;
     onChange: (value: DropDownItem) => void;
     className?: string;
+    disabled?: boolean;
 }
 
 export default Dropdown;
