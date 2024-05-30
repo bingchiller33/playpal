@@ -12,11 +12,31 @@ const AccountSchema = new Schema(
             required: [false],
         },
         token: {
-            type: String
+            type: String,
         },
-        verified:{
-            type: Boolean
-        }
+        verified: {
+            type: Boolean,
+        },
+        matchMakingWeights: {
+            type: [
+                new Schema(
+                    {
+                        mode: {
+                            type: String,
+                            required: true,
+                            unique: true,
+                        },
+                        weights: {
+                            type: Map,
+                            of: Number,
+                            default: {},
+                        },
+                    },
+                    { _id: false }
+                ),
+            ],
+            default: [],
+        },
     },
     {
         // auto createAt, updateAt
@@ -25,6 +45,7 @@ const AccountSchema = new Schema(
 );
 
 // Mapping to Collection
-const Account = mongoose.models.accounts || mongoose.model("accounts", AccountSchema);
+const Account =
+    mongoose.models.accounts || mongoose.model("accounts", AccountSchema);
 
 export default Account;
