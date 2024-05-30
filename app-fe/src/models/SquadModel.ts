@@ -118,7 +118,6 @@ const SquadSchema = new Schema(
                         other: {
                             type: mongoose.Types.ObjectId,
                             required: true,
-                            unique: true,
                         },
                         score: {
                             type: Number,

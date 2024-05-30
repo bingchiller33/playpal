@@ -24,7 +24,6 @@ const AccountSchema = new Schema(
                         mode: {
                             type: String,
                             required: true,
-                            unique: true,
                         },
                         weights: {
                             type: Map,

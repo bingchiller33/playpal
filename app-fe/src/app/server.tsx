@@ -6,6 +6,8 @@ import Aaas from "@/models/aaaModel";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSquad as repoCreateSquad } from "@/repositories/SquadRepository";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../pages/api/auth/[...nextauth]";
 
 export async function create(formData: FormData) {
     await dbConnect();
@@ -16,6 +18,8 @@ export async function create(formData: FormData) {
 }
 
 export async function createSquad() {
+    const session = await getServerSession(authOptions);
+    console.log(session);
     await dbConnect();
     const newSquad = await repoCreateSquad();
     console.log(newSquad);
