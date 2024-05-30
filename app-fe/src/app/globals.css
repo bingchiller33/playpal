@@ -203,3 +203,18 @@ a {
 .footer li {
     margin: 8px 0;
 }
+
+
+.leave-chat-btn {
+    font-size: 25px;
+    color: #ed154c;
+    float: right;
+}
+
+.squadChat-head {
+    padding-top: 50px;
+}
+
+.btnLine {
+    background-color: #ed154c;
+}
