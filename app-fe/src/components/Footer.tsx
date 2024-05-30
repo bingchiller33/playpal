@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container, Navbar } from "react-bootstrap"
 import { BiPhoneCall } from "react-icons/bi";
 import { FaFacebook } from "react-icons/fa";
@@ -8,7 +9,7 @@ const Footer = () => {
         <Container fluid>
             <div className="row p-4 footer" >
                 <div className="col-4 text-center">
-                    <p className="footer-logo fw-bold">PLAYPAL</p>
+                    <p className="footer-logo fw-bold font-all-star">PLAYPAL</p>
                 </div>
                 <div className="offset-2 col-6">
                     <div className="row">
@@ -16,22 +17,22 @@ const Footer = () => {
                             <h5 className=""> PlayPal</h5>
                             <ul
                                 className="list-unstyled "
-                                style={{ textAlign: "left", textDecoration: "none", }}
+                                style={{ textAlign: "left", textDecoration: "none !important" }}
                             >
                                 <li>
-                                    <a className="">
+                                    <Link href={"/"} className="">
                                         Home
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="">
+                                    <Link href={"/"} className="">
                                         About us
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="">
+                                    <Link href={"/"} className="">
                                         Blog
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -42,19 +43,19 @@ const Footer = () => {
                                 style={{ textAlign: "left", textDecoration: "none", }}
                             >
                                 <li>
-                                    <a className="">
+                                    <Link href={"/"} className="">
                                         <FaFacebook /> PlayPal
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="">
+                                    <Link href={"/"}  className="">
                                         <BiPhoneCall /> 0999 666 333
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="">
+                                    <Link href={"/"}  className="">
                                         <MdEmail /> Playpal@gmail.com
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
