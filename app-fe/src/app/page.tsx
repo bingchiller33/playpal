@@ -3,7 +3,9 @@ import styles from "./page.module.css";
 import Button from "react-bootstrap/Button";
 import dbConnect from "@/lib/mongoConnect";
 import Aaas from "@/models/aaaModel";
-import { create } from "./server";
+import { create, createSquad } from "./server";
+import { Button as B2r } from "primereact/button";
+import Dropdown from "@/components/Dropdown";
 
 export default async function Home() {
     await dbConnect();
@@ -12,8 +14,7 @@ export default async function Home() {
     const names = doc.map((aaa) => aaa.name);
 
     return (
-        <main className={styles.main}>
-            <Button>Test bootstrap</Button>
+        <main>
             {process.env.MONGO_URI}
             {doc.map((x, i) => (
                 <p key={i}>{x.name}</p>
@@ -23,6 +24,9 @@ export default async function Home() {
                 <label>Name</label>
                 <input type="text" name="name" />
                 <button type="submit">Submit</button>
+            </form>
+            <form action={createSquad}>
+                <button type="submit">Create squad</button>
             </form>
         </main>
     );
