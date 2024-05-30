@@ -29,6 +29,6 @@ export async function create(formData: FormData) {
     console.log(re_password);   
     console.log(hashedPass);
 
-    await Account.create({ email, password: hashedPass, token, verified:0});
+    await Account.create({ email, password: hashedPass, token, verified:1});
     revalidatePath("/auth/register");
 }
