@@ -216,5 +216,19 @@ a {
 }
 
 .btnLine {
+    background-color: #ed154b79;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.btnLine-members,
+.btnLine-request {
+    padding: 5px;
+    margin-left: 12px;
+
+}
+
+.btnLine-members {
     background-color: #ed154c;
+    border-radius: 18px;
 }
