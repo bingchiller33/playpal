@@ -28,7 +28,16 @@ const profileSchema = new Schema(
       required: [true, "Riot ID is required"],
     },
     preferences: {
-      type: Schema.Types.Mixed,
+      language: {
+        type: [String],
+      },
+      server: {
+        type: String,
+      },
+    },
+    rating: {
+      type: String,
+      required: true,
     },
   },
   {
@@ -36,6 +45,6 @@ const profileSchema = new Schema(
   }
 );
 
-const Profiles = models.profile || model("profile", profileSchema);
+const Profiles = models.profiles || model("profiles", profileSchema);
 
 export default Profiles;

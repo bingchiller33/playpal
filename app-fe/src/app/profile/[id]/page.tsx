@@ -1,35 +1,132 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import dbConnect from "@/lib/mongoConnect";
-import Profiles from "@/models/profileModel";
-import AddFriendButton from "@/components/AddFriendButton";
+import Image from "next/image";
+import { FaArrowRightLong } from "react-icons/fa6";
 
-const fetchProfile = async (profile_id: string) => {
-  await dbConnect();
-
-  const profile = await Profiles.findOne({ profile_id }).lean();
-  return profile;
+const fetchProfile = async (id: string) => {
+  const response = await fetch(`/api/profile/${id}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch profile");
+  }
+  return response.json();
 };
 
-export default async function ProfilePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const profile = await fetchProfile(params.id);
+export default function ProfilePage({ params }: { params: { id: string } }) {
+  const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [requestSent, setRequestSent] = useState(false);
 
-  const senderId = "1";
+  const checkFriendRequest = async () => {
+    const checkResponse = await fetch("/api/friendRequest/check-request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender_id: "66537e33c1e3f5f5fd0ab4cf",
+        receiver_id: params.id,
+      }),
+    });
+
+    const checkData = await checkResponse.json();
+
+    setRequestSent(checkData.exists);
+  };
+
+  useEffect(() => {
+    const fetchAndSetProfile = async () => {
+      const fetchedProfile = await fetchProfile(params.id);
+      setProfile(fetchedProfile);
+    };
+
+    checkFriendRequest();
+    fetchAndSetProfile();
+  }, [params.id]);
+
+  const handleAddFriend = async () => {
+    setLoading(true);
+
+    try {
+      if (requestSent) {
+        const response = await fetch("/api/friendRequest/unrequest", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sender_id: "66537e33c1e3f5f5fd0ab4cf",
+            receiver_id: params.id,
+          }),
+        });
+
+        if (response.ok) {
+          setRequestSent(false);
+        } else {
+          const errorData = await response.json();
+          alert(`Failed to cancel friend request: ${errorData.message}`);
+        }
+
+        return;
+      }
+
+      const response = await fetch("/api/friendRequest/friend-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender_id: "66537e33c1e3f5f5fd0ab4cf",
+          receiver_id: params.id,
+        }),
+      });
+
+      if (response.ok) {
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to send friend request: ${errorData.message}`);
+      }
+    } catch (error) {
+      alert("Failed to send friend request");
+    } finally {
+      setLoading(false);
+      checkFriendRequest();
+    }
+  };
 
   if (!profile) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
-        <img src={profile.avatar_url} alt="Profile Picture" />
+        <Image
+          width={350}
+          height={350}
+          src={profile.avatar_url}
+          alt="Profile Picture"
+          className={styles.profileImage}
+        />
         <div className={styles.profileInfo}>
-          <h1>{profile.username}</h1>
+          <h1 className={styles.username}>{profile.username}</h1>
           <p>Friends Count Placeholder</p>
-          <AddFriendButton senderId={senderId} receiverId={params.id} />
+          <button
+            onClick={handleAddFriend}
+            disabled={loading}
+            className={styles.addFriendButton}
+          >
+            {loading ? (
+              "Sending..."
+            ) : requestSent ? (
+              <>
+                <FaArrowRightLong /> Cancel Request
+              </>
+            ) : (
+              "Add Friend"
+            )}{" "}
+          </button>
         </div>
       </div>
       <div className={styles.playerDetails}>

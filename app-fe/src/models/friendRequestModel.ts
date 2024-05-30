@@ -1,18 +1,17 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const friendRequestSchema = new Schema(
   {
     sender_id: {
       type: String,
-      required: true,
+      required: [true, "Sender ID is required"],
     },
     receiver_id: {
       type: String,
-      required: true,
+      required: [true, "Receiver ID is required"],
     },
     status: {
       type: String,
-      enum: ["pending", "accepted", "declined"],
       default: "pending",
     },
   },
@@ -21,6 +20,7 @@ const friendRequestSchema = new Schema(
   }
 );
 
-const FriendRequest = mongoose.model("friendrequest", friendRequestSchema);
+const FriendRequest =
+  models.FriendRequest || model("FriendRequest", friendRequestSchema);
 
 export default FriendRequest;

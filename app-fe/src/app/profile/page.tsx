@@ -14,96 +14,8 @@ type UserProfileProps = {
 };
 
 const fetchUserProfiles = async (id: string) => {
-  const userProfiles = [
-    {
-      id: "1",
-      username: "User1",
-      rank: "Diamond",
-      language: ["EN", "KR"],
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-    {
-      id: "2",
-      username: "User2",
-      rank: "Gold",
-      language: ["EN", "JP"],
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709661596/uak9g3ewwdoht8relsxn.jpg",
-    },
-    {
-      id: "3",
-      username: "User3",
-      rank: "Bronze",
-      language: "EN",
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-    {
-      id: "4",
-      username: "User4",
-      rank: "Gold",
-      language: "EN",
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-    {
-      id: "6",
-      username: "User6",
-      rank: "Silv",
-      language: "EN",
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-    {
-      id: "5",
-      username: "User5",
-      rank: "Challenger",
-      language: "EN",
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-    {
-      id: "7",
-      username: "User7",
-      rank: "Master",
-      language: "EN",
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-    {
-      id: "8",
-      username: "User8",
-      rank: "Master",
-      language: "EN",
-      server: "Asia",
-      style: "Entertain Only",
-      rating: "4.9",
-      image:
-        "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-    },
-  ];
+  const response = await fetch(`/api/userProfiles`);
+  const userProfiles = await response.json();
   return userProfiles;
 };
 
@@ -136,7 +48,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
       </div>
       <div className={styles.cardsSection}>
         {currentProfiles.map((profile) => (
-          <Link href={`profile/${profile.id}`} key={profile.id}>
+          <Link href={`profile/${profile._id}`} key={profile._id}>
             <ProfileCard {...profile} />
           </Link>
         ))}
@@ -151,3 +63,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
 };
 
 export default UserProfile;
+
+// {
+//   id: "1",
+//   username: "User1",
+//   rank: "Diamond",
+//   language: ["EN", "KR"],
+//   server: "Asia",
+//   style: "Entertain Only",
+//   rating: "4.9",
+//   image:
+//     "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
+// },

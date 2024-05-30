@@ -11,13 +11,8 @@
     gap: 100px;
 }
 
-@media (max-width: 900px) {
-    .profileHeader {
-        flex-direction: column;
-        align-items: start;
-        gap: 20px;
-    }
-}
+@media (max-width: 900px) {}
+
 
 .playerDetails,
 .feedbacks,
@@ -32,6 +27,7 @@
     border: 1px solid #ED154C;
     box-shadow: 0 0 10px #ED154C;
     padding: 20px;
+    background-color: #242034;
 }
 
 
@@ -43,10 +39,50 @@
 }
 
 .addFriendButton {
-    background: #ED154C;
-    color: white;
+    background: #242034;
+    color: #ED154C;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 50px;
+    border: 1px solid #ED154C;
+}
+
+.profileImage {
+    max-width: 100%;
+    height: auto;
+    margin-left: 100px;
+    border-radius: 50%;
+}
+
+.username {
+    color: #ED154C;
+}
+
+
+@media screen and (max-width: 1350px) {
+    .profileContainer {
+        margin: 50px 20px;
+    }
+
+    .profileImage {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .profileHeader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+
+    }
+
+    .profileImage {
+        width: 200px;
+        height: 200px;
+    }
+
 }

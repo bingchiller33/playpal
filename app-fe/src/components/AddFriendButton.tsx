@@ -2,33 +2,27 @@
 
 import { useState } from "react";
 import dbConnect from "@/lib/mongoConnect";
-import FriendRequest from "@/models/friendRequestModel";
 import styles from "@/app/profile/[id]/page.module.css";
+import FriendRequest from "@/models/friendRequestModel";
 
 interface AddFriendButtonProps {
   senderId: string;
   receiverId: string;
 }
 
-const AddFriendButton: React.FC<AddFriendButtonProps> = ({
+export default function AddFriendButton({
   senderId,
   receiverId,
-}) => {
-
-  console.log(FriendRequest);
-  
-
+}: AddFriendButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const handleAddFriend = async () => {
     setLoading(true);
-    await dbConnect();
 
     const sender_id = 1;
     const receiver_id = 2;
-
-    const newRequest = new FriendRequest({ sender_id, receiver_id });
-    await newRequest.save();
+    await dbConnect();
+    await FriendRequest.create({ sender_id, receiver_id });
     alert("Friend request sent!");
     setLoading(false);
   };
@@ -42,6 +36,4 @@ const AddFriendButton: React.FC<AddFriendButtonProps> = ({
       {loading ? "Sending..." : "Add Friend"}
     </button>
   );
-};
-
-export default AddFriendButton;
+}

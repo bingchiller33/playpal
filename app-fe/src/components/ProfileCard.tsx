@@ -3,52 +3,53 @@ import styles from "../app/profile/page.module.css";
 
 type ProfileCardProps = {
   username: string;
-  rank: string;
-  language: string | string[];
-  server: string;
-  style: string;
+  avatar_url: string;
+  bio: string;
+  riot_id: string;
+  preferences: {
+    language: string | string[];
+    server: string;
+    style: string;
+  };
   rating: string;
-  image: string;
 };
-
 const ProfileCard: React.FC<ProfileCardProps> = ({
   username,
-  rank,
-  language,
-  server,
-  style,
+  avatar_url,
+  bio,
+  riot_id,
+  preferences,
   rating,
-  image,
 }) => {
   return (
     <div className={styles.card}>
-      <img src={image} alt={username} className={styles.profileImage} />
+      <img src={avatar_url} alt={username} className={styles.profileImage} />
       <div className={styles.cardInfo}>
         <div className={styles.infoLine}>
           <h3 style={{ fontWeight: "bold" }}>{username}</h3>
-          <h3 style={{ fontWeight: "bold" }}>{rank}</h3>
+          <h3 style={{ fontWeight: "bold" }}>{riot_id}</h3>
         </div>
         <div className={styles.infoLine}>
           <p>Language</p>
           <div className={styles.pillGroup}>
-            {Array.isArray(language) ? (
-              language.map((lang, index) => (
+            {Array.isArray(preferences.language) ? (
+              preferences.language.map((lang, index) => (
                 <span key={index} className={styles.pill}>
                   {lang}
                 </span>
               ))
             ) : (
-              <span className={styles.pill}>{language}</span>
+              <span className={styles.pill}>{preferences.language}</span>
             )}
           </div>
         </div>
         <div className={styles.infoLine}>
           <p>Server</p>
-          <span>{server}</span>
+          <span>{preferences.server}</span>
         </div>
         <div className={styles.infoLine}>
           <p>Style</p>
-          <span>{style}</span>
+          <span>{preferences.style}</span>
         </div>
         <div className={styles.infoLine}>
           <p>Rating</p>
