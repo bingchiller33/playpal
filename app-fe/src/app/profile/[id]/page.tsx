@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
+import FriendsModal from "@/components/FriendsModal/FriendsModal";
 
 const fetchProfile = async (id: string) => {
   const response = await fetch(`/api/profile/${id}`);
@@ -13,10 +14,20 @@ const fetchProfile = async (id: string) => {
   return response.json();
 };
 
+const fetchFriends = async (id: string) => {
+  const response = await fetch(`/api/profile/${id}/friends`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch friends");
+  }
+  return response.json();
+};
+
 export default function ProfilePage({ params }: { params: { id: string } }) {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [friends, setFriends] = useState<any[]>([]);
 
   const checkFriendRequest = async () => {
     const checkResponse = await fetch("/api/friendRequest/check-request", {
@@ -41,6 +52,12 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
       setProfile(fetchedProfile);
     };
 
+    const fetchAndSetFriends = async () => {
+      const fetchedFriends = await fetchFriends(params.id);
+      setFriends(fetchedFriends);
+    };
+
+    fetchAndSetFriends();
     checkFriendRequest();
     fetchAndSetProfile();
   }, [params.id]);
@@ -95,6 +112,14 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   if (!profile) {
     return <div>Loading...</div>;
   }
@@ -111,7 +136,9 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         />
         <div className={styles.profileInfo}>
           <h1 className={styles.username}>{profile.username}</h1>
-          <p>Friends Count Placeholder</p>
+          <p onClick={openModal} style={{ cursor: "pointer" }}>
+            {friends.length} Friends
+          </p>
           <button
             onClick={handleAddFriend}
             disabled={loading}
@@ -143,6 +170,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         <h2>Highlights</h2>
         {/* Highlights placeholder */}
       </div>
+      {isModalOpen && <FriendsModal friends={friends} onClose={closeModal} />}
     </div>
   );
 }
