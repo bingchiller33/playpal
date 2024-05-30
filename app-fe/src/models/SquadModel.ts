@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
-import FilterLanguages from "./FilterLanguageModel";
-import FilterGenders from "./FilterGenderModel";
-import FilterGames from "./FilterGameModel";
-import FilterGameModes from "./FilterGameModeModel";
-import FilterLOLServers from "./FilterLOLServerModel";
-import FilterLOLRanks from "./FilterLOLRankModel";
-import FilterPlaystyles from "./FilterPlaystyleModel";
+import FilterLanguages from "./filterLanguageModel";
+import FilterGenders from "./filterGenderModel";
+import FilterGames from "./filterGameModel";
+import FilterGameModes from "./filterGameModeModel";
+import FilterLOLServers from "./filterLOLServerModel";
+import FilterLOLRanks from "./filterLOLRankModel";
+import FilterPlaystyles from "./filterPlaystyleModel";
 
 const LOLFilterSchema = new Schema({
     serverId: {

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import FilterGames from "./FilterGameModel";
+import FilterGames from "./filterGameModel";
 
 const FilterGameModeSchema = new Schema(
     {

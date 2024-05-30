@@ -1,7 +1,7 @@
 "use server";
 
 import dbConnect from "@/lib/mongoConnect";
-import Squads from "@/models/SquadModel";
+import Squads from "@/models/squadModel";
 import { revalidatePath } from "next/cache";
 
 export async function updateFilter(

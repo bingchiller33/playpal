@@ -9,7 +9,7 @@ import cx from "classnames";
 import { NextPageProps } from "@/utils/types";
 import SquadChat from "@/components/SquadChat";
 import dbConnect from "@/lib/mongoConnect";
-import Squads from "@/models/SquadModel";
+import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 
 const SquadPage = async (pageProps: NextPageProps) => {

@@ -1,15 +1,15 @@
 import dbConnect from "@/lib/mongoConnect";
 import SquadFilterView from "./SquadFilterView";
 import { jsonStrip } from "@/utils";
-import FilterLanguages from "@/models/FilterLanguageModel";
-import FilterGenders from "@/models/FilterGenderModel";
-import FilterPlaystyles from "@/models/FilterPlaystyleModel";
-import FilterGames from "@/models/FilterGameModel";
-import FilterGameModes from "@/models/FilterGameModeModel";
+import FilterLanguages from "@/models/filterLanguageModel";
+import FilterGenders from "@/models/filterGenderModel";
+import FilterPlaystyles from "@/models/filterPlaystyleModel";
+import FilterGames from "@/models/filterGameModel";
+import FilterGameModes from "@/models/filterGameModeModel";
 import { NextPageProps } from "@/utils/types";
 import { LolSpecFilter } from "./SquadSpecFilter";
-import FilterLOLRanks from "@/models/FilterLOLRankModel";
-import FilterLOLServers from "@/models/FilterLOLServerModel";
+import FilterLOLRanks from "@/models/filterLOLRankModel";
+import FilterLOLServers from "@/models/filterLOLServerModel";
 
 const SquadFilter = async (props: SquadFilterProps) => {
     await dbConnect();
