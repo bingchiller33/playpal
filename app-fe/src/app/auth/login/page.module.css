@@ -1,0 +1,70 @@
+/* page.module.css */
+.form-container {
+  background-color: #242034;
+  /* Solid color */
+  padding: 2rem;
+  border-radius: 0.5rem;
+  /* Optional: for rounded corners */
+}
+
+.form-group-margin {
+  margin-bottom: 1.5rem;
+}
+
+.form-control-custom {
+  background-color: transparent;
+  color: #ffffff;
+  /* Ensures the text is visible on dark background */
+  border: none;
+  border-bottom: 1px solid #ffffff;
+  /* Underline */
+  border-radius: 0;
+  /* Removes the rounded corners */
+  outline: none;
+  /* Removes the default outline */
+}
+
+.form-control-custom:focus {
+  background-color: transparent;
+  /* Ensures the background remains transparent on focus */
+  box-shadow: none;
+  /* Removes the focus shadow */
+  border-bottom: 2px solid #ffffff;
+  /* Thicker underline on focus */
+  color: #ffffff;
+  /* Ensures text visibility on focus */
+}
+
+.form-control-custom::placeholder {
+  color: #cccccc;
+  /* Ensures the placeholder text is visible on dark background */
+}
+
+.title {
+  color: #ed154c;
+}
+
+.login_with_google {
+  background-color: white;
+  color: #000000; /* Google's blue color for text */
+  border: 1px solid #4285F4;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login_with_google img {
+  height: 20px; /* Adjust the size as needed */
+  margin-right: 10px; /* Space between logo and text */
+}
+
+
+.login_with_google:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.5); /* Blue shadow on focus */
+}
