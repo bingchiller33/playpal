@@ -1,0 +1,30 @@
+/* page.module.css */
+.form-container {
+    background-color: #242034; /* Solid color */
+    padding: 2rem;
+    border-radius: 0.5rem; /* Optional: for rounded corners */
+  }
+  
+  .form-group-margin {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-control-custom {
+    background-color: transparent;
+    color: #ffffff; /* Ensures the text is visible on dark background */
+    border: none;
+    border-bottom: 1px solid #ffffff; /* Underline */
+    border-radius: 0; /* Removes the rounded corners */
+    outline: none; /* Removes the default outline */
+  }
+  
+  .form-control-custom:focus {
+    background-color: transparent; /* Ensures the background remains transparent on focus */
+    box-shadow: none; /* Removes the focus shadow */
+    border-bottom: 2px solid #ffffff; /* Thicker underline on focus */
+    color: #ffffff; /* Ensures text visibility on focus */
+  }
+  
+  .form-control-custom::placeholder {
+    color: #cccccc; /* Ensures the placeholder text is visible on dark background */
+  }
