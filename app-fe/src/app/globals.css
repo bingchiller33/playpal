@@ -35,6 +35,7 @@
 
     --clr-primary-1: #ed154c;
     --clr-background-1: #242034;
+    --clr-text-gray: #ffffff90;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -64,13 +65,14 @@
         --callout-border-rgb: 108, 108, 108;
         --card-rgb: 100, 100, 100;
         --card-border-rgb: 200, 200, 200;
+        --focus-ring: #ed154c;
     }
 }
 
 * {
     box-sizing: border-box;
     padding: 0;
-    margin: 0;
+    color: white;
 }
 
 html,
@@ -82,9 +84,7 @@ body {
 body {
     height: 100vh;
     color: rgb(var(--foreground-rgb));
-    background: linear-gradient(to bottom,
-            transparent,
-            rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+    background: #000 !important;
 }
 
 a {
@@ -96,6 +96,15 @@ a {
     html {
         color-scheme: dark;
     }
+}
+
+@font-face {
+    font-family: AllStar;
+    src: url(/assets/fonts/AllStar4.ttf);
+}
+
+.font-all-star {
+    font-family: "AllStar", sans-serif;
 }
 
 .unstyled-button {
@@ -155,34 +164,43 @@ a {
 
 
 .text-logo {
-    color: #ed154c;
+    color: var(--clr-primary-1);
+    text-decoration: none;
+    font-size: 3rem;
+    margin-top: 3px;
+}
+
+.header-element:hover {
+    text-decoration: underline;
 }
 
 .btn-bordered {
-    border: 1px solid #ed154c;
+    border: 1px solid var(--clr-primary-1);
     background-color: transparent;
     width: 110px;
+    padding: 5px;
     border-radius: 20px;
     font-weight: 500;
 }
 
 .btn-bordered:hover {
-    border-color: #ed154c;
-    background-color: #ed154c;
+    border-color: var(--clr-primary-1);
+    background-color: var(--clr-primary-1);
 }
 
 .btn-noborder {
     border: none;
-    border: 1px solid #ed154c;
-    background-color: #ed154c;
+    border: 1px solid var(--clr-primary-1);
+    background-color: var(--clr-primary-1);
     width: 110px;
+    padding: 5px;
     border-radius: 20px;
     font-weight: 500;
 }
 
 .btn-noborder:hover {
-    border-color: #ed154c;
-    background-color: transparent;
+    /* border-color: var(--clr-primary-1); */
+    /* background-color: transparent; */
 }
 
 .footer {
@@ -192,11 +210,11 @@ a {
 .footer .footer-logo {
     font-size: 4.5rem;
     margin-top: 25px;
-    color: #ed154c;
+    color: var(--clr-primary-1);
 }
 
 .footer h5 {
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin-bottom: 20px;
 }
 
@@ -231,4 +249,113 @@ a {
 .btnLine-members {
     background-color: #ed154c;
     border-radius: 18px;
+}
+.footer a{
+    text-decoration: none !important;
+    color: white;
+
+}
+.footer a:hover{
+    text-decoration: underline !important;
+
+}
+/** --- Prime Dropdown Custom Style --- */
+.p-dropdown-items {
+    padding: 0;
+}
+
+.p-dropdown-filter-container,
+.p-dropdown-header {
+    background: transparent;
+    border-bottom: 1px solid var(--clr-primary-1);
+}
+
+.p-dropdown-filter {
+    padding: 8px;
+    border: 0;
+    background: transparent;
+}
+
+.p-inputtext {
+    padding: 8px;
+}
+
+.p-dropdown,
+.p-dropdown-panel {
+    border: 1px solid var(--clr-primary-1);
+    background: #140022;
+}
+
+.p-dropdown-item {
+    padding: 4px;
+    padding-left: 8px;
+    border-bottom: 1px solid var(--clr-primary-1);
+}
+
+/* .p-highlight {
+    background: var(--clr-primary-1);
+} */
+
+.p-dropdown-label span {
+    color: #ffffff90;
+}
+
+.p-dropdown-trigger svg path {
+    fill: var(--clr-primary-1);
+    stroke: var(--clr-primary-1);
+    color: var(--clr-primary-1);
+}
+
+/** --- Prime Dropdown Custom Style --- */
+
+/** --- Prime Slider Custom Style --- */
+.p-slider-handle {
+    position: relative;
+    background: var(--clr-primary-1);
+    border: 0;
+}
+
+.p-slider-tooltips .p-slider-handle::after {
+    content: attr(data-val-low);
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #ffffff90;
+}
+
+.p-slider-tooltips .p-slider-handle-end::after {
+    content: attr(data-val-high);
+}
+
+.p-slider-range {
+    background: var(--clr-primary-1);
+}
+/** --- Prime Slider Custom Style --- */
+
+.p-checkbox.p-highlight .p-checkbox-box {
+    border-color: var(--clr-primary-1);
+    background: var(--clr-primary-1);
+}
+
+.p-checkbox:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
+    border-color: var(--clr-primary-1);
+}
+
+.playstyle-btn * {
+    font-weight: normal;
+}
+
+.playstyle-btn .p-button {
+    padding: 2px 16px;
+}
+
+.p-highlight .p-button {
+    background: var(--clr-primary-1);
+    border-color: var(--clr-primary-1);
+}
+
+.playstyle-btn .p-button {
+    border-color: var(--clr-primary-1);
 }
