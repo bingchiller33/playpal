@@ -148,7 +148,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
               "Sending..."
             ) : requestSent ? (
               <>
-                <FaArrowRightLong /> Cancel Request
+                <FaArrowRightLong fill="#ED154C"/> Cancel Request
               </>
             ) : (
               "Add Friend"
