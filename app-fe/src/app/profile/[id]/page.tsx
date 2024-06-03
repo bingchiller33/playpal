@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
 import FriendsModal from "@/components/FriendsModal/FriendsModal";
+import { useSession } from "next-auth/react";
 
 const fetchProfile = async (id: string) => {
   const response = await fetch(`/api/profile/${id}`);
@@ -23,6 +24,7 @@ const fetchFriends = async (id: string) => {
 };
 
 export default function ProfilePage({ params }: { params: { id: string } }) {
+  const { data: session, status } = useSession();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
@@ -30,13 +32,17 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [friends, setFriends] = useState<any[]>([]);
 
   const checkFriendRequest = async () => {
+    if (!session) {
+      return;
+    }
+
     const checkResponse = await fetch("/api/friendRequest/check-request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender_id: "66537e33c1e3f5f5fd0ab4cf",
+        sender_id: session.user.id,
         receiver_id: params.id,
       }),
     });
@@ -63,6 +69,11 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   }, [params.id]);
 
   const handleAddFriend = async () => {
+    if (!session) {
+      alert("You need to be logged in to send friend requests");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -73,7 +84,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            sender_id: "66537e33c1e3f5f5fd0ab4cf",
+            sender_id: session.user.id,
             receiver_id: params.id,
           }),
         });
@@ -94,7 +105,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          sender_id: "66537e33c1e3f5f5fd0ab4cf",
+          sender_id: session.user.id,
           receiver_id: params.id,
         }),
       });
@@ -148,7 +159,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
               "Sending..."
             ) : requestSent ? (
               <>
-                <FaArrowRightLong fill="#ED154C"/> Cancel Request
+                <FaArrowRightLong fill="#ED154C" /> Cancel Request
               </>
             ) : (
               "Add Friend"

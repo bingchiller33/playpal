@@ -4,12 +4,12 @@ const friendSchema = new Schema(
   {
     account_id_1: {
       type: Schema.Types.ObjectId,
-      ref: "Profile",
+      ref: "accounts",
       required: true,
     },
     account_id_2: {
       type: Schema.Types.ObjectId,
-      ref: "Profile",
+      ref: "accounts",
       required: true,
     },
   },

@@ -1,30 +1,51 @@
 import mongoose, { Schema } from "mongoose";
 
-const AccountSchema = new Schema(
-    {
-        email: {
-            type: String,
-            required: [true, "email is Requiredd"],
-            unique: [true, "email is not duplicate"],
-        },
-        password: {
-            type: String,
-            required: [false],
-        },
-        token: {
-            type: String
-        },
-        verified:{
-            type: Boolean
-        }
+const accountSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: [true, "Email must be unique"],
     },
-    {
-        // auto createAt, updateAt
-        timestamps: true,
-    }
+    password: {
+      type: String,
+    },
+    token: {
+      type: String,
+    },
+    verified: {
+      type: Boolean,
+    },
+    avatar_url: {
+      type: String,
+    },
+    username: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    riot_id: {
+      type: String,
+    },
+    preferences: {
+      language: {
+        type: [String],
+      },
+      server: {
+        type: String,
+      },
+    },
+    rating: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
-// Mapping to Collection
-const Account = mongoose.models.accounts || mongoose.model("accounts", AccountSchema);
+const Account =
+  mongoose.models.accounts || mongoose.model("accounts", accountSchema);
 
 export default Account;

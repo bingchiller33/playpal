@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/mongoConnect";
-import Profiles from "@/models/profileModel";
+import Account from "@/models/account";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +12,7 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
-      const profile = await Profiles.findOne({ _id: id }).lean();
+      const profile = await Account.findOne({ _id: id }).lean();
       if (!profile) {
         return res.status(404).json({ message: "Profile not found" });
       }

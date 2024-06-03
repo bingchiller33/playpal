@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '@/lib/mongoConnect';
 import Friend from '@/models/friendModel';
-import Profiles from '@/models/profileModel';
+import Account from '@/models/account';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       friendship.account_id_1.toString() === id ? friendship.account_id_2 : friendship.account_id_1
     );
 
-    const friends = await Profiles.find({ account_id: { $in: friendIds } }).lean();
+    const friends = await Account.find({ account_id: { $in: friendIds } }).lean();
     res.status(200).json(friends);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching friends list' });

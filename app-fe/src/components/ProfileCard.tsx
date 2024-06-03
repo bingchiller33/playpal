@@ -32,24 +32,24 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <div className={styles.infoLine}>
           <p>Language</p>
           <div className={styles.pillGroup}>
-            {Array.isArray(preferences.language) ? (
-              preferences.language.map((lang, index) => (
+            {Array.isArray(preferences?.language) ? (
+              preferences?.language.map((lang, index) => (
                 <span key={index} className={styles.pill}>
                   {lang}
                 </span>
               ))
             ) : (
-              <span className={styles.pill}>{preferences.language}</span>
+              <span className={styles.pill}>{preferences?.language}</span>
             )}
           </div>
         </div>
         <div className={styles.infoLine}>
           <p>Server</p>
-          <span>{preferences.server}</span>
+          <span>{preferences?.server}</span>
         </div>
         <div className={styles.infoLine}>
           <p>Style</p>
-          <span>{preferences.style}</span>
+          <span>{preferences?.style}</span>
         </div>
         <div className={styles.infoLine}>
           <p>Rating</p>

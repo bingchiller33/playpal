@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/mongoConnect";
-import Profiles from "@/models/profileModel";
+import Account from "@/models/account";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,7 +10,7 @@ export default async function handler(
   await dbConnect();
 
   try {
-    const userProfiles = await Profiles.find({}).lean();
+    const userProfiles = await Account.find({}).lean();
     console.log(userProfiles.length);
 
     res.status(200).json(userProfiles);
