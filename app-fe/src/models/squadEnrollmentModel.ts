@@ -1,8 +1,18 @@
-import mongoose, { Schema } from "mongoose";
-import Account from "./account";
-import Squads from "./squadModel";
+import mongoose, { Model, Schema } from "mongoose";
+import Account, { IAccount } from "./account";
+import Squads, { ISquad } from "./squadModel";
 
-const SquadEnrollmentSchema = new Schema(
+export interface ISquadEnrollment {
+    accountId: IAccount;
+    squadId: ISquad;
+    leaveDate?: Date | null;
+    rating?: number | null;
+    sentimentRating?: boolean;
+    createdAt: Date;
+    updatedAt?: Date;
+}
+
+const SquadEnrollmentSchema = new Schema<ISquadEnrollment>(
     {
         accountId: {
             type: mongoose.Types.ObjectId,
@@ -16,9 +26,11 @@ const SquadEnrollmentSchema = new Schema(
         },
         leaveDate: {
             type: Date,
+            default: null,
         },
         rating: {
             type: Number,
+            default: null,
         },
         sentimentRating: {
             type: Boolean,
@@ -32,7 +44,7 @@ const SquadEnrollmentSchema = new Schema(
 );
 
 // Mapping to Collection
-const SquadEnrollments =
+const SquadEnrollments: Model<ISquadEnrollment> =
     mongoose.models.SquadEnrollments ||
     mongoose.model("SquadEnrollments", SquadEnrollmentSchema);
 

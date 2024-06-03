@@ -9,10 +9,10 @@ import TooltipSlider from "./TooltipSlider";
 import { Checkbox } from "primereact/checkbox";
 import { ToggleButton } from "primereact/togglebutton";
 import { COLORS, TIME_FILTER_OPTIONS } from "@/utils/constants";
-import { updateFilter } from "./SquadFilter.actions";
+import { enterMatchmaking, updateFilter } from "./SquadFilter.actions";
 import { useOptimistic, useTransition } from "react";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import debounce from "@/utils/debounce";
+import promisedb from "@/utils/debounce";
 import { toast } from "react-toastify";
 
 const SquadFilterView = (props: SquadFilterProps) => {
@@ -25,18 +25,15 @@ const SquadFilterView = (props: SquadFilterProps) => {
         }
     );
 
-    const debouncedUpdateFilter = debounce(
-        async (update: Record<string, any>) => {
-            const result = await updateFilter(id, update);
-            result.success || toast.error(result.msg);
-        },
-        1000
-    );
+    const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
+        const result = await updateFilter(id, update);
+        result.success || toast.error(result.msg);
+    }, 1000);
 
     const saUpdateFilter = async (update: Record<string, any>) => {
         startTransition(async () => {
             setFilters(update);
-            await debouncedUpdateFilter(update);
+            await pdUpdateFilter(update);
         });
     };
 
@@ -288,6 +285,7 @@ const SquadFilterView = (props: SquadFilterProps) => {
                     background: "var(--clr-primary-1)",
                     borderColor: "var(--clr-primary-1)",
                 }}
+                onClick={() => enterMatchmaking(id)}
             >
                 <AiOutlineUsergroupAdd />
                 <span className="ms-1">Find teammates</span>

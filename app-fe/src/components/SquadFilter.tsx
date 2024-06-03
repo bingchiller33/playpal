@@ -10,6 +10,7 @@ import { NextPageProps } from "@/utils/types";
 import { LolSpecFilter } from "./SquadSpecFilter";
 import FilterLOLRanks from "@/models/filterLOLRankModel";
 import FilterLOLServers from "@/models/filterLOLServerModel";
+import { getMembers } from "@/repositories/squadRepository";
 
 const SquadFilter = async (props: SquadFilterProps) => {
     await dbConnect();
@@ -20,6 +21,9 @@ const SquadFilter = async (props: SquadFilterProps) => {
     const modes = jsonStrip(
         await FilterGameModes.find({ gameId: props.squad.filter.gameId }).exec()
     );
+
+    const members = await getMembers(props.squad._id);
+    console.log("WTD", members);
 
     let spec;
     if (props.squad.filter.gameId === "6656b7cc0342bce980eeb7cb") {

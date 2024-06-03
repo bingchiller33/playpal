@@ -7,7 +7,7 @@ import styles from "./SquadFilter.module.css";
 import { useOptimistic, useTransition } from "react";
 import { updateSpecFilter } from "./SquadFilter.actions";
 import { toast } from "react-toastify";
-import debounce from "@/utils/debounce";
+import promisedb from "@/utils/debounce";
 
 export function LolSpecFilter(props: LolSpecFilterProps) {
     const [isPending, startTransition] = useTransition();
@@ -18,18 +18,15 @@ export function LolSpecFilter(props: LolSpecFilterProps) {
         }
     );
 
-    const debouncedUpdateFilter = debounce(
-        async (update: Record<string, any>) => {
-            const result = await updateSpecFilter(props.id, update);
-            result.success || toast.error(result.msg);
-        },
-        1000
-    );
+    const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
+        const result = await updateSpecFilter(props.id, update);
+        result.success || toast.error(result.msg);
+    }, 1000);
 
     const saUpdateFilter = async (update: Record<string, any>) => {
         startTransition(async () => {
             setFilters(update);
-            await debouncedUpdateFilter(update);
+            await pdUpdateFilter(update);
         });
     };
 

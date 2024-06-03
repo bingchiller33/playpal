@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { WeightSchema } from "./weightSchema";
 
 const GlobalWeightSchema = new Schema(
     {
@@ -8,9 +9,8 @@ const GlobalWeightSchema = new Schema(
             unique: true,
         },
         weights: {
-            type: Map,
-            of: Number,
-            default: {},
+            type: WeightSchema,
+            required: true,
         },
     },
     {

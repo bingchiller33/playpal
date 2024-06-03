@@ -1,4 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
+
+export interface IFilterLOLRank {
+    name: string;
+    iconUrl: string;
+    value: number;
+}
 
 const FilterLOLRankSchema = new Schema(
     {
@@ -11,6 +17,10 @@ const FilterLOLRankSchema = new Schema(
             type: String,
             required: [true, "iconIUrl is required!"],
         },
+        value: {
+            type: Number,
+            required: true,
+        },
     },
     {
         // auto createAt, updateAt
@@ -19,7 +29,7 @@ const FilterLOLRankSchema = new Schema(
 );
 
 // Mapping to Collection
-const FilterLOLRanks =
+const FilterLOLRanks: Model<IFilterLOLRank> =
     mongoose.models.FilterLOLRanks ||
     mongoose.model("FilterLOLRanks", FilterLOLRankSchema);
 

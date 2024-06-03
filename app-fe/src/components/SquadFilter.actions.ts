@@ -2,6 +2,7 @@
 
 import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
+import { enterQueue, squadToAlgoInput } from "@/repositories/squadRepository";
 import { revalidatePath } from "next/cache";
 
 export async function updateFilter(
@@ -58,4 +59,9 @@ export async function updateSpecFilter(
             msg: "Error occured while updaing Squad Filter! Please try again later!",
         };
     }
+}
+
+export async function enterMatchmaking(squadId: string) {
+    const x = await enterQueue(squadId);
+    console.log(x);
 }

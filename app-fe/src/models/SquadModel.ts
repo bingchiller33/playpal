@@ -1,11 +1,18 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import FilterLanguages from "./filterLanguageModel";
-import FilterGenders from "./filterGenderModel";
+import FilterGenders, { IFilterGender } from "./filterGenderModel";
 import FilterGames from "./filterGameModel";
 import FilterGameModes from "./filterGameModeModel";
 import FilterLOLServers from "./filterLOLServerModel";
 import FilterLOLRanks from "./filterLOLRankModel";
 import FilterPlaystyles from "./filterPlaystyleModel";
+import { GAME_ID_LOL } from "@/utils/constants";
+import { IWeight, WeightSchema } from "./weightSchema";
+
+export interface ILOLFilter {
+    serverId: mongoose.Types.ObjectId;
+    rankId: mongoose.Types.ObjectId;
+}
 
 const LOLFilterSchema = new Schema({
     serverId: {
@@ -22,6 +29,40 @@ const LOLFilterSchema = new Schema({
 
 const SpecFilterSchema = new Schema({}, { discriminatorKey: "mode" });
 SpecFilterSchema.discriminator("LOL", LOLFilterSchema);
+
+export interface IFilter {
+    langId: mongoose.Types.ObjectId;
+    genderId: IFilterGender;
+    ageFrom: number;
+    ageTo: number;
+    memberCount: number;
+    activeAllDay: boolean;
+    activeFrom: number;
+    activeTo: number;
+    playstyles: mongoose.Types.ObjectId[];
+    gameId: mongoose.Types.ObjectId;
+    modeId: mongoose.Types.ObjectId;
+    specFilter: ILOLFilter; // This is a catch-all for discriminators
+}
+
+export interface IRelevantScore {
+    other: mongoose.Types.ObjectId;
+    score: number;
+}
+
+export type ICommonTrait = Map<string, number>;
+
+export interface ISquad {
+    name?: string;
+    joinQueue?: Date;
+    img?: string;
+    filter: IFilter;
+    avgTraits: ICommonTrait;
+    squadWeights?: IWeight;
+    relevantScores?: IRelevantScore[];
+    createdAt?: Date;
+    updatedAt?: Date;
+}
 
 const SquadSchema = new Schema(
     {
@@ -101,7 +142,7 @@ const SquadSchema = new Schema(
             required: true,
             default: {
                 genderId: "6656b7370342bce980eeb7c6",
-                gameId: "6656b7cc0342bce980eeb7cb",
+                gameId: GAME_ID_LOL ?? "6656b7cc0342bce980eeb7cb",
                 modeId: "6656b9540342bce980eeb7cf",
                 langId: "6656ba8e0342bce980eeb7d6",
             },
@@ -110,6 +151,10 @@ const SquadSchema = new Schema(
             type: Map,
             of: Number,
             default: new Map<string, number>(),
+        },
+        squadWeights: {
+            type: WeightSchema,
+            default: null,
         },
         relevantScores: {
             type: [
@@ -136,5 +181,6 @@ const SquadSchema = new Schema(
 );
 
 // Mapping to Collection
-const Squads = mongoose.models.Squads || mongoose.model("Squads", SquadSchema);
+const Squads: Model<ISquad> =
+    mongoose.models.Squads || mongoose.model("Squads", SquadSchema);
 export default Squads;

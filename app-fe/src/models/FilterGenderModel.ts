@@ -1,11 +1,21 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const FilterGenderSchema = new Schema(
+export interface IFilterGender {
+    label: string;
+    value: number;
+}
+
+const FilterGenderSchema = new Schema<IFilterGender>(
     {
         label: {
             type: String,
-            required: [true, "Gender is required!"],
-            unique: [true, "Gender must be unique!"],
+            required: true,
+            unique: true,
+        },
+        // Also known as Masculinity score
+        value: {
+            type: Number,
+            required: true,
         },
     },
     {
@@ -15,7 +25,7 @@ const FilterGenderSchema = new Schema(
 );
 
 // Mapping to Collection
-const FilterGenders =
+const FilterGenders: Model<IFilterGender> =
     mongoose.models.FilterGenders ||
     mongoose.model("FilterGenders", FilterGenderSchema);
 
