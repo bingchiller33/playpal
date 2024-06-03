@@ -2,6 +2,8 @@ import { NextPageProps } from "@/utils/types";
 import { PiSignOutBold } from "react-icons/pi";
 import TabMembers from "./TabMembers";
 import TabRequest from "./TabRequest";
+import Link from "next/link";
+import cx from "classnames";
 
 const SquadMember = ({ params }: NextPageProps) => {
 
@@ -30,13 +32,23 @@ const SquadMember = ({ params }: NextPageProps) => {
                     />
                     <h4 className='mt-3 mb-3 '>We bare bears</h4>
                 </div>
-                <div className="col btnLine text-center">
+                <div className="col btnLine text-center mb-4">
                     <div className="row">
-                        <div className="col btnLine-members"><a>Members</a></div>
-                        <div className="col btnLine-request"><a>Request</a></div>
+                        <div className={cx("col btnLine-members",
+                            page != "request" && ["active-membersTab"]
+                        )}
+                        >
+                            <Link href={`/squad/${id}/members`}>Members</Link>
+                            </div>
+                        <div className={cx("col btnLine-request",
+                            page === "request" && ["active-membersTab"]
+                        )}>
+                            <Link href={`/squad/${id}/request`}>Request</Link>
+                            </div>
                     </div>
-
                 </div>
+               <div>{activePage}</div>
+
             </div>
             <div></div>
 

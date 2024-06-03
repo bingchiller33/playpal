@@ -188,7 +188,7 @@ a {
     background-color: var(--clr-primary-1);
 }
 
-.btn-noborder {
+.btn-noBorder {
     border: none;
     border: 1px solid var(--clr-primary-1);
     background-color: var(--clr-primary-1);
@@ -198,7 +198,7 @@ a {
     font-weight: 500;
 }
 
-.btn-noborder:hover {
+.btn-noBorder:hover {
     /* border-color: var(--clr-primary-1); */
     /* background-color: transparent; */
 }
@@ -242,23 +242,74 @@ a {
 .btnLine-members,
 .btnLine-request {
     padding: 5px;
-    margin-left: 12px;
 
 }
 
 .btnLine-members {
+    margin-left: 12px;
+
+}
+
+.btnLine-request {
+    margin-right: 12px;
+
+}
+
+.btnLine-members a,
+.btnLine-request a {
+    text-decoration: none;
+    color: white;
+}
+
+.active-membersTab {
     background-color: #ed154c;
     border-radius: 18px;
 }
-.footer a{
+
+
+.footer a {
     text-decoration: none !important;
     color: white;
 
 }
-.footer a:hover{
+
+.footer a:hover {
     text-decoration: underline !important;
 
 }
+
+.members-name {
+    flex-direction: row;
+    margin-left: 20px;
+}
+
+.members-name p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.members-line {
+    border: 1px solid #ed154b79;
+}
+
+.btn-inviteFriend {
+    position: fixed;
+    bottom: 2rem;
+    width: 15vw;
+
+}
+.btn-inviteFriend button{
+    width: 85%;
+}
+
+@media screen  and (max-width: 1120px) {
+    .btn-inviteFriend {
+        bottom: 4rem;
+        width: 100%;
+    }
+}
+
+
 /** --- Prime Dropdown Custom Style --- */
 .p-dropdown-items {
     padding: 0;
@@ -332,6 +383,7 @@ a {
 .p-slider-range {
     background: var(--clr-primary-1);
 }
+
 /** --- Prime Slider Custom Style --- */
 
 .p-checkbox.p-highlight .p-checkbox-box {

@@ -28,7 +28,7 @@ const Header = () => {
                             </button>
                         </NavLink>
                         <NavLink href="#">
-                            <button className="btn-noborder">
+                            <button className="btn-noBorder">
                                 Register
                             </button>
                         </NavLink>

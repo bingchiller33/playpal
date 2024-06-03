@@ -51,7 +51,7 @@ const SquadTabs = ({ id, active }: SquadTabsProps) => {
             <Col
                 className={cx(
                     "d-flex align-items-center justify-content-center",
-                    active === "members" && styles["tab-active"]
+                    active in ["members", "request"] && styles["tab-active"]
                 )}
             >
                 <Link
