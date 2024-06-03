@@ -411,3 +411,25 @@ a {
 .playstyle-btn .p-button {
     border-color: var(--clr-primary-1);
 }
+
+
+/* Group Members Request */
+
+.groupMember-request {
+    border: 1px solid #ed154b79;
+    border-radius: 25px;
+}
+
+.groupMember-request .group-header,
+.groupMember-request .group-members {
+    padding: 10px 0;
+    border-radius: 25px 25px 0 0;
+    border-bottom: 1px solid #ed154b79;
+}
+.groupMember-request .group-header {
+    background-color: #140022;
+}
+
+.groupMember-request .group-btnCheck {
+    padding: 10px 0;
+}

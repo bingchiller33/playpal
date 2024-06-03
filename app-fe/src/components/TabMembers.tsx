@@ -1,10 +1,13 @@
-import { Button, Container } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Container, Modal } from "react-bootstrap";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import InviteMemberPopup from "./InviteMemberPopup";
 
 const TabMembers = ({ id }: MembersProps) => {
+
   return (
     <Container>
-      <div className="" style={{height:"80%"}}>
+      <div className="" style={{ height: "80%" }}>
         <div className="row  ">
           <div className="col-2">
             <img
@@ -21,7 +24,6 @@ const TabMembers = ({ id }: MembersProps) => {
 
       <div className="btn-inviteFriend">
         <Button
-          className=""
           style={{
             background: "var(--clr-primary-1)",
             borderColor: "var(--clr-primary-1)",
@@ -30,6 +32,8 @@ const TabMembers = ({ id }: MembersProps) => {
           <AiOutlineUserAdd />
           <span className="ms-1">Invite</span>
         </Button>
+       
+        
       </div>
     </Container>
   );

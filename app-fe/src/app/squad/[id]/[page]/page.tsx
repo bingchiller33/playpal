@@ -24,7 +24,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
         main = <SquadFilter {...pageProps} squad={squad} />;
     } else if (page === "chat") {
         main = <SquadChat {...pageProps} />;
-    } else if (page === "members") {
+    } else if (page === "members" || page === "request") {
         main = <SquadMember {...pageProps} />;
     }
 

@@ -70,7 +70,7 @@ const SquadTabs = ({ id, active }: SquadTabsProps) => {
 
 export interface SquadTabsProps {
     id: string;
-    active: "filters" | "chat" | "members";
+    active: "filters" | "chat" | "members" | "request";
 }
 
 export default SquadTabs;
