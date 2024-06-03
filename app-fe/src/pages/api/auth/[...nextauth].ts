@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { compare } from "bcryptjs";
 import dbConnect from "@/lib/mongoConnect";
 import Account from "@/models/account";
@@ -39,8 +40,27 @@ const options: NextAuthOptions = {
         return null;
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "google") {
+        await dbConnect();  
+        const existingUser = await Account.findOne({ email: user.email });
+        if (!existingUser) {
+          await Account.create({
+            email: user.email,
+            // name: user.name,
+            verified: true,
+          });
+        }
+      }
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

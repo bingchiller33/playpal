@@ -1,0 +1,60 @@
+.messageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    /* Make the container take the full height of the viewport */
+}
+
+.messagebox {
+    width: 33.33%;
+    /* One third of the screen width */
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #242034;
+}
+
+.success {
+    color: #155724;
+}
+
+.error {
+    color: #721c24;
+}
+
+.iconSuccess {
+    color: green;
+}
+
+.button {
+    background-color: #28a745;
+    /* Green background */
+    color: white;
+    /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    /* No underline */
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: #218838;
+    /* Darker green on hover */
+}
+
+.link {
+    color: white;
+    /* Ensure link text is white */
+    text-decoration: none;
+    /* No underline */
+}
+
+.link:hover {
+    text-decoration: none;
+    /* No underline on hover */
+}
