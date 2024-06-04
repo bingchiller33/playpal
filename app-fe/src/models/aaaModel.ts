@@ -1,11 +1,15 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const aaaSchema = new Schema(
+export interface IAaa {
+    name: string;
+}
+
+const aaaSchema = new Schema<IAaa>(
     {
         name: {
             type: String,
-            required: [true, "aaa name is Requiredd"],
-            unique: [true, "aaa name is not duplicate"],
+            required: true,
+            unique: true,
         },
     },
     {
@@ -15,6 +19,7 @@ const aaaSchema = new Schema(
 );
 
 // Mapping to Collection
-const Aaas = mongoose.models.aaas || mongoose.model("aaas", aaaSchema);
+const Aaas: Model<IAaa> =
+    mongoose.models.aaas || mongoose.model("aaas", aaaSchema);
 
 export default Aaas;
