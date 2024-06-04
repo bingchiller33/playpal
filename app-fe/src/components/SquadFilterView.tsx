@@ -1,6 +1,6 @@
 "use client";
 
-import { NextPageProps } from "@/utils/types";
+import { NextPageProps, WithId } from "@/utils/types";
 import { Button, Col, Row } from "react-bootstrap";
 import Dropdown from "./Dropdown";
 import styles from "./SquadFilter.module.css";
@@ -13,13 +13,15 @@ import {
     enterMatchmaking,
     updateFilter,
     revalidateFilters,
+    exitMatchMaking,
 } from "./SquadFilter.server";
 import { useOptimistic, useTransition } from "react";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import promisedb from "@/utils/debounce";
 import { toast } from "react-toastify";
-import { useSquadFilterUpdates } from "@/lib/usePusherEvents";
+import { useMatchMaking, useSquadFilterUpdates } from "@/lib/usePusherEvents";
 import { useRouter } from "next/navigation";
+import { ISquad } from "@/models/squadModel";
 
 const SquadFilterView = (props: SquadFilterProps) => {
     const { id, page } = props.params;
@@ -37,6 +39,10 @@ const SquadFilterView = (props: SquadFilterProps) => {
             await revalidateFilters(id, page);
             setFilters(props.filters);
         });
+    });
+
+    useMatchMaking(props.squad, (other) => {
+        console.log({ other });
     });
 
     const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
@@ -298,11 +304,24 @@ const SquadFilterView = (props: SquadFilterProps) => {
                 style={{
                     background: "var(--clr-primary-1)",
                     borderColor: "var(--clr-primary-1)",
+                    display: !!props.squad.joinQueue ? "none" : "block",
                 }}
                 onClick={() => enterMatchmaking(id)}
             >
                 <AiOutlineUsergroupAdd />
                 <span className="ms-1">Find teammates</span>
+            </Button>
+
+            <Button
+                style={{
+                    background: "var(--clr-primary-1)",
+                    borderColor: "var(--clr-primary-1)",
+                    display: !props.squad.joinQueue ? "none" : "block",
+                }}
+                onClick={() => exitMatchMaking(id)}
+            >
+                <AiOutlineUsergroupAdd />
+                <span className="ms-1">Stop</span>
             </Button>
         </form>
     );
@@ -321,6 +340,7 @@ const PlaystyleBtn = ({ label, checked, onChange }: PlaystyleBtnProps) => {
 };
 
 export interface SquadFilterProps extends NextPageProps {
+    squad: WithId<ISquad>;
     filters: any;
     languages: any[];
     genders: any[];

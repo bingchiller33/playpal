@@ -3,9 +3,14 @@
 import dbConnect from "@/lib/mongoConnect";
 import { notifySquadFilterUpdated } from "@/lib/pusher.server";
 import Squads from "@/models/squadModel";
-import { enterQueue, squadToAlgoInput } from "@/repositories/squadRepository";
+import {
+    enterQueue,
+    exitQueue,
+    squadToAlgoInput,
+} from "@/repositories/squadRepository";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { checkQueueTime as repoCheckQueueTime } from "@/repositories/squadRepository";
 
 export async function updateFilter(
     squadId: string,
@@ -68,8 +73,41 @@ export async function updateSpecFilter(
 }
 
 export async function enterMatchmaking(squadId: string) {
-    const x = await enterQueue(squadId);
-    console.log(x);
+    try {
+        const willMatchAt = await enterQueue(squadId);
+        revalidatePath(`/squad/${squadId}`);
+        return { success: true, willMatchAt };
+    } catch (e) {
+        return {
+            success: false,
+            msg: "Error occured while enter match making! Please try again later!",
+        };
+    }
+}
+
+export async function exitMatchMaking(squadId: string) {
+    try {
+        await exitQueue(squadId);
+        revalidatePath(`/squad/${squadId}`);
+        return { success: true };
+    } catch (e) {
+        return {
+            success: false,
+            msg: "Error occured while exit match making! Please try again later!",
+        };
+    }
+}
+
+export async function checkQueueTime(squadId: string) {
+    try {
+        const willMatchAt = await repoCheckQueueTime(squadId);
+        return { success: true, willMatchAt };
+    } catch (e) {
+        return {
+            success: false,
+            msg: "Error occured while checking queue time!",
+        };
+    }
 }
 
 export async function revalidateFilters(squadId: string, page: string) {

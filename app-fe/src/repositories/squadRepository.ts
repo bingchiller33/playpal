@@ -262,7 +262,7 @@ async function recalcQueueFor(squadId: string) {
     );
     await queueWaitTimeUpdated(squadId, waitTime);
     await checkForMatchedSquads();
-    return squadToAlgoInput(curSquad, curSquad, 0);
+    return waitTime;
 }
 
 export async function enterQueue(squadId: string) {
@@ -271,6 +271,44 @@ export async function enterQueue(squadId: string) {
         { $set: { joinQueue: new Date() } }
     ).exec();
     return await recalcQueueFor(squadId);
+}
+
+export async function checkQueueTime(squadId: string) {
+    const soonestMatch = await MatchMakingQueues.findOne({
+        $or: [{ squadA: squadId }, { squadB: squadId }],
+    })
+        .sort({ willMatchAt: "asc" })
+        .exec();
+
+    await checkForMatchedSquads();
+    return soonestMatch?.willMatchAt;
+}
+
+export async function exitQueue(squadId: string) {
+    await Squads.updateOne(
+        { _id: squadId },
+        { $set: { joinQueue: null } }
+    ).exec();
+    await MatchMakingQueues.deleteMany({
+        $or: [
+            {
+                squadA: squadId,
+            },
+            {
+                squadB: squadId,
+            },
+        ],
+    }).exec();
+    await SquadMatchs.deleteMany({
+        $or: [
+            {
+                squadA: squadId,
+            },
+            {
+                squadB: squadId,
+            },
+        ],
+    }).exec();
 }
 
 export async function squadToAlgoInput(
