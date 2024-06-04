@@ -9,14 +9,21 @@ import TooltipSlider from "./TooltipSlider";
 import { Checkbox } from "primereact/checkbox";
 import { ToggleButton } from "primereact/togglebutton";
 import { COLORS, TIME_FILTER_OPTIONS } from "@/utils/constants";
-import { enterMatchmaking, updateFilter } from "./SquadFilter.actions";
+import {
+    enterMatchmaking,
+    updateFilter,
+    revalidateFilters,
+} from "./SquadFilter.server";
 import { useOptimistic, useTransition } from "react";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import promisedb from "@/utils/debounce";
 import { toast } from "react-toastify";
+import { useSquadFilterUpdates } from "@/lib/usePusherEvents";
+import { useRouter } from "next/navigation";
 
 const SquadFilterView = (props: SquadFilterProps) => {
     const { id, page } = props.params;
+    const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [filters, setFilters] = useOptimistic(
         props.filters,
@@ -24,6 +31,13 @@ const SquadFilterView = (props: SquadFilterProps) => {
             return { ...cur, ...next };
         }
     );
+
+    useSquadFilterUpdates(id, async () => {
+        startTransition(async () => {
+            await revalidateFilters(id, page);
+            setFilters(props.filters);
+        });
+    });
 
     const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
         const result = await updateFilter(id, update);

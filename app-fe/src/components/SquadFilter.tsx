@@ -22,9 +22,6 @@ const SquadFilter = async (props: SquadFilterProps) => {
         await FilterGameModes.find({ gameId: props.squad.filter.gameId }).exec()
     );
 
-    const members = await getMembers(props.squad._id);
-    console.log("WTD", members);
-
     let spec;
     if (props.squad.filter.gameId === "6656b7cc0342bce980eeb7cb") {
         const ranks = jsonStrip(await FilterLOLRanks.find({}).exec());
@@ -32,6 +29,7 @@ const SquadFilter = async (props: SquadFilterProps) => {
         spec = (
             <LolSpecFilter
                 id={props.squad._id}
+                page={props.page}
                 ranks={ranks}
                 servers={servers}
                 filter={props.squad.filter.specFilter}
@@ -58,6 +56,7 @@ const SquadFilter = async (props: SquadFilterProps) => {
 
 export interface SquadFilterProps extends NextPageProps {
     squad: any;
+    page: string;
 }
 
 export default SquadFilter;
