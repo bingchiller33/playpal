@@ -6,6 +6,7 @@ import Aaas from "@/models/aaaModel";
 import { create, createSquad, weight } from "./server";
 import { Button as B2r } from "primereact/button";
 import Dropdown from "@/components/Dropdown";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
     await dbConnect();
@@ -32,6 +33,8 @@ export default async function Home() {
             <form action={weight}>
                 <button type="submit">Set weights</button>
             </form>
+
+            <Footer />
         </main>
     );
 }
