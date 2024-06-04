@@ -5,7 +5,11 @@ import Squads from "@/models/squadModel";
 import Aaas from "@/models/aaaModel";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSquad as repoCreateSquad } from "@/repositories/SquadRepository";
+import { createSquadByPlayer } from "@/repositories/squadRepository";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../pages/api/auth/[...nextauth]";
+import Account from "@/models/account";
+import { commonWeights, lolWeights } from "@/models/weightSchema";
 
 export async function create(formData: FormData) {
     await dbConnect();
@@ -15,9 +19,42 @@ export async function create(formData: FormData) {
     revalidatePath("/");
 }
 
-export async function createSquad() {
+export async function weight() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return { success: false, message: "Unauthorized" };
+    }
+
     await dbConnect();
-    const newSquad = await repoCreateSquad();
-    console.log(newSquad);
+
+    const weights = {
+        mode: "LOL",
+    } as any;
+    const totalWeights = commonWeights.length + lolWeights.length;
+    for (const w of commonWeights) {
+        weights[w] = 1 / totalWeights;
+    }
+
+    const doc = await Account.findByIdAndUpdate(session.user.id, {
+        $set: {
+            matchMakingWeights: [
+                {
+                    mode: "LOL",
+                    weights,
+                },
+            ],
+        },
+    });
+}
+
+export async function createSquad() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        return { success: false, message: "Unauthorized" };
+    }
+
+    console.log(session);
+    await dbConnect();
+    const newSquad = await createSquadByPlayer(session.user.id);
     redirect(`/squad/${newSquad._id}`);
 }

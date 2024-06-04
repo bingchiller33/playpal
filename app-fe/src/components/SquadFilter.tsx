@@ -6,10 +6,13 @@ import FilterGenders from "@/models/filterGenderModel";
 import FilterPlaystyles from "@/models/filterPlaystyleModel";
 import FilterGames from "@/models/filterGameModel";
 import FilterGameModes from "@/models/filterGameModeModel";
-import { NextPageProps } from "@/utils/types";
+import { NextPageProps, WithId } from "@/utils/types";
 import { LolSpecFilter } from "./SquadSpecFilter";
 import FilterLOLRanks from "@/models/filterLOLRankModel";
 import FilterLOLServers from "@/models/filterLOLServerModel";
+import { getMembers } from "@/repositories/squadRepository";
+import { useMatchMaking } from "@/lib/usePusherEvents";
+import { ISquad } from "@/models/squadModel";
 
 const SquadFilter = async (props: SquadFilterProps) => {
     await dbConnect();
@@ -22,12 +25,13 @@ const SquadFilter = async (props: SquadFilterProps) => {
     );
 
     let spec;
-    if (props.squad.filter.gameId === "6656b7cc0342bce980eeb7cb") {
+    if (props.squad.filter.gameId.toString() === "6656b7cc0342bce980eeb7cb") {
         const ranks = jsonStrip(await FilterLOLRanks.find({}).exec());
         const servers = jsonStrip(await FilterLOLServers.find({}).exec());
         spec = (
             <LolSpecFilter
-                id={props.squad._id}
+                id={props.squad._id.toString()}
+                page={props.page}
                 ranks={ranks}
                 servers={servers}
                 filter={props.squad.filter.specFilter}
@@ -46,6 +50,7 @@ const SquadFilter = async (props: SquadFilterProps) => {
             genders={genders}
             languages={langs}
             playstyles={playstyles}
+            squad={props.squad}
         >
             {spec}
         </SquadFilterView>
@@ -53,7 +58,8 @@ const SquadFilter = async (props: SquadFilterProps) => {
 };
 
 export interface SquadFilterProps extends NextPageProps {
-    squad: any;
+    squad: WithId<ISquad>;
+    page: string;
 }
 
 export default SquadFilter;
