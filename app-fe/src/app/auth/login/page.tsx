@@ -24,7 +24,6 @@ export default async function Login() {
 
     console.log({ response });
     if (!response?.error) {
-      console.log("vailon success");
       router.push("/auth/testAuth");
     }
   };
