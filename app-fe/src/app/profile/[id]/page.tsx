@@ -6,6 +6,9 @@ import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
 import FriendsModal from "@/components/FriendsModal/FriendsModal";
 import { useSession } from "next-auth/react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import FriendRequests from "@/components/FriendsRequest/FriendRequests";
 
 const fetchProfile = async (id: string) => {
   const response = await fetch(`/api/profile/${id}`);
@@ -136,52 +139,57 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className={styles.profileContainer}>
-      <div className={styles.profileHeader}>
-        <Image
-          width={350}
-          height={350}
-          src={profile.avatar_url}
-          alt="Profile Picture"
-          className={styles.profileImage}
-        />
-        <div className={styles.profileInfo}>
-          <h1 className={styles.username}>{profile.username}</h1>
-          <p onClick={openModal} style={{ cursor: "pointer" }}>
-            {friends.length} Friends
-          </p>
-          <button
-            onClick={handleAddFriend}
-            disabled={loading}
-            className={styles.addFriendButton}
-          >
-            {loading ? (
-              "Sending..."
-            ) : requestSent ? (
-              <>
-                <FaArrowRightLong fill="#ED154C" /> Cancel Request
-              </>
-            ) : (
-              "Add Friend"
-            )}{" "}
-          </button>
+    <>
+      <Header />
+      <div className={styles.profileContainer}>
+        <div className={styles.profileHeader}>
+          <Image
+            width={350}
+            height={350}
+            src={profile.avatar_url}
+            alt="Profile Picture"
+            className={styles.profileImage}
+          />
+          <div className={styles.profileInfo}>
+            <h1 className={styles.username}>{profile.username}</h1>
+            <p onClick={openModal} style={{ cursor: "pointer" }}>
+              {friends.length} Friends
+            </p>
+            <button
+              onClick={handleAddFriend}
+              disabled={loading}
+              className={styles.addFriendButton}
+            >
+              {loading ? (
+                "Sending..."
+              ) : requestSent ? (
+                <>
+                  <FaArrowRightLong fill="#ED154C" /> Cancel Request
+                </>
+              ) : (
+                "Add Friend"
+              )}{" "}
+            </button>
+          </div>
         </div>
+        <div className={styles.playerDetails}>
+          <h2>Player Details</h2>
+          <p>Bio: {profile.bio}</p>
+          <p>Riot ID: {profile.riot_id}</p>
+          <p>Preferences: {JSON.stringify(profile.preferences)}</p>
+        </div>
+        <div className={styles.feedbacks}>
+          <h2>Feedbacks</h2>
+          {/* Feedbacks placeholder */}
+        </div>
+        <div className={styles.highlights}>
+          <h2>Highlights</h2>
+          {/* Highlights placeholder */}
+        </div>
+        {isModalOpen && <FriendsModal friends={friends} onClose={closeModal} />}
       </div>
-      <div className={styles.playerDetails}>
-        <h2>Player Details</h2>
-        <p>Bio: {profile.bio}</p>
-        <p>Riot ID: {profile.riot_id}</p>
-        <p>Preferences: {JSON.stringify(profile.preferences)}</p>
-      </div>
-      <div className={styles.feedbacks}>
-        <h2>Feedbacks</h2>
-        {/* Feedbacks placeholder */}
-      </div>
-      <div className={styles.highlights}>
-        <h2>Highlights</h2>
-        {/* Highlights placeholder */}
-      </div>
-      {isModalOpen && <FriendsModal friends={friends} onClose={closeModal} />}
-    </div>
+      <FriendRequests />
+      <Footer />
+    </>
   );
 }
