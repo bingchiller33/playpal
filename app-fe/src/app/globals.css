@@ -301,6 +301,10 @@ a {
 .btn-inviteFriend button{
     width: 85%;
 }
+ 
+
+
+
 
 @media screen  and (max-width: 1120px) {
     .btn-inviteFriend {
@@ -432,4 +436,20 @@ a {
 
 .groupMember-request .group-btnCheck {
     padding: 10px 0;
+}
+
+
+/* Invite Members Popup */
+
+.inviteMemberPopup .custom{
+    background-color: var(--clr-background-1);
+    border-radius: 5px;
+}
+.inviteMemberPopup .custom {
+    background-color: var(--clr-background-1);
+    border-radius: 5px;
+}
+
+.modal.custom .modal-dialog .modalHeader{
+    color: var(--clr-primary-1) !important;
 }

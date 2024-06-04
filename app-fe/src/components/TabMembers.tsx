@@ -1,9 +1,14 @@
-import { useState } from "react";
+"use client"
 import { Button, Container, Modal } from "react-bootstrap";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import InviteMemberPopup from "./InviteMemberPopup";
+import { useState } from "react";
 
 const TabMembers = ({ id }: MembersProps) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <Container>
@@ -24,6 +29,7 @@ const TabMembers = ({ id }: MembersProps) => {
 
       <div className="btn-inviteFriend">
         <Button
+          onClick={handleShow}
           style={{
             background: "var(--clr-primary-1)",
             borderColor: "var(--clr-primary-1)",
@@ -32,8 +38,19 @@ const TabMembers = ({ id }: MembersProps) => {
           <AiOutlineUserAdd />
           <span className="ms-1">Invite</span>
         </Button>
-       
-        
+
+        <Modal size="lg" className="inviteMemberPopup" show={show} onHide={handleClose} animation={false}
+          style={{ borderRadius: "15px", }}>
+          <div className="custom">
+            <Modal.Header closeButton>
+              <Modal.Title className=" modalHeader text-uppercase font-all-star">Invite Members</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+           
+
+          </div>
+        </Modal>
+
       </div>
     </Container>
   );
