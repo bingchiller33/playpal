@@ -11,23 +11,25 @@ const TabMembers = ({ id }: MembersProps) => {
   const handleShow = () => setShow(true);
 
   return (
-    <Container>
+    <Container fluid>
       <div className="" style={{ height: "80%" }}>
-        <div className="row  ">
-          <div className="col-2">
+        
+        <div className="row  mt-2">
+          <div className="col-1">
             <img
               src="/images/test.jpg"
-              style={{ borderRadius: "50%", height: "3rem" }}
+              style={{ borderRadius: "50%", height: "3rem"}}
             />
           </div>
-          <div className="col-8 members-name d-flex align-items-center">
+          <div className="col-8  members-name d-flex align-items-center">
             <p>PanPan</p>
           </div>
           <div className=" mt-2 members-line"></div>
         </div>
+
       </div>
 
-      <div className="btn-inviteFriend">
+      <div className="btn-inviteFriend text-center">
         <Button
           onClick={handleShow}
           style={{

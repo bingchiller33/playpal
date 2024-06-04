@@ -280,7 +280,7 @@ a {
 
 .members-name {
     flex-direction: row;
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
 .members-name p {
@@ -293,23 +293,23 @@ a {
 }
 
 .btn-inviteFriend {
-    position: fixed;
+    position: absolute;
     bottom: 2rem;
-    width: 15vw;
+    width: 12vw;
 
 }
 .btn-inviteFriend button{
-    width: 85%;
+    width: 100%;
 }
- 
-
-
-
 
 @media screen  and (max-width: 1120px) {
     .btn-inviteFriend {
         bottom: 4rem;
-        width: 100%;
+        width: 92%;
+    }
+
+    .members-name {
+        margin-left: 22px;
     }
 }
 
@@ -438,6 +438,11 @@ a {
     padding: 10px 0;
 }
 
+@media screen  and (max-width: 1120px) {
+    .groupMember-request .group-btnCheck button{
+        width: 95%;
+    }
+}
 
 /* Invite Members Popup */
 

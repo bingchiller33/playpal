@@ -1,7 +1,7 @@
 
 const GroupMemberRequest = () => {
     return (
-        <div className="container groupMember-request">
+        <div className="container-fluid groupMember-request">
             <div className="row  group-header">
                 <div className="col-2">
                     <img
@@ -40,7 +40,7 @@ const GroupMemberRequest = () => {
             </div>
 
             <div className="row group-btnCheck text-center">
-                <div className="col-6">
+                <div className="col-6 ">
                     <button className="btn-bordered">
                         No
                     </button>
