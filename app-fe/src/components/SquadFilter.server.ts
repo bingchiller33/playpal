@@ -2,7 +2,7 @@
 
 import dbConnect from "@/lib/mongoConnect";
 import { notifySquadFilterUpdated } from "@/lib/pusher.server";
-import Squads from "@/models/squadModel";
+import Squads, { ISquad } from "@/models/squadModel";
 import {
     enterQueue,
     exitQueue,
@@ -11,6 +11,26 @@ import {
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkQueueTime as repoCheckQueueTime } from "@/repositories/squadRepository";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../pages/api/auth/[...nextauth]";
+
+async function requireLeader(squad: ISquad | string) {
+    if (typeof squad === "string") {
+        squad = (await Squads.findById(squad).exec()) as ISquad;
+    }
+
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+    if (!userId) {
+        redirect("/auth/login");
+    }
+
+    if (squad.leader.toString() !== userId) {
+        return { success: false, msg: "Only squad leader can do this action!" };
+    }
+
+    return { success: true };
+}
 
 export async function updateFilter(
     squadId: string,
@@ -18,6 +38,11 @@ export async function updateFilter(
 ) {
     try {
         await dbConnect();
+        const checkPriviledge = await requireLeader(squadId);
+        if (!checkPriviledge.success) {
+            return checkPriviledge;
+        }
+
         // Update
         const filter = { _id: squadId };
         const newFilter: any = {};
@@ -30,7 +55,6 @@ export async function updateFilter(
                 newFilter[`filter.specFilter.mode`] = "LOL";
             }
         }
-        console.log(newFilter);
         await Squads.updateOne(filter, newFilter);
         notifySquadFilterUpdated(squadId);
         revalidatePath(`/squad/${squadId}`);
@@ -50,6 +74,11 @@ export async function updateSpecFilter(
 ) {
     try {
         await dbConnect();
+        const checkPriviledge = await requireLeader(squadId);
+        if (!checkPriviledge.success) {
+            return checkPriviledge;
+        }
+
         // Update
         const filter = { _id: squadId };
         const newFilter: any = {};
@@ -74,6 +103,12 @@ export async function updateSpecFilter(
 
 export async function enterMatchmaking(squadId: string) {
     try {
+        await dbConnect();
+        const checkPriviledge = await requireLeader(squadId);
+        if (!checkPriviledge.success) {
+            return checkPriviledge;
+        }
+
         const willMatchAt = await enterQueue(squadId);
         revalidatePath(`/squad/${squadId}`);
         return { success: true, willMatchAt };
@@ -87,6 +122,12 @@ export async function enterMatchmaking(squadId: string) {
 
 export async function exitMatchMaking(squadId: string) {
     try {
+        await dbConnect();
+        const checkPriviledge = await requireLeader(squadId);
+        if (!checkPriviledge.success) {
+            return checkPriviledge;
+        }
+
         await exitQueue(squadId);
         revalidatePath(`/squad/${squadId}`);
         return { success: true };

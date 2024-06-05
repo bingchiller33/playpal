@@ -33,13 +33,13 @@ export function getModeDiscriminant(gameId: string, modeId: string) {
 }
 
 // Write common database query here, dont write basic crud here, use the Collection directly
-export async function createSquad() {
-    const newSquad = await Squads.create({});
+export async function createSquad(leader: string) {
+    const newSquad = await Squads.create({ leader });
     return newSquad;
 }
 
 export async function createSquadByPlayer(accountId: string) {
-    const newSquad = await createSquad();
+    const newSquad = await createSquad(accountId);
     await joinSquad(newSquad._id.toString(), accountId);
     return newSquad;
 }
@@ -167,6 +167,7 @@ async function calcAvgTraits(squadId: string) {
         avgTraits[`playstyle_${ps._id}`] =
             enrolls
                 .map<number>((x) => {
+                    console.log("VL", x.accountId);
                     const aps = x.accountId.playstyles.find(
                         (p) => p._id === ps._id
                     );
