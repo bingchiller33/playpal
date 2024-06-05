@@ -45,6 +45,9 @@ const options: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  pages: {
+    signIn: "/auth/login",
+  },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
@@ -75,10 +78,12 @@ const options: NextAuthOptions = {
       }
       return session;
     },
+    
   },
   session: {
     strategy: "jwt",
   },
+  
 };
 
 export default NextAuth(options);
