@@ -285,6 +285,7 @@ a {
 
 .members-name p {
     margin: 0;
+    margin-left: 5px;
     font-size: 18px;
 }
 
@@ -294,19 +295,25 @@ a {
 
 .btn-inviteFriend {
     position: absolute;
-    bottom: 2rem;
-    width: 12vw;
-
-}
-.btn-inviteFriend button{
+    bottom: 1rem;
+    left: 0;
     width: 100%;
+
 }
 
-@media screen  and (max-width: 1120px) {
+.btn-inviteFriend button {
+    width: 90%;
+}
+
+@media screen and (max-width: 768px) {
     .btn-inviteFriend {
         bottom: 4rem;
-        width: 92%;
     }
+
+}
+
+@media screen and (max-width: 1120px) {
+
 
     .members-name {
         margin-left: 22px;
@@ -430,6 +437,7 @@ a {
     border-radius: 25px 25px 0 0;
     border-bottom: 1px solid #ed154b79;
 }
+
 .groupMember-request .group-header {
     background-color: #140022;
 }
@@ -438,18 +446,18 @@ a {
     padding: 10px 0;
 }
 
-@media screen  and (max-width: 1120px) {
-    .groupMember-request .group-btnCheck button{
-        width: 95%;
-    }
+.groupMember-request .group-btnCheck button {
+    width: 95%;
 }
+
 
 /* Invite Members Popup */
 
-.inviteMemberPopup .custom{
+.inviteMemberPopup .custom {
     background-color: var(--clr-background-1);
     border-radius: 5px;
 }
+
 .inviteMemberPopup .custom {
     background-color: var(--clr-background-1);
     border-radius: 5px;
@@ -457,7 +465,7 @@ a {
     border: 1px solid var(--clr-primary-1);
 }
 
-.inviteMemberPopup .modalHeader{
+.inviteMemberPopup .modalHeader {
     color: var(--clr-primary-1) !important;
 }
 
@@ -465,12 +473,62 @@ a {
     border-bottom: 1px solid #ed154b79;
 }
 
-.inviteMemberSearch .searchForm{
+.inviteMemberSearch .searchForm {
     background-color: transparent;
     border-color: var(--clr-primary-1);
 }
 
-.inviteMemberSearch .searchForm::placeholder{
+.inviteMemberSearch .searchForm::placeholder {
     color: var(--clr-primary-1);
 }
 
+.inviteMemberFriends {
+    margin-top: 1.8rem;
+    position: relative;
+}
+
+.inviteMemberFriends button {
+    position: absolute;
+    right: 5px;
+}
+
+.inviteMemberFriends button:hover {
+    position: absolute;
+    right: 5px;
+    border-color: var(--clr-primary-1);
+    background-color: transparent;
+}
+
+.inviteMemberFriends h5 {
+    font-size: 1.2rem;
+    /* margin-left: 3rem; */
+}
+
+.inviteMemberFriends hr {
+    color: #ed154b79;
+    border-width: 2px;
+}
+
+.closeInvitePopup {
+    position: absolute;
+    right: 30px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.inviteMemberFriends .invite-name {
+    flex-direction: row;
+}
+
+.inviteMemberFriends .invite-name p{
+    margin: 0;
+    margin-left: 5px;
+    font-size: 18px;
+
+}
+
+@media screen and (max-width: 1120px) {
+    .inviteMemberFriends .invite-name {
+        margin-left: 22px;
+    }
+}

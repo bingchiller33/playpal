@@ -21,7 +21,7 @@ const Header = () => {
                         <NavLink href="" className="text-white header-element">Blog</NavLink>
                     </Nav>
 
-                    <Nav>
+                    {/* <Nav>
                         <NavLink className="me-2" href="#">
                             <button className="btn-bordered">
                                 Login
@@ -33,11 +33,11 @@ const Header = () => {
                             </button>
                         </NavLink>
 
-                    </Nav>
+                    </Nav> */}
 
 
 
-                    {/* <Nav>
+                    <Nav>
                         <Dropdown>
                             <MdNotifications />
                             <DropdownToggle
@@ -48,7 +48,7 @@ const Header = () => {
                             </DropdownToggle>
 
                         </Dropdown>
-                    </Nav> */}
+                    </Nav>
                 </NavbarCollapse>
             </Container>
         </Navbar>

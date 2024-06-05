@@ -17,7 +17,7 @@ const SquadMember = ({ params }: NextPageProps) => {
     }
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" >
             <div>
                 <a className="leave-chat-btn">
                     <PiSignOutBold />
