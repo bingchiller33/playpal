@@ -9,7 +9,7 @@ import cx from "classnames";
 import { NextPageProps } from "@/utils/types";
 import SquadChat from "@/components/SquadChat";
 import dbConnect from "@/lib/mongoConnect";
-import Squads from "@/models/SquadModel";
+import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 
 const SquadPage = async (pageProps: NextPageProps) => {
@@ -21,7 +21,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
 
     let main;
     if (page === "filters") {
-        main = <SquadFilter {...pageProps} squad={squad} />;
+        main = <SquadFilter {...pageProps} squad={squad} page={page} />;
     } else if (page === "chat") {
         main = <SquadChat {...pageProps} />;
     } else if (page === "members") {
@@ -60,7 +60,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
                             borderRight: "1px solid red",
                         }}
                     >
-                        <SquadFilter {...pageProps} squad={squad} />
+                        <SquadFilter {...pageProps} squad={squad} page={page} />
                     </Col>
                     <Col md={7}>
                         <div className="d-md-none">{main}</div>

@@ -24,15 +24,16 @@ const options: NextAuthOptions = {
         ) {
           throw new Error("Invalid form data");
         }
-        if (
-          userExist &&
-          (await compare(credentials.password, userExist.password))
-        ) {
-          if (userExist.verified) {
+        if (userExist?.password != undefined) {
+          const isPasswordValid = await compare(
+            credentials.password,
+            userExist?.password
+          );
+          if (isPasswordValid && userExist?.verified) {
             return {
               id: userExist._id.toString(),
-              email: userExist.email
-              // password: userExist.password,
+              email: userExist.email,
+              password: userExist.password,
               // Add any additional fields you want to include in the session
             };
           }
@@ -51,7 +52,7 @@ const options: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "google") {
-        await dbConnect();  
+        await dbConnect();
         const existingUser = await Account.findOne({ email: user.email });
         if (!existingUser) {
           await Account.create({
@@ -78,12 +79,10 @@ const options: NextAuthOptions = {
       }
       return session;
     },
-    
   },
   session: {
     strategy: "jwt",
   },
-  
 };
 
 export default NextAuth(options);

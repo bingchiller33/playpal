@@ -1,6 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
-const FilterPlaystyleSchema = new Schema(
+export interface IFilterPlaystyle {
+    label: string;
+}
+
+const FilterPlaystyleSchema = new Schema<IFilterPlaystyle>(
     {
         label: {
             type: String,
@@ -15,7 +19,7 @@ const FilterPlaystyleSchema = new Schema(
 );
 
 // Mapping to Collection
-const FilterPlaystyles =
+const FilterPlaystyles: Model<IFilterPlaystyle> =
     mongoose.models.FilterPlaystyles ||
     mongoose.model("FilterPlaystyles", FilterPlaystyleSchema);
 
