@@ -453,8 +453,24 @@ a {
 .inviteMemberPopup .custom {
     background-color: var(--clr-background-1);
     border-radius: 5px;
+    color: white;
+    border: 1px solid var(--clr-primary-1);
 }
 
-.modal.custom .modal-dialog .modalHeader{
+.inviteMemberPopup .modalHeader{
     color: var(--clr-primary-1) !important;
 }
+
+.inviteMemberPopup .modal-header {
+    border-bottom: 1px solid #ed154b79;
+}
+
+.inviteMemberSearch .searchForm{
+    background-color: transparent;
+    border-color: var(--clr-primary-1);
+}
+
+.inviteMemberSearch .searchForm::placeholder{
+    color: var(--clr-primary-1);
+}
+
