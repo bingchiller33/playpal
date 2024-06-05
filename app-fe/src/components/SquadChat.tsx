@@ -6,6 +6,56 @@ const SquadChat = ({ params }: NextPageProps) => {
         <div>
             <h1>Edit at src/SquadChat.tsx </h1>
             <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
+            <p>Squad id: {id}</p>
         </div>
     );
 };

@@ -222,15 +222,17 @@ a {
     margin: 8px 0;
 }
 
-.footer a{
+.footer a {
     text-decoration: none !important;
     color: white;
 
 }
-.footer a:hover{
+
+.footer a:hover {
     text-decoration: underline !important;
 
 }
+
 /** --- Prime Dropdown Custom Style --- */
 .p-dropdown-items {
     padding: 0;
@@ -331,4 +333,17 @@ a {
 
 .playstyle-btn .p-button {
     border-color: var(--clr-primary-1);
+}
+
+
+.panel-layout-child {
+    height: 100%;
+    overflow-y: auto !important;
+}
+
+.btn-findteam {
+    background: var(--clr-primary-1) !important;
+    border-color: var(--clr-primary-1) !important;
+    position: sticky;
+    bottom: 0;
 }

@@ -11,6 +11,7 @@ import SquadChat from "@/components/SquadChat";
 import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
+import Header from "@/components/Header";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
@@ -29,52 +30,54 @@ const SquadPage = async (pageProps: NextPageProps) => {
     }
 
     return (
-        <div className={cx(styles.layout, "m-md-3")}>
+        <div className={cx(styles.layout, "pb-1")} style={{ height: "100vh" }}>
+            <div className="pb-2" style={{ gridArea: "h" }}>
+                <Header />
+            </div>
             <div
-                className="d-none d-md-block  me-3 border-primary-glow rounded background-1"
+                className="d-none d-md-block  me-2 border-primary-glow rounded background-1 ms-1"
                 style={{ gridArea: "l" }}
             >
                 <SquadsRibbon
                     squads={[{ name: "GG" }, { name: "GG" }, { name: "GG" }]}
                 />
             </div>
+
             <div
                 className={cx(
-                    "d-flex flex-column  background-1",
+                    "background-1 h-100",
                     styles["main-content-panel"]
                 )}
-                style={{ gridArea: "m" }}
+                style={{
+                    overflow: "auto",
+                }}
             >
-                <div
-                    style={{ borderBottom: "1px solid var(--clr-primary-1)" }}
-                    className="px-2"
-                >
-                    <SquadHeader />
-                </div>
-
-                <Row className="h-100">
-                    <Col
-                        md={5}
-                        className="d-none d-md-block"
+                <SquadHeader {...pageProps} squad={squad} />
+                <div className={cx(styles["main-inner"])}>
+                    <div
+                        className="h-100 d-none d-md-block "
                         style={{
+                            overflow: "auto",
                             borderRight: "1px solid red",
                         }}
                     >
                         <SquadFilter {...pageProps} squad={squad} page={page} />
-                    </Col>
-                    <Col md={7}>
+                    </div>
+
+                    <div className="h-100" style={{ overflow: "auto" }}>
                         <div className="d-md-none">{main}</div>
                         <div className="d-none d-md-block">
                             <SquadChat {...pageProps} />
                         </div>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
             <div
-                className="  d-none d-md-block border-primary-glow rounded background-1 border-bl-0 border-tl-0"
+                className="d-none d-md-block border-primary-glow  background-1 border-bl-0 border-tl-0 me-1"
                 style={{
                     gridArea: "r",
                     width: "15vw",
+                    borderRadius: "0.375rem",
                 }}
             >
                 <SquadMember {...pageProps} />

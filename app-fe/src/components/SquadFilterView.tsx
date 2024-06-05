@@ -79,7 +79,7 @@ const SquadFilterView = (props: SquadFilterProps) => {
     }));
 
     return (
-        <form className="p-3 overflow-hidden h-100 d-flex flex-column">
+        <form className="p-3 h-100 d-flex flex-column panel-layout-child position-relative">
             <h1
                 className="font-all-star"
                 style={{ color: "var(--clr-primary-1)" }}
@@ -301,9 +301,8 @@ const SquadFilterView = (props: SquadFilterProps) => {
             </div>
 
             <Button
+                className="btn-findteam"
                 style={{
-                    background: "var(--clr-primary-1)",
-                    borderColor: "var(--clr-primary-1)",
                     display: !!props.squad.joinQueue ? "none" : "block",
                 }}
                 onClick={() => enterMatchmaking(id)}
@@ -313,9 +312,8 @@ const SquadFilterView = (props: SquadFilterProps) => {
             </Button>
 
             <Button
+                className="btn-findteam"
                 style={{
-                    background: "var(--clr-primary-1)",
-                    borderColor: "var(--clr-primary-1)",
                     display: !props.squad.joinQueue ? "none" : "block",
                 }}
                 onClick={() => exitMatchMaking(id)}
