@@ -11,7 +11,7 @@ export default async function verify({ params }: NextPageProps) {
   await dbConnect();
   const doc = await Account.findOne({ token: params.token }).exec();
   if (doc) {
-    doc.verified = 1;
+    doc.verified = true;
     doc.token = "";
     doc.save();
   }
