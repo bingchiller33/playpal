@@ -1,5 +1,5 @@
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
 
 export function jsonStrip<T>(a: T): T {

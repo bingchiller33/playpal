@@ -10,8 +10,6 @@ import { NextPageProps, WithId } from "@/utils/types";
 import { LolSpecFilter } from "./SquadSpecFilter";
 import FilterLOLRanks from "@/models/filterLOLRankModel";
 import FilterLOLServers from "@/models/filterLOLServerModel";
-import { getMembers } from "@/repositories/squadRepository";
-import { useMatchMaking } from "@/lib/usePusherEvents";
 import { ISquad } from "@/models/squadModel";
 
 const SquadFilter = async (props: SquadFilterProps) => {
