@@ -1,4 +1,3 @@
-import { set } from "mongoose";
 import { useEffect, useState } from "react";
 import styles from "./FriendRequests.module.css";
 
@@ -10,7 +9,9 @@ interface FriendRequest {
 }
 
 const fetchFriendRequests = async () => {
-  const response = await fetch(`/api/friendRequest/requests`);
+  const response = await fetch(`/api/friendRequest/requests`, {
+    credentials: "include",
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch friend requests");
   }
@@ -26,6 +27,7 @@ const acceptFriendRequest = async (requestId: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ requestId }),
+    credentials: "include",
   });
   if (!response.ok) {
     throw new Error("Failed to accept friend request");

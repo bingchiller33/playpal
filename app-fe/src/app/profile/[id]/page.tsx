@@ -20,10 +20,13 @@ const fetchProfile = async (id: string) => {
 
 const fetchFriends = async (id: string) => {
   const response = await fetch(`/api/profile/${id}/friends`);
+  console.log("Response status:", response.status);
   if (!response.ok) {
     throw new Error("Failed to fetch friends");
   }
-  return response.json();
+  const data = await response.json();
+  console.log("Response data:", data);
+  return data;
 };
 
 export default function ProfilePage({ params }: { params: { id: string } }) {
@@ -33,6 +36,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [requestSent, setRequestSent] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState<any[]>([]);
+  const [isFriend, setIsFriend] = useState(false);
 
   const checkFriendRequest = async () => {
     if (!session) {
@@ -64,6 +68,10 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     const fetchAndSetFriends = async () => {
       const fetchedFriends = await fetchFriends(params.id);
       setFriends(fetchedFriends);
+
+      if (fetchedFriends.some((friend) => friend.id === session?.user.id)) {
+        setIsFriend(true);
+      }
     };
 
     fetchAndSetFriends();
@@ -80,7 +88,9 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     setLoading(true);
 
     try {
-      if (requestSent) {
+      if (isFriend) {
+        // unfriend APi
+      } else if (requestSent) {
         const response = await fetch("/api/friendRequest/unrequest", {
           method: "DELETE",
           headers: {
@@ -162,6 +172,8 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             >
               {loading ? (
                 "Sending..."
+              ) : isFriend ? (
+                "Unfriend"
               ) : requestSent ? (
                 <>
                   <FaArrowRightLong fill="#ED154C" /> Cancel Request
