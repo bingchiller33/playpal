@@ -14,6 +14,7 @@ export interface IAccount {
     email?: string;
     password?: string;
     username?: string;
+    avatar?: string;
     token?: string;
     age?: number;
     gender?: WithId<IFilterGender>;
@@ -38,6 +39,10 @@ const AccountSchema = new Schema<IAccount>(
             required: [false],
         },
         username: {
+            type: String,
+            required: [true]
+        },
+        avatar: {
             type: String,
             required: [true]
         },

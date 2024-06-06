@@ -3,6 +3,7 @@ import {
     queueWaitTimeUpdated,
     squadMatched,
 } from "@/lib/pusher.server";
+import Account, { IAccount } from "@/models/account";
 import FilterLOLRanks from "@/models/filterLOLRankModel";
 import FilterPlaystyles from "@/models/filterPlaystyleModel";
 import MatchMakingQueues, {
@@ -54,6 +55,22 @@ export async function getMembers(squadId: string) {
         .exec();
 
     return members;
+}
+
+export async function getMembersRecommend(accId: string, members: ISquadEnrollment[]) {
+    const result : IAccount[] = [];
+    const accounts = (await Account.find()).filter( acc => {
+        console.log('hello: ',acc.email)
+
+        for(const mem of members){
+            console.log('hel',mem.accountId.email)
+            if(mem.accountId.email !== acc.email){
+                result.push(acc);
+            }
+        }
+    }
+    );
+    return result;
 }
 
 export async function getUserActiveSquads(accountId: string) {

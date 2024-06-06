@@ -291,7 +291,7 @@ a {
 
 .members-name {
     flex-direction: row;
-    margin-left: 30px;
+    /* margin-left: 30px; */
 }
 
 .members-name p {
@@ -301,7 +301,7 @@ a {
 }
 
 .members-line {
-    border: 1px solid #ed154b79;
+    border-bottom: 1px solid #ed154b79;
 }
 
 .btn-inviteFriend {

@@ -5,16 +5,17 @@ import TabRequest from "./TabRequest";
 import Link from "next/link";
 import cx from "classnames";
 import { ISquadEnrollment } from "@/models/squadEnrollmentModel";
+import { IAccount } from "@/models/account";
 
-const SquadMember = ({ params, members }: SquadMemberProp) => {
+const SquadMember = ({ params, members, membersRecommend }: SquadMemberProp) => {
 
     const { id, page } = params;
-    console.log("members " , members);
+    console.log("members " , membersRecommend);
     let activePage;
     if (page === "request") {
         activePage = <TabRequest id={id} />;
     } else {
-        activePage = <TabMembers id={id} />;
+        activePage = <TabMembers members={members}  membersRecommend={membersRecommend}/>;
     }
 
     return (
@@ -59,7 +60,8 @@ const SquadMember = ({ params, members }: SquadMemberProp) => {
 
 export interface SquadMemberProp{
     params: Record<string, string>;
-    members: ISquadEnrollment;
+    members: ISquadEnrollment[];
+    membersRecommend: IAccount[];
 }
 
 export default SquadMember;
