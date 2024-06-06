@@ -1,4 +1,4 @@
-export default function debounce<T extends Function>(inner: T, ms = 0) {
+export default function promisedb<T extends Function>(inner: T, ms = 0) {
     let timer: NodeJS.Timeout | undefined;
     let resolves: any[] = [];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { NextPageProps } from "@/utils/types";
+import { NextPageProps, WithId } from "@/utils/types";
 import { Button, Col, Row } from "react-bootstrap";
 import Dropdown from "./Dropdown";
 import styles from "./SquadFilter.module.css";
@@ -9,14 +9,23 @@ import TooltipSlider from "./TooltipSlider";
 import { Checkbox } from "primereact/checkbox";
 import { ToggleButton } from "primereact/togglebutton";
 import { COLORS, TIME_FILTER_OPTIONS } from "@/utils/constants";
-import { updateFilter } from "./SquadFilter.actions";
+import {
+    enterMatchmaking,
+    updateFilter,
+    revalidateFilters,
+    exitMatchMaking,
+} from "./SquadFilter.server";
 import { useOptimistic, useTransition } from "react";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import debounce from "@/utils/debounce";
+import promisedb from "@/utils/debounce";
 import { toast } from "react-toastify";
+import { useMatchMaking, useSquadFilterUpdates } from "@/lib/usePusherEvents";
+import { useRouter } from "next/navigation";
+import { ISquad } from "@/models/squadModel";
 
 const SquadFilterView = (props: SquadFilterProps) => {
     const { id, page } = props.params;
+    const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [filters, setFilters] = useOptimistic(
         props.filters,
@@ -25,18 +34,26 @@ const SquadFilterView = (props: SquadFilterProps) => {
         }
     );
 
-    const debouncedUpdateFilter = debounce(
-        async (update: Record<string, any>) => {
-            const result = await updateFilter(id, update);
-            result.success || toast.error(result.msg);
-        },
-        1000
-    );
+    useSquadFilterUpdates(id, async () => {
+        startTransition(async () => {
+            await revalidateFilters(id, page);
+            setFilters(props.filters);
+        });
+    });
+
+    useMatchMaking(props.squad, (other) => {
+        console.log({ other });
+    });
+
+    const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
+        const result = await updateFilter(id, update);
+        result.success || toast.error(result.msg);
+    }, 1000);
 
     const saUpdateFilter = async (update: Record<string, any>) => {
         startTransition(async () => {
             setFilters(update);
-            await debouncedUpdateFilter(update);
+            await pdUpdateFilter(update);
         });
     };
 
@@ -287,10 +304,24 @@ const SquadFilterView = (props: SquadFilterProps) => {
                 style={{
                     background: "var(--clr-primary-1)",
                     borderColor: "var(--clr-primary-1)",
+                    display: !!props.squad.joinQueue ? "none" : "block",
                 }}
+                onClick={() => enterMatchmaking(id)}
             >
                 <AiOutlineUsergroupAdd />
                 <span className="ms-1">Find teammates</span>
+            </Button>
+
+            <Button
+                style={{
+                    background: "var(--clr-primary-1)",
+                    borderColor: "var(--clr-primary-1)",
+                    display: !props.squad.joinQueue ? "none" : "block",
+                }}
+                onClick={() => exitMatchMaking(id)}
+            >
+                <AiOutlineUsergroupAdd />
+                <span className="ms-1">Stop</span>
             </Button>
         </form>
     );
@@ -309,6 +340,7 @@ const PlaystyleBtn = ({ label, checked, onChange }: PlaystyleBtnProps) => {
 };
 
 export interface SquadFilterProps extends NextPageProps {
+    squad: WithId<ISquad>;
     filters: any;
     languages: any[];
     genders: any[];

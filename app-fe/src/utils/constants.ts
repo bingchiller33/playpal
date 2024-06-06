@@ -2,6 +2,12 @@ export const COLORS = {
     PRIMARY_1: "#ED154C",
 };
 
+export const GAME_ID_LOL = "6656b7cc0342bce980eeb7cb";
+
+export const FAKE_DEFAULT_LOL_WEIGHTS = {};
+
+export const FAKE_DEFAULT_ANY_WEIGHTS = {};
+
 function generateTimeFilterOptions() {
     const options = [];
     const intervals = 15 * 60; // 15 minutes in seconds
