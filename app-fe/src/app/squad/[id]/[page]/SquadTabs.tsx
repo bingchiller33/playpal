@@ -51,7 +51,7 @@ const SquadTabs = ({ id, active }: SquadTabsProps) => {
             <Col
                 className={cx(
                     "d-flex align-items-center justify-content-center",
-                    active === "members" && styles["tab-active"]
+                    active === "members" && styles["tab-active"] || active === "request" && styles["tab-active"]
                 )}
             >
                 <Link
@@ -70,7 +70,7 @@ const SquadTabs = ({ id, active }: SquadTabsProps) => {
 
 export interface SquadTabsProps {
     id: string;
-    active: "filters" | "chat" | "members";
+    active: "filters" | "chat" | "members" | "request";
 }
 
 export default SquadTabs;

@@ -1,10 +1,11 @@
 import mongoose, { Model, Schema } from "mongoose";
 import Account, { IAccount } from "./account";
 import Squads, { ISquad } from "./squadModel";
+import { WithId } from "@/utils/types";
 
 export interface ISquadEnrollment {
     accountId: IAccount;
-    squadId: ISquad;
+    squadId: WithId<ISquad>;
     leaveDate?: Date | null;
     rating?: number | null;
     sentimentRating?: boolean;
