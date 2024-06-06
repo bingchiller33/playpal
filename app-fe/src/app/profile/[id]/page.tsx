@@ -20,7 +20,6 @@ const fetchProfile = async (id: string) => {
 
 const fetchFriends = async (id: string) => {
   const response = await fetch(`/api/profile/${id}/friends`);
-  console.log("Response status:", response.status);
   if (!response.ok) {
     throw new Error("Failed to fetch friends");
   }
@@ -37,6 +36,10 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState<any[]>([]);
   const [isFriend, setIsFriend] = useState(false);
+
+  // FR: might put this in Header later
+  const [isFRModalOpen, setIsFRModalOpen] = useState(false);
+  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
 
   const checkFriendRequest = async () => {
     if (!session) {
@@ -57,6 +60,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     const checkData = await checkResponse.json();
 
     setRequestSent(checkData.exists);
+    setIsFriend(checkData.isFriend);
   };
 
   useEffect(() => {
@@ -68,16 +72,16 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     const fetchAndSetFriends = async () => {
       const fetchedFriends = await fetchFriends(params.id);
       setFriends(fetchedFriends);
-
-      if (fetchedFriends.some((friend) => friend.id === session?.user.id)) {
-        setIsFriend(true);
-      }
     };
 
-    fetchAndSetFriends();
-    checkFriendRequest();
-    fetchAndSetProfile();
-  }, [params.id]);
+    const fetchData = async () => {
+      await fetchAndSetProfile();
+      await fetchAndSetFriends();
+      await checkFriendRequest();
+    };
+
+    fetchData();
+  }, [params.id, session]);
 
   const handleAddFriend = async () => {
     if (!session) {
@@ -144,6 +148,64 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     setIsModalOpen(false);
   };
 
+  // FR: might put this in Header later
+  const fetchFriendRequests = async () => {
+    const response = await fetch(`/api/friendRequest/requests`, {
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch friend requests");
+    }
+
+    const friendRequests = await response.json();
+    return friendRequests;
+  };
+
+  useEffect(() => {
+    const fetchAndSetFriendRequests = async () => {
+      try {
+        const requests = await fetchFriendRequests();
+        setFriendRequests(requests);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchAndSetFriendRequests();
+  }, []);
+
+  const acceptFriendRequest = async (requestId: string) => {
+    const response = await fetch(`/api/friendRequest/accept`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ requestId }),
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to accept friend request");
+    }
+    return response.json();
+  };
+
+  const handleAccept = async (requestId: string) => {
+    try {
+      await acceptFriendRequest(requestId);
+      setFriendRequests((prev) => prev.filter((req) => req.id !== requestId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //
+
+  const openFRModal = () => {
+    setIsFRModalOpen(true);
+  };
+
+  const closeFRModal = () => {
+    setIsFRModalOpen(false);
+  };
+
   if (!profile) {
     return <div>Loading...</div>;
   }
@@ -162,26 +224,36 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           />
           <div className={styles.profileInfo}>
             <h1 className={styles.username}>{profile.username}</h1>
-            <p onClick={openModal} style={{ cursor: "pointer" }}>
-              {friends.length} Friends
-            </p>
-            <button
-              onClick={handleAddFriend}
-              disabled={loading}
-              className={styles.addFriendButton}
-            >
-              {loading ? (
-                "Sending..."
-              ) : isFriend ? (
-                "Unfriend"
-              ) : requestSent ? (
-                <>
-                  <FaArrowRightLong fill="#ED154C" /> Cancel Request
-                </>
-              ) : (
-                "Add Friend"
-              )}{" "}
-            </button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <p onClick={openModal} style={{ cursor: "pointer" }}>
+                {friends.length} Friends
+              </p>
+              {session?.user.id === params.id && (
+                <p onClick={openFRModal} style={{ cursor: "pointer" }}>
+                  {friendRequests.length} Friend Requests
+                </p>
+              )}
+            </div>
+
+            {session?.user.id !== params.id && (
+              <button
+                onClick={handleAddFriend}
+                disabled={loading}
+                className={styles.addFriendButton}
+              >
+                {loading ? (
+                  "Sending..."
+                ) : isFriend ? (
+                  "Unfriend"
+                ) : requestSent ? (
+                  <>
+                    <FaArrowRightLong fill="#ED154C" /> Cancel Request
+                  </>
+                ) : (
+                  "Add Friend"
+                )}{" "}
+              </button>
+            )}
           </div>
         </div>
         <div className={styles.playerDetails}>
@@ -198,9 +270,21 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           <h2>Highlights</h2>
           {/* Highlights placeholder */}
         </div>
-        {isModalOpen && <FriendsModal friends={friends} onClose={closeModal} />}
+        {isModalOpen && (
+          <FriendsModal
+            friends={friends}
+            onClose={closeModal}
+            isCurrentUser={params.id === session?.user.id}
+          />
+        )}
+        {isFRModalOpen && (
+          <FriendRequests
+            friendRequests={friendRequests}
+            onAccept={handleAccept}
+            onClose={closeFRModal}
+          />
+        )}
       </div>
-      <FriendRequests />
       <Footer />
     </>
   );

@@ -1,83 +1,82 @@
-import { useEffect, useState } from "react";
-import styles from "./FriendRequests.module.css";
+import { useEffect, useRef } from "react";
+import styles from "../FriendsModal/FriendsModal.module.css";
+import { IoCloseOutline } from "react-icons/io5";
 
-interface FriendRequest {
-  _id: string;
-  sender_id: string;
-  receiver_id: string;
-  status: string;
-}
-
-const fetchFriendRequests = async () => {
-  const response = await fetch(`/api/friendRequest/requests`, {
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Failed to fetch friend requests");
-  }
-
-  const friendRequests = await response.json();
-  return friendRequests;
+type FriendRequest = {
+  id: string;
+  username: string;
+  avatar_url: string;
 };
 
-const acceptFriendRequest = async (requestId: string) => {
-  const response = await fetch(`/api/friendRequest/accept`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ requestId }),
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Failed to accept friend request");
-  }
-  return response.json();
+type FriendRequestsProps = {
+  friendRequests: FriendRequest[];
+  onAccept: (requestId: string) => void;
+  onClose: () => void;
 };
 
-const FriendRequests = () => {
-  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
-  const [loading, setLoading] = useState(false);
+const FriendRequests: React.FC<FriendRequestsProps> = ({
+  friendRequests,
+  onAccept,
+  onClose,
+}) => {
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchAndSetFriendRequests = async () => {
-      try {
-        const requests = await fetchFriendRequests();
-        setFriendRequests(requests);
-      } catch (error) {
-        console.error(error);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
       }
     };
-    fetchAndSetFriendRequests();
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
-  const handleAccept = async (requestId: string) => {
-    setLoading(true);
-    try {
-      await acceptFriendRequest(requestId);
-      setFriendRequests((prev) => prev.filter((req) => req._id !== requestId));
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
-    <div className={styles.container}>
-      <h2>Friend Requests</h2>
-      <div className={styles.requestsList}>
-        {friendRequests.map((request) => (
-          <div key={request._id} className={styles.requestItem}>
-            <p>Request from: {request.sender_id}</p>
-            <button
-              onClick={() => handleAccept(request._id)}
-              disabled={loading}
-              className={styles.acceptButton}
-            >
-              {loading ? "Accepting..." : "Accept"}
-            </button>
-          </div>
-        ))}
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent} ref={modalRef}>
+        <div className={styles.modalHeader}>
+          <h4 style={{ margin: 0, textAlign: "center", color: "#ED154C" }}>
+            FRIEND REQUESTS
+          </h4>
+          <button onClick={onClose} className={styles.closeButton}>
+            <IoCloseOutline stroke="#ED154C" size={40} />
+          </button>
+        </div>
+        <div className={styles.friendsList}>
+          {friendRequests.length > 0 ? (
+            friendRequests.map((request) => (
+              <div key={request.id} className={styles.friendItem}>
+                <img
+                  src={request.avatar_url}
+                  alt={request.username}
+                  className={styles.friendAvatar}
+                />
+                <span className={styles.friendName}>{request.username}</span>
+                <button
+                  onClick={() => onAccept(request._id)}
+                  className={styles.acceptButton}
+                >
+                  Accept
+                </button>
+              </div>
+            ))
+          ) : (
+            <img
+              src="https://i.imgflip.com/6k6afr.jpg"
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+              width="60%"
+            />
+          )}
+        </div>
       </div>
     </div>
   );

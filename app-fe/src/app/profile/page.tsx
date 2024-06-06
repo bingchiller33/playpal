@@ -48,7 +48,11 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
       </div>
       <div className={styles.cardsSection}>
         {currentProfiles.map((profile) => (
-          <Link href={`profile/${profile._id}`} key={profile._id}>
+          <Link
+            href={`profile/${profile._id}`}
+            key={profile._id}
+            style={{ textDecoration: "none" }}
+          >
             <ProfileCard {...profile} />
           </Link>
         ))}

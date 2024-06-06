@@ -12,7 +12,7 @@
 .cardsSection {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;                        
+    justify-content: space-around;
     padding: 40px 100px;
 }
 
@@ -41,7 +41,8 @@
 .infoLine {
     display: flex;
     justify-content: space-between;
-
+    color: #ED154C;
+    text-transform: uppercase;
 }
 
 .cardInfo p {

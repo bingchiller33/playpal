@@ -11,7 +11,6 @@ export default async function handler(
 
   try {
     const userProfiles = await Account.find({}).lean();
-    console.log(userProfiles.length);
 
     res.status(200).json(userProfiles);
   } catch (error) {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./FriendsModal.module.css";
-import { IoClose, IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 
 type Friend = {
   id: string;
@@ -11,9 +11,14 @@ type Friend = {
 type FriendsModalProps = {
   friends: Friend[];
   onClose: () => void;
+  isCurrentUser: boolean;
 };
 
-const FriendsModal: React.FC<FriendsModalProps> = ({ friends, onClose }) => {
+const FriendsModal: React.FC<FriendsModalProps> = ({
+  friends,
+  onClose,
+  isCurrentUser,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,14 +48,16 @@ const FriendsModal: React.FC<FriendsModalProps> = ({ friends, onClose }) => {
       <div className={styles.modalContent} ref={modalRef}>
         <div className={styles.modalHeader}>
           <div style={{ gridArea: "title" }}>
-            <h4 style={{ margin: 0, textAlign: "center" }}>FRIENDS</h4>
+            <h4 style={{ margin: 0, textAlign: "center", color: "#ED154C" }}>
+              FRIENDS
+            </h4>
           </div>
           <button
             onClick={onClose}
             className={styles.closeButton}
-            style={{ gridArea: "button" }}
+            style={{ gridArea: "button", color: "#ED154C" }}
           >
-            <IoCloseOutline size={40} />
+            <IoCloseOutline stroke="#ED154C" size={40} />
           </button>
         </div>
         <div className={styles.searchContainer}>
@@ -63,22 +70,35 @@ const FriendsModal: React.FC<FriendsModalProps> = ({ friends, onClose }) => {
           />
         </div>
         <div className={styles.friendsList}>
-          {filteredFriends.map((friend) => (
-            <div key={friend.id} className={styles.friendItem}>
-              <img
-                src={friend.avatar_url}
-                alt={friend.username}
-                className={styles.friendAvatar}
-              />
-              <span className={styles.friendName}>{friend.username}</span>
-              <button
-                onClick={() => handleUnfriend(friend.id)}
-                className={styles.unfriendButton}
-              >
-                Unfriend
-              </button>
-            </div>
-          ))}
+          {filteredFriends.length > 0 ? (
+            filteredFriends.map((friend) => (
+              <div key={friend.id} className={styles.friendItem}>
+                <img
+                  src={friend.avatar_url}
+                  alt={friend.username}
+                  className={styles.friendAvatar}
+                />
+                <span className={styles.friendName}>{friend.username}</span>
+                {isCurrentUser && (
+                  <button
+                    onClick={() => handleUnfriend(friend.id)}
+                    className={styles.unfriendButton}
+                  >
+                    Unfriend
+                  </button>
+                )}
+              </div>
+            ))
+          ) : (
+            <img
+              src="https://i.imgflip.com/6k6afr.jpg"
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

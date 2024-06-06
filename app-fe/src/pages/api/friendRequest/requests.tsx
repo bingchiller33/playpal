@@ -9,6 +9,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
   const session = await getSession({ req });
 
+  console.log("Session:", session);
+
   if (!session) {
     console.log("No session found");
     return res.status(401).json({ message: "Unauthorized" });

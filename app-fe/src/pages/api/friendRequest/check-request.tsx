@@ -12,15 +12,30 @@ export default async function handler(
     const { sender_id, receiver_id } = req.body;
 
     try {
-      const existingRequest = await FriendRequest.findOne({
-        sender_id,
-        receiver_id,
+      const pendingRequest = await FriendRequest.findOne({
+        $or: [
+          { sender_id, receiver_id, status: "pending" },
+          { sender_id: receiver_id, receiver_id: sender_id, status: "pending" },
+        ],
       });
 
-      if (existingRequest) {
-        return res.status(200).json({ exists: true });
+      const acceptedRequest = await FriendRequest.findOne({
+        $or: [
+          { sender_id, receiver_id, status: "accepted" },
+          {
+            sender_id: receiver_id,
+            receiver_id: sender_id,
+            status: "accepted",
+          },
+        ],
+      });
+
+      if (pendingRequest) {
+        return res.status(200).json({ exists: true, isFriend: false });
+      } else if (acceptedRequest) {
+        return res.status(200).json({ exists: false, isFriend: true });
       } else {
-        return res.status(200).json({ exists: false });
+        return res.status(200).json({ exists: false, isFriend: false });
       }
     } catch (error) {
       return res
