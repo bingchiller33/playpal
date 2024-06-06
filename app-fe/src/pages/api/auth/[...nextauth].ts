@@ -32,8 +32,7 @@ export const authOptions: NextAuthOptions = {
                     if (isPasswordValid && userExist?.verified) {
                         return {
                             id: userExist._id.toString(),
-                            email: userExist.email,
-                            password: userExist.password,
+                            email: userExist.email as string,
                             // Add any additional fields you want to include in the session
                         };
                     }
@@ -59,7 +58,7 @@ export const authOptions: NextAuthOptions = {
                 if (!existingUser) {
                     await Account.create({
                         email: user.email,
-                        // name: user.name,
+                        username: user.name,
                         verified: true,
                     });
                 }
