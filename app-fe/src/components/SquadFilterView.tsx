@@ -80,12 +80,7 @@ const SquadFilterView = (props: SquadFilterProps) => {
 
     return (
         <form className="p-3 h-100 d-flex flex-column panel-layout-child position-relative">
-            <h1
-                className="font-all-star"
-                style={{ color: "var(--clr-primary-1)" }}
-            >
-                FILTERS
-            </h1>
+            <h1 className="font-all-star color-primary-1">FILTERS</h1>
             <div className="flex-grow-1 flex-shrink-1">
                 <Row>
                     <Col

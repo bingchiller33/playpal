@@ -1,6 +1,4 @@
-import { PiDotsThreeOutline } from "react-icons/pi";
 import cx from "classnames";
-import { COLORS } from "@/utils/constants";
 
 const IconButton = ({
     children,
@@ -10,6 +8,7 @@ const IconButton = ({
 }: IconButtonProps) => {
     return (
         <button
+            type="submit"
             className={cx("unstyled-button", "icon-btn", className)}
             style={style}
             onClick={onClick}

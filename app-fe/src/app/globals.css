@@ -34,9 +34,12 @@
     --card-border-rgb: 131, 134, 135;
 
     --clr-primary-1: #ed154c;
+    --clr-primary-1-70: #ed154c70;
     --clr-background-1: #242034;
     --clr-text-gray: #ffffff90;
 }
+
+
 
 @media (prefers-color-scheme: dark) {
     :root {
@@ -105,6 +108,14 @@ a {
 
 .font-all-star {
     font-family: "AllStar", sans-serif;
+}
+
+.bg-1 {
+    background-color: var(--clr-background-1);
+}
+
+.color-primary-1 {
+    color: var(--clr-primary-1);
 }
 
 .unstyled-button {

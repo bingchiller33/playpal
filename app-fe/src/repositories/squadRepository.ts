@@ -23,15 +23,6 @@ import { GAME_ID_LOL } from "@/utils/constants";
 import { SquadInput, matchTime, varianceRand } from "@/utils/matchmakingAlgos";
 import { WithId } from "@/utils/types";
 
-export function getModeDiscriminant(gameId: string, modeId: string) {
-    // TODO: Remove hard code id when creating admin screen
-    if (gameId == (GAME_ID_LOL ?? "6656b7cc0342bce980eeb7cb")) {
-        return "LOL";
-    } else {
-        return "ANY";
-    }
-}
-
 // Write common database query here, dont write basic crud here, use the Collection directly
 export async function createSquad(leader: string) {
     const newSquad = await Squads.create({ leader });
@@ -63,6 +54,28 @@ export async function getMembers(squadId: string) {
         .exec();
 
     return members;
+}
+
+export async function getUserActiveSquads(accountId: string) {
+    const squads = await SquadEnrollments.find({
+        leaveDate: { $eq: null },
+        squadId: { $ne: null },
+        accountId,
+    })
+        .populate("squadId")
+        .sort({ createdAt: "desc" })
+        .exec();
+
+    return squads.filter((x) => x.squadId);
+}
+
+export function getModeDiscriminant(gameId: string, modeId: string) {
+    // TODO: Remove hard code id when creating admin screen
+    if (gameId == (GAME_ID_LOL ?? "6656b7cc0342bce980eeb7cb")) {
+        return "LOL";
+    } else {
+        return "ANY";
+    }
 }
 
 export async function updateSquadAvgStats(squadId: string) {

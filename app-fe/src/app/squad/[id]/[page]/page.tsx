@@ -12,6 +12,7 @@ import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 import Header from "@/components/Header";
+import { getUserActiveSquads } from "@/repositories/squadRepository";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
@@ -29,18 +30,18 @@ const SquadPage = async (pageProps: NextPageProps) => {
         main = <SquadMember {...pageProps} />;
     }
 
+    const x = await getUserActiveSquads("665dadc892b5b6633fd97111");
+
     return (
         <div className={cx(styles.layout, "pb-1")} style={{ height: "100vh" }}>
-            <div className="pb-2" style={{ gridArea: "h" }}>
+            <div className="pb-2  d-none d-md-block" style={{ gridArea: "h" }}>
                 <Header />
             </div>
             <div
-                className="d-none d-md-block  me-2 border-primary-glow rounded background-1 ms-1"
+                className="d-none d-md-block  me-2 border-primary-glow rounded background-1 ms-1 panel-layout-child"
                 style={{ gridArea: "l" }}
             >
-                <SquadsRibbon
-                    squads={[{ name: "GG" }, { name: "GG" }, { name: "GG" }]}
-                />
+                <SquadsRibbon />
             </div>
 
             <div
