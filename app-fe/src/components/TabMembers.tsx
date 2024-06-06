@@ -6,12 +6,16 @@ import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { BiCloset } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
+import { getMembers } from "@/repositories/squadRepository";
 
 const TabMembers = ({ id }: MembersProps) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const members = getMembers(id);
+  console.log(members);
 
   return (
     <Container fluid>

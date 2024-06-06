@@ -39,11 +39,11 @@ const Header = () => {
 
                     <Nav>
                         <Dropdown>
-                            <MdNotifications />
+                            <MdNotifications  style={{fontSize:'30px' }} />
                             <DropdownToggle
                                 variant="none"
                                 id="dropdown-basic"
-                                style={{ color: "white" }}>
+                                style={{ color: "white", fontSize:'30px' }}>
                                 <BsPersonCircle />
                             </DropdownToggle>
 
