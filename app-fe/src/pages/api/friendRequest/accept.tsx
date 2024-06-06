@@ -15,6 +15,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const userId = session.user.id;
+  console.log("userId", userId);
+  
 
   switch (method) {
     case "POST":
