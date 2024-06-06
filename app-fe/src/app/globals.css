@@ -164,36 +164,73 @@ a {
 
 
 .text-logo {
-    color: #ed154c;
+    color: var(--clr-primary-1);
+    text-decoration: none;
+    font-size: 3rem;
+    margin-top: 3px;
+}
+
+.header-element:hover {
+    text-decoration: underline;
 }
 
 .btn-bordered {
-    border: 1px solid #ed154c;
+    border: 1px solid var(--clr-primary-1);
     background-color: transparent;
     width: 110px;
+    padding: 5px;
     border-radius: 20px;
     font-weight: 500;
 }
 
 .btn-bordered:hover {
-    border-color: #ed154c;
-    background-color: #ed154c;
+    border-color: var(--clr-primary-1);
+    background-color: var(--clr-primary-1);
 }
 
 .btn-noborder {
     border: none;
-    border: 1px solid #ed154c;
-    background-color: #ed154c;
+    border: 1px solid var(--clr-primary-1);
+    background-color: var(--clr-primary-1);
     width: 110px;
+    padding: 5px;
     border-radius: 20px;
     font-weight: 500;
 }
 
 .btn-noborder:hover {
-    border-color: #ed154c;
-    background-color: transparent;
+    /* border-color: var(--clr-primary-1); */
+    /* background-color: transparent; */
 }
 
+.footer {
+    background-color: #242034;
+}
+
+.footer .footer-logo {
+    font-size: 4.5rem;
+    margin-top: 25px;
+    color: var(--clr-primary-1);
+}
+
+.footer h5 {
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.footer li {
+    margin: 8px 0;
+}
+
+.footer a{
+    text-decoration: none !important;
+    color: white;
+
+}
+.footer a:hover{
+    text-decoration: underline !important;
+
+}
 /** --- Prime Dropdown Custom Style --- */
 .p-dropdown-items {
     padding: 0;
@@ -202,7 +239,7 @@ a {
 .p-dropdown-filter-container,
 .p-dropdown-header {
     background: transparent;
-    border-bottom: 1px solid #ed154c;
+    border-bottom: 1px solid var(--clr-primary-1);
 }
 
 .p-dropdown-filter {

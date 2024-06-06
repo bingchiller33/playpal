@@ -5,11 +5,14 @@ import Dropdown from "@/components/Dropdown";
 import cx from "classnames";
 import styles from "./SquadFilter.module.css";
 import { useOptimistic, useTransition } from "react";
-import { updateSpecFilter } from "./SquadFilter.actions";
+import { revalidateFilters, updateSpecFilter } from "./SquadFilter.server";
 import { toast } from "react-toastify";
-import debounce from "@/utils/debounce";
+import promisedb from "@/utils/debounce";
+import { useSquadFilterUpdates } from "@/lib/usePusherEvents";
+import { useRouter } from "next/navigation";
 
 export function LolSpecFilter(props: LolSpecFilterProps) {
+    const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [filters, setFilters] = useOptimistic(
         props.filter,
@@ -17,19 +20,22 @@ export function LolSpecFilter(props: LolSpecFilterProps) {
             return { ...cur, ...next };
         }
     );
+    useSquadFilterUpdates(props.id, () => {
+        startTransition(async () => {
+            await revalidateFilters(props.id, props.page);
+            setFilters(props.filter);
+        });
+    });
 
-    const debouncedUpdateFilter = debounce(
-        async (update: Record<string, any>) => {
-            const result = await updateSpecFilter(props.id, update);
-            result.success || toast.error(result.msg);
-        },
-        1000
-    );
+    const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
+        const result = await updateSpecFilter(props.id, update);
+        result.success || toast.error(result.msg);
+    }, 1000);
 
     const saUpdateFilter = async (update: Record<string, any>) => {
         startTransition(async () => {
             setFilters(update);
-            await debouncedUpdateFilter(update);
+            await pdUpdateFilter(update);
         });
     };
 
@@ -79,6 +85,7 @@ export function LolSpecFilter(props: LolSpecFilterProps) {
 
 export interface LolSpecFilterProps {
     id: string;
+    page: string;
     ranks: any[];
     servers: any[];
     filter: any;

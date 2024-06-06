@@ -3,9 +3,10 @@ import styles from "./page.module.css";
 import Button from "react-bootstrap/Button";
 import dbConnect from "@/lib/mongoConnect";
 import Aaas from "@/models/aaaModel";
-import { create, createSquad } from "./server";
+import { create, createSquad, weight } from "./server";
 import { Button as B2r } from "primereact/button";
 import Dropdown from "@/components/Dropdown";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
     await dbConnect();
@@ -28,6 +29,12 @@ export default async function Home() {
             <form action={createSquad}>
                 <button type="submit">Create squad</button>
             </form>
+
+            <form action={weight}>
+                <button type="submit">Set weights</button>
+            </form>
+
+            <Footer />
         </main>
     );
 }
