@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSquadByPlayer } from "@/repositories/squadRepository";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 import Account from "@/models/account";
 import { commonWeights, lolWeights } from "@/models/weightSchema";
 
@@ -50,11 +50,10 @@ export async function weight() {
 export async function createSquad() {
     const session = await getServerSession(authOptions);
     if (!session) {
-        return { success: false, message: "Unauthorized" };
+        redirect("/auth/login");
     }
 
-    console.log(session);
     await dbConnect();
     const newSquad = await createSquadByPlayer(session.user.id);
-    redirect(`/squad/${newSquad._id}`);
+    redirect(`/squad/${newSquad._id}/chat`);
 }

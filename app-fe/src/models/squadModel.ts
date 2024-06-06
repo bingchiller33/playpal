@@ -8,6 +8,8 @@ import FilterLOLRanks from "./filterLOLRankModel";
 import FilterPlaystyles from "./filterPlaystyleModel";
 import { GAME_ID_LOL } from "@/utils/constants";
 import { IWeight, WeightSchema } from "./weightSchema";
+import { WithId } from "@/utils/types";
+import Account, { IAccount } from "./account";
 
 export interface ILOLFilter {
     serverId: mongoose.Types.ObjectId;
@@ -56,6 +58,7 @@ export interface ISquad {
     name?: string;
     joinQueue?: Date;
     img?: string;
+    leader: WithId<IAccount>;
     filter: IFilter;
     avgTraits: ICommonTrait;
     squadWeights?: IWeight;
@@ -73,6 +76,11 @@ const SquadSchema = new Schema(
         },
         img: {
             type: String,
+        },
+        leader: {
+            type: mongoose.Types.ObjectId,
+            ref: Account,
+            required: true,
         },
         filter: {
             type: new Schema(

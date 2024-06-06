@@ -13,6 +13,7 @@ export interface MatchMakingWeight {
 export interface IAccount {
     email?: string;
     password?: string;
+    username?: string;
     token?: string;
     age?: number;
     gender?: WithId<IFilterGender>;
@@ -29,12 +30,16 @@ const AccountSchema = new Schema<IAccount>(
     {
         email: {
             type: String,
-            required: [true, "email is Requiredd"],
+            required: [true, "email is Required"],
             unique: [true, "email is not duplicate"],
         },
         password: {
             type: String,
             required: [false],
+        },
+        username: {
+            type: String,
+            required: [true]
         },
         token: {
             type: String,

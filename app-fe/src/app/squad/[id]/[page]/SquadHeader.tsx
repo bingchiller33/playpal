@@ -4,10 +4,17 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoCallOutline } from "react-icons/io5";
 import { PiDotsThreeOutline } from "react-icons/pi";
 import { CiBellOn } from "react-icons/ci";
+import IconLink from "@/components/IconLink";
+import IconButton from "@/components/IconButton";
 const SquadHeader = () => {
     return (
         <div className="d-flex align-items-center gap-1 py-2">
-            <IoIosArrowBack color={COLORS.PRIMARY_1} size={28} />
+            <IconLink href="/" className="d-none d-md-block">
+                <IoIosArrowBack fill={COLORS.PRIMARY_1} size={28} />
+            </IconLink>
+            <IconLink href="/my-squad" className="d-block d-md-none">
+                <IoIosArrowBack fill={COLORS.PRIMARY_1} size={28} />
+            </IconLink>
             <Avatar size={32} initials="S" />
             <h1
                 className="ms-2"
@@ -17,12 +24,18 @@ const SquadHeader = () => {
             </h1>
 
             <div className="ms-auto">
-                <IoCallOutline color={COLORS.PRIMARY_1} size={28} />
+                <IconButton>
+                    <IoCallOutline stroke={COLORS.PRIMARY_1} size={28} />
+                </IconButton>
             </div>
             <div className="d-md-none">
-                <CiBellOn color={COLORS.PRIMARY_1} size={28} />
+                <IconButton>
+                    <CiBellOn fill={COLORS.PRIMARY_1} size={28} />
+                </IconButton>
             </div>
-            <PiDotsThreeOutline color={COLORS.PRIMARY_1} size={28} />
+            <IconButton className="me-2">
+                <PiDotsThreeOutline fill={COLORS.PRIMARY_1} size={28} />
+            </IconButton>
         </div>
     );
 };
