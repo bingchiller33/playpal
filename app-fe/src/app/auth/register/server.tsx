@@ -44,7 +44,7 @@ export async function create(formData: FormData) {
 
     const hashedPass = await hash(password,10);
     if(status == 1){
-        await Account.create({ email, password: hashedPass, token, verified:0});
+        await Account.create({ email, password: hashedPass, username, token, verified:0});
         await sendVerificationEmail(email, token);
     }
     return {response, status}
