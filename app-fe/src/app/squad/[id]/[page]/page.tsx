@@ -11,6 +11,7 @@ import SquadChat from "@/components/SquadChat";
 import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
+import { getMembers } from "@/repositories/squadRepository";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
@@ -18,6 +19,8 @@ const SquadPage = async (pageProps: NextPageProps) => {
 
     await dbConnect();
     const squad = jsonStrip(await Squads.findOne({ _id: id }).exec());
+    const members = jsonStrip(await getMembers(id));
+    console.log("members 1: " + members);
 
     let main;
     if (page === "filters") {
@@ -25,7 +28,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
     } else if (page === "chat") {
         main = <SquadChat {...pageProps} />;
     } else if (page === "members" || page === "request") {
-        main = <SquadMember {...pageProps} />;
+        main = <SquadMember {...pageProps}  members={members}/>;
     }
 
     return (
@@ -78,7 +81,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
                     position: 'relative'
                 }}
             >
-                <SquadMember {...pageProps} />
+                <SquadMember {...pageProps}  members={members}/>
             </div>
             <div className="d-md-none h-100" style={{ gridArea: "t" }}>
                 <SquadTabs active={page as any} id={id} />

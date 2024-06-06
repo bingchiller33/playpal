@@ -4,11 +4,12 @@ import TabMembers from "./TabMembers";
 import TabRequest from "./TabRequest";
 import Link from "next/link";
 import cx from "classnames";
+import { ISquadEnrollment } from "@/models/squadEnrollmentModel";
 
-const SquadMember = ({ params }: NextPageProps) => {
+const SquadMember = ({ params, members }: SquadMemberProp) => {
 
     const { id, page } = params;
-
+    console.log("members " , members);
     let activePage;
     if (page === "request") {
         activePage = <TabRequest id={id} />;
@@ -55,5 +56,10 @@ const SquadMember = ({ params }: NextPageProps) => {
         </div>
     );
 };
+
+export interface SquadMemberProp{
+    params: Record<string, string>;
+    members: ISquadEnrollment;
+}
 
 export default SquadMember;
