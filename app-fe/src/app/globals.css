@@ -188,7 +188,7 @@ a {
     background-color: var(--clr-primary-1);
 }
 
-.btn-noborder {
+.btn-noBorder {
     border: none;
     border: 1px solid var(--clr-primary-1);
     background-color: var(--clr-primary-1);
@@ -198,7 +198,7 @@ a {
     font-weight: 500;
 }
 
-.btn-noborder:hover {
+.btn-noBorder:hover {
     /* border-color: var(--clr-primary-1); */
     /* background-color: transparent; */
 }
@@ -222,15 +222,105 @@ a {
     margin: 8px 0;
 }
 
-.footer a{
+
+.leave-chat-btn {
+    font-size: 25px;
+    color: #ed154c;
+    float: right;
+}
+
+.squadChat-head {
+    padding-top: 50px;
+}
+
+.btnLine {
+    background-color: #ed154b79;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.btnLine-members,
+.btnLine-request {
+    padding: 5px;
+
+}
+
+.btnLine-members {
+    margin-left: 12px;
+
+}
+
+.btnLine-request {
+    margin-right: 12px;
+
+}
+
+.btnLine-members a,
+.btnLine-request a {
+    text-decoration: none;
+    color: white;
+}
+
+.active-membersTab {
+    background-color: #ed154c;
+    border-radius: 18px;
+}
+
+
+.footer a {
     text-decoration: none !important;
     color: white;
 
 }
-.footer a:hover{
+
+.footer a:hover {
     text-decoration: underline !important;
 
 }
+
+.members-name {
+    flex-direction: row;
+    margin-left: 30px;
+}
+
+.members-name p {
+    margin: 0;
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+.members-line {
+    border: 1px solid #ed154b79;
+}
+
+.btn-inviteFriend {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    width: 100%;
+
+}
+
+.btn-inviteFriend button {
+    width: 90%;
+}
+
+@media screen and (max-width: 768px) {
+    .btn-inviteFriend {
+        bottom: 4rem;
+    }
+
+}
+
+@media screen and (max-width: 1120px) {
+
+
+    .members-name {
+        margin-left: 22px;
+    }
+}
+
+
 /** --- Prime Dropdown Custom Style --- */
 .p-dropdown-items {
     padding: 0;
@@ -331,4 +421,114 @@ a {
 
 .playstyle-btn .p-button {
     border-color: var(--clr-primary-1);
+}
+
+
+/* Group Members Request */
+
+.groupMember-request {
+    border: 1px solid #ed154b79;
+    border-radius: 25px;
+}
+
+.groupMember-request .group-header,
+.groupMember-request .group-members {
+    padding: 10px 0;
+    border-radius: 25px 25px 0 0;
+    border-bottom: 1px solid #ed154b79;
+}
+
+.groupMember-request .group-header {
+    background-color: #140022;
+}
+
+.groupMember-request .group-btnCheck {
+    padding: 10px 0;
+}
+
+.groupMember-request .group-btnCheck button {
+    width: 95%;
+}
+
+
+/* Invite Members Popup */
+
+.inviteMemberPopup .custom {
+    background-color: var(--clr-background-1);
+    border-radius: 5px;
+}
+
+.inviteMemberPopup .custom {
+    background-color: var(--clr-background-1);
+    border-radius: 5px;
+    color: white;
+    border: 1px solid var(--clr-primary-1);
+}
+
+.inviteMemberPopup .modalHeader {
+    color: var(--clr-primary-1) !important;
+}
+
+.inviteMemberPopup .modal-header {
+    border-bottom: 1px solid #ed154b79;
+}
+
+.inviteMemberSearch .searchForm {
+    background-color: transparent;
+    border-color: var(--clr-primary-1);
+}
+
+.inviteMemberSearch .searchForm::placeholder {
+    color: var(--clr-primary-1);
+}
+
+.inviteMemberFriends {
+    margin-top: 1.8rem;
+    position: relative;
+}
+
+.inviteMemberFriends button {
+    position: absolute;
+    right: 5px;
+}
+
+.inviteMemberFriends button:hover {
+    position: absolute;
+    right: 5px;
+    border-color: var(--clr-primary-1);
+    background-color: transparent;
+}
+
+.inviteMemberFriends h5 {
+    font-size: 1.2rem;
+    /* margin-left: 3rem; */
+}
+
+.inviteMemberFriends hr {
+    color: #ed154b79;
+    border-width: 2px;
+}
+
+.closeInvitePopup {
+    position: absolute;
+    right: 30px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.inviteMemberFriends .invite-name {
+    flex-direction: row;
+}
+
+.inviteMemberFriends .invite-name p{
+    margin: 0;
+    margin-left: 5px;
+    font-size: 18px;
+
+}
+
+@media screen and (max-width: 1120px) {
+    .inviteMemberFriends .invite-name {
+        margin-left: 22px;
+    }
 }

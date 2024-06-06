@@ -24,7 +24,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
         main = <SquadFilter {...pageProps} squad={squad} page={page} />;
     } else if (page === "chat") {
         main = <SquadChat {...pageProps} />;
-    } else if (page === "members") {
+    } else if (page === "members" || page === "request") {
         main = <SquadMember {...pageProps} />;
     }
 
@@ -74,7 +74,8 @@ const SquadPage = async (pageProps: NextPageProps) => {
                 className="  d-none d-md-block border-primary-glow rounded background-1 border-bl-0 border-tl-0"
                 style={{
                     gridArea: "r",
-                    width: "15vw",
+                    width: "25vw",
+                    position: 'relative'
                 }}
             >
                 <SquadMember {...pageProps} />
