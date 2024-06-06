@@ -1,9 +1,16 @@
 /* page.module.css */
+.main{
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
 .form-container {
   background-color: #242034;
   /* Solid color */
   padding: 2rem;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
+  width: 500px;
+  align-items: center;
   /* Optional: for rounded corners */
 }
 
