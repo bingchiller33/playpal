@@ -50,11 +50,10 @@ export async function weight() {
 export async function createSquad() {
     const session = await getServerSession(authOptions);
     if (!session) {
-        return { success: false, message: "Unauthorized" };
+        redirect("/auth/login");
     }
 
-    console.log(session);
     await dbConnect();
     const newSquad = await createSquadByPlayer(session.user.id);
-    redirect(`/squad/${newSquad._id}`);
+    redirect(`/squad/${newSquad._id}/chat`);
 }

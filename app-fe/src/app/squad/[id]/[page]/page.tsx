@@ -11,6 +11,8 @@ import SquadChat from "@/components/SquadChat";
 import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
+import Header from "@/components/Header";
+import { getUserActiveSquads } from "@/repositories/squadRepository";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
@@ -28,54 +30,56 @@ const SquadPage = async (pageProps: NextPageProps) => {
         main = <SquadMember {...pageProps} />;
     }
 
+    const x = await getUserActiveSquads("665dadc892b5b6633fd97111");
+
     return (
-        <div className={cx(styles.layout, "m-md-3")}>
-            <div
-                className="d-none d-md-block  me-3 border-primary-glow rounded background-1"
-                style={{ gridArea: "l" }}
-            >
-                <SquadsRibbon
-                    squads={[{ name: "GG" }, { name: "GG" }, { name: "GG" }]}
-                />
+        <div className={cx(styles.layout, "pb-1")} style={{ height: "100vh" }}>
+            <div className="pb-2  d-none d-md-block" style={{ gridArea: "h" }}>
+                <Header />
             </div>
             <div
+                className="d-none d-md-block  me-2 border-primary-glow rounded background-1 ms-1 panel-layout-child"
+                style={{ gridArea: "l" }}
+            >
+                <SquadsRibbon />
+            </div>
+
+            <div
                 className={cx(
-                    "d-flex flex-column  background-1",
+                    "background-1 h-100",
                     styles["main-content-panel"]
                 )}
-                style={{ gridArea: "m" }}
+                style={{
+                    overflow: "auto",
+                }}
             >
-                <div
-                    style={{ borderBottom: "1px solid var(--clr-primary-1)" }}
-                    className="px-2"
-                >
-                    <SquadHeader />
-                </div>
-
-                <Row className="h-100">
-                    <Col
-                        md={5}
-                        className="d-none d-md-block"
+                <SquadHeader {...pageProps} squad={squad} />
+                <div className={cx(styles["main-inner"])}>
+                    <div
+                        className="h-100 d-none d-md-block "
                         style={{
+                            overflow: "auto",
                             borderRight: "1px solid red",
                         }}
                     >
                         <SquadFilter {...pageProps} squad={squad} page={page} />
-                    </Col>
-                    <Col md={7}>
+                    </div>
+
+                    <div className="h-100" style={{ overflow: "auto" }}>
                         <div className="d-md-none">{main}</div>
                         <div className="d-none d-md-block">
                             <SquadChat {...pageProps} />
                         </div>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
             <div
-                className="  d-none d-md-block border-primary-glow rounded background-1 border-bl-0 border-tl-0"
+                className="d-none d-md-block border-primary-glow  background-1 border-bl-0 border-tl-0 me-1"
                 style={{
                     gridArea: "r",
+                    borderRadius: "0.375rem",
                     width: "25vw",
-                    position: 'relative'
+                    position: "relative",
                 }}
             >
                 <SquadMember {...pageProps} />
