@@ -1,9 +1,10 @@
 import mongoose, { Model, Schema } from "mongoose";
 import Squads, { ISquad } from "./squadModel";
+import { MongooseRef } from "@/utils/types";
 
 export interface IMatchMakingQueue {
-    squadA: ISquad | mongoose.ObjectId;
-    squadB: ISquad | mongoose.ObjectId;
+    squadA: MongooseRef<ISquad>;
+    squadB: MongooseRef<ISquad>;
     willMatchAt: Date;
 }
 

@@ -15,3 +15,9 @@ export const NEXT_PUBLIC_PUSHER_KEY =
 export const NEXT_PUBLIC_PUSHER_CLUSTER =
     process.env.NEXT_PUBLIC_PUSHER_CLUSTER ||
     console.warn(`Failed to load env NEXT_PUBLIC_PUSHER_CLUSTER}!`)!;
+
+export const NEXT_PUBLIC_PUSHER_INSTANCE_ID =
+    process.env.NEXT_PUBLIC_PUSHER_INSTANCE_ID ||
+    console.warn(`Failed to load env NEXT_PUBLIC_PUSHER_INSTANCE_ID}!`)!;
+
+export const PUSHER_BEAM_SECRET = loadenv("PUSHER_BEAM_SECRET");

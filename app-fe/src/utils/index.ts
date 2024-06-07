@@ -1,6 +1,5 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 export function jsonStrip<T>(a: T): T {
     return JSON.parse(JSON.stringify(a));
@@ -16,11 +15,8 @@ export function minMap(input: Record<string, number>) {
         .reduce((a, b) => Math.min(a, b));
 }
 
-export async function sessionOrLogin() {
-    const session = await getServerSession(authOptions);
-    if (!session?.user.id) {
-        redirect("/auth/login");
-    }
-
-    return session;
+TimeAgo.addLocale(en);
+const timeAgo = new TimeAgo("en-US");
+export function fmtRelDate(time: number | Date) {
+    return timeAgo.format(time);
 }

@@ -30,8 +30,6 @@ const SquadPage = async (pageProps: NextPageProps) => {
         main = <SquadMember {...pageProps} />;
     }
 
-    const x = await getUserActiveSquads("665dadc892b5b6633fd97111");
-
     return (
         <div className={cx(styles.layout, "pb-1")} style={{ height: "100vh" }}>
             <div className="pb-2  d-none d-md-block" style={{ gridArea: "h" }}>
