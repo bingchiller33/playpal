@@ -8,16 +8,9 @@ import { sessionOrLogin } from "@/utils";
 import Account, { IAccount } from "@/models/account";
 import Avatar from "./Avatar";
 import { signOut } from "next-auth/react";
-const Header = async () => {
+const Header = () => {
 
-    await dbConnect();
-    const session = await sessionOrLogin();
     let user: any;
-    if (session) {
-
-        user = await Account.findById(session.user.id).exec();
-    }
-
     return (
         <Navbar
             expand="lg"
@@ -35,14 +28,14 @@ const Header = async () => {
                         <NavLink href="" className="text-white header-element">Blog</NavLink>
                     </Nav>
                     {
-                        !session ? (
+                        !user ? (
                             <Nav>
-                                <NavLink className="me-2" href="#">
+                                <NavLink className="me-2" href="/auth/login">
                                     <button className="btn-bordered">
                                         Login
                                     </button>
                                 </NavLink>
-                                <NavLink href="#">
+                                <NavLink href="/auth/register">
                                     <button className="btn-noBorder">
                                         Register
                                     </button>
