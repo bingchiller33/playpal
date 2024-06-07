@@ -1,9 +1,13 @@
 import Pusher from "pusher";
 import * as env from "@/utils/env";
-
-export const EVENT_FILTER_UPDATED = "EVENT_FILTER_UPDATED";
-export const EVENT_QUEUE_WAIT_TIME_UPDATED = "EVENT_QUEUE_WAIT_TIME_UPDATED";
-export const EVENT_SQUAD_MATCHED = "EVENT_SQUAD_MATCHED";
+import PushNotifications from "@pusher/push-notifications-server";
+import {
+    EVENT_FILTER_UPDATED,
+    EVENT_QUEUE_WAIT_TIME_UPDATED,
+    EVENT_SQUAD_MATCHED,
+    EVENT_USER_NOTIFICATION,
+} from "./pusher.common";
+import Notifications from "@/models/notificationModel";
 
 export const pusherServer = new Pusher({
     appId: env.PUSHER_APP_ID,
@@ -12,6 +16,65 @@ export const pusherServer = new Pusher({
     secret: env.PUSHER_SECRET,
     useTLS: true,
 });
+export const beamServer = new PushNotifications({
+    instanceId: env.NEXT_PUBLIC_PUSHER_INSTANCE_ID,
+    secretKey: env.PUSHER_BEAM_SECRET,
+});
+
+export interface SendNotificationOptions {
+    title: string;
+    content: string;
+    user: string;
+    img?: string;
+    href?: string;
+    saveHistory?: boolean;
+    tag?: string;
+    data?: object;
+}
+
+export async function sendNotification({
+    title,
+    content,
+    user,
+    img,
+    href,
+    tag,
+    saveHistory,
+    data,
+}: SendNotificationOptions) {
+    await pusherServer.trigger(`user.${user}`, EVENT_USER_NOTIFICATION, {
+        title,
+        content,
+        user,
+        img,
+        tag,
+        href,
+        data,
+    });
+
+    beamServer.publishToUsers([user], {
+        web: {
+            notification: {
+                title,
+                body: content,
+                deep_link: href,
+                icon: img,
+            },
+            data: { tag, data },
+        },
+    });
+
+    if (saveHistory) {
+        await Notifications.create({
+            title,
+            content,
+            img,
+            tag,
+            data: JSON.stringify(data),
+            owner: user,
+        });
+    }
+}
 
 export async function notifySquadFilterUpdated(squadId: string) {
     await pusherServer.trigger(`squad.${squadId}`, EVENT_FILTER_UPDATED, {});

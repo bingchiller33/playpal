@@ -11,8 +11,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkQueueTime as repoCheckQueueTime } from "@/repositories/squadRepository";
-import { getServerSession } from "next-auth";
-import { sessionOrLogin } from "@/utils";
+import { sessionOrLogin } from "@/utils/server";
 
 async function requireLeader(squad: ISquad | string) {
     if (typeof squad === "string") {

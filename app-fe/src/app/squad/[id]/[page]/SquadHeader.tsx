@@ -29,9 +29,17 @@ const SquadHeader = () => {
                 </IconButton>
             </div>
             <div className="d-md-none">
-                <IconButton>
-                    <CiBellOn fill={COLORS.PRIMARY_1} size={28} />
-                </IconButton>
+                <div className="position-relative">
+                    <IconButton>
+                        <CiBellOn fill={COLORS.PRIMARY_1} size={28} />
+                    </IconButton>
+                    <div
+                        className="position-absolute popup-notification-panel"
+                        style={{ background: "red", top: "100%", right: 0 }}
+                    >
+                        Lmao
+                    </div>
+                </div>
             </div>
             <IconButton className="me-2">
                 <PiDotsThreeOutline fill={COLORS.PRIMARY_1} size={28} />
