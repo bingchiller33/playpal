@@ -1,5 +1,9 @@
 import { useChannel, useEvent, usePusher } from "@harelpls/use-pusher";
-import { EVENT_FILTER_UPDATED, EVENT_SQUAD_MATCHED } from "./pusher.server";
+import {
+    EVENT_FILTER_UPDATED,
+    EVENT_SQUAD_MATCHED,
+    EVENT_USER_NOTIFICATION,
+} from "./pusher.common";
 import { useCallback, useEffect, useState } from "react";
 import { checkQueueTime } from "@/components/SquadFilter.server";
 import { WithId } from "@/utils/types";
@@ -53,4 +57,19 @@ export function useMatchMaking(
     }, [squad._id, squad.joinQueue]);
 
     useSquadMatched(squad._id.toString(), cb);
+}
+
+export function useUserNotification(
+    userId: string,
+    systemNotification: boolean,
+    cb: (other: any) => void
+) {
+    const channel = useChannel(`user.${userId}`);
+    useEvent(channel, EVENT_USER_NOTIFICATION, (data) => {
+        if (systemNotification) {
+            return;
+        }
+
+        cb(data);
+    });
 }

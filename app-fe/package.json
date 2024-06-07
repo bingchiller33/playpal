@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@harelpls/use-pusher": "^7.2.1",
+    "@pusher/push-notifications-server": "^1.2.6",
+    "@pusher/push-notifications-web": "^1.1.0",
     "@types/lodash.debounce": "^4.0.9",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",
+    "javascript-time-ago": "^2.5.10",
     "lodash.debounce": "^4.0.8",
     "mongoose": "^8.4.0",
     "next": "14.0.3",
@@ -27,7 +30,8 @@
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "react-spinners": "^0.13.8",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "relative-time-format": "^1.1.6"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
