@@ -37,6 +37,9 @@ const NotificationSchema = new Schema<INotification>(
         data: {
             type: String,
         },
+        href: {
+            type: String,
+        },
         isRead: {
             type: Boolean,
             default: false,

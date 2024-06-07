@@ -12,7 +12,6 @@ import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 import Header from "@/components/Header";
-import { getUserActiveSquads } from "@/repositories/squadRepository";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;

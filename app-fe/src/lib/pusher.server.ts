@@ -71,6 +71,7 @@ export async function sendNotification({
             img,
             tag,
             data: JSON.stringify(data),
+            href,
             owner: user,
         });
     }

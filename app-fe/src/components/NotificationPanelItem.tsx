@@ -13,7 +13,6 @@ const NotificationPanelItem = ({
     notification,
 }: NotificationPanelItemProps) => {
     const router = useRouter();
-
     return (
         <Link
             href={"#"}
@@ -38,7 +37,7 @@ const NotificationPanelItem = ({
             >
                 <Image
                     className="rounded-circle"
-                    src="/images/test.jpg"
+                    src={notification.img || "/assets/images/notification.svg"}
                     alt="notification icon"
                     width={50}
                     height={50}

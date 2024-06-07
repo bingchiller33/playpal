@@ -2,7 +2,55 @@
 
 import dbConnect from "@/lib/mongoConnect";
 import Notifications from "@/models/notificationModel";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { jsonStrip } from "@/utils";
 import { sessionOrLogin } from "@/utils/server";
+import { getServerSession } from "next-auth";
+
+export async function getAll() {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return { success: true, data: [] };
+        }
+
+        await dbConnect();
+        const data = jsonStrip(
+            await Notifications.find({
+                owner: session.user.id,
+            })
+                .sort({ createdAt: "desc" })
+                .exec()
+        );
+
+        return { success: true, data };
+    } catch (e) {
+        return { success: false, msg: "Error: Please try again later" };
+    }
+}
+
+export async function getUnread() {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return { success: true, data: [] };
+        }
+
+        await dbConnect();
+        const data = jsonStrip(
+            await Notifications.find({
+                owner: session.user.id,
+                isRead: false,
+            })
+                .sort({ createdAt: "desc" })
+                .exec()
+        );
+
+        return { success: true, data };
+    } catch (e) {
+        return { success: false, msg: "Error: Please try again later" };
+    }
+}
 
 export async function markAsRead(notificationId: string) {
     try {

@@ -576,8 +576,10 @@ a {
     border-radius: 5px;
     padding: 1rem;
     margin-bottom: 1rem;
-
     width: 95vw;
+}
+
+.toast-notification-parent {
     animation: showToast 0.25s ease-in-out forwards;
 }
 

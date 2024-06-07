@@ -6,6 +6,8 @@ import { PiDotsThreeOutline } from "react-icons/pi";
 import { CiBellOn } from "react-icons/ci";
 import IconLink from "@/components/IconLink";
 import IconButton from "@/components/IconButton";
+import NotificationPanel from "@/components/NotificationPanel";
+import NotificationIcon from "@/components/NotificationIcon";
 const SquadHeader = () => {
     return (
         <div className="d-flex align-items-center gap-1 py-2">
@@ -29,17 +31,7 @@ const SquadHeader = () => {
                 </IconButton>
             </div>
             <div className="d-md-none">
-                <div className="position-relative">
-                    <IconButton>
-                        <CiBellOn fill={COLORS.PRIMARY_1} size={28} />
-                    </IconButton>
-                    <div
-                        className="position-absolute popup-notification-panel"
-                        style={{ background: "red", top: "100%", right: 0 }}
-                    >
-                        Lmao
-                    </div>
-                </div>
+                <NotificationIcon />
             </div>
             <IconButton className="me-2">
                 <PiDotsThreeOutline fill={COLORS.PRIMARY_1} size={28} />
