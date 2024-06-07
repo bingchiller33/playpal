@@ -7,6 +7,7 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { TbUsersGroup } from "react-icons/tb";
 import styles from "./page.module.css";
 import cx from "classnames";
+
 const SquadTabs = ({ id, active }: SquadTabsProps) => {
     return (
         <Row
@@ -51,7 +52,8 @@ const SquadTabs = ({ id, active }: SquadTabsProps) => {
             <Col
                 className={cx(
                     "d-flex align-items-center justify-content-center",
-                    active === "members" && styles["tab-active"] || active === "request" && styles["tab-active"]
+                    (active === "members" && styles["tab-active"]) ||
+                        (active === "request" && styles["tab-active"])
                 )}
             >
                 <Link
