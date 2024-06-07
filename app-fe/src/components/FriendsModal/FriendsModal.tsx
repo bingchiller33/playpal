@@ -63,7 +63,7 @@ const FriendsModal: React.FC<FriendsModalProps> = ({
         <div className={styles.searchContainer}>
           <input
             type="text"
-            placeholder="Type something here"
+            placeholder="Drop your buddy name here"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className={styles.searchInput}
@@ -97,6 +97,7 @@ const FriendsModal: React.FC<FriendsModalProps> = ({
                 marginLeft: "auto",
                 marginRight: "auto",
               }}
+              width="60%"
             />
           )}
         </div>
