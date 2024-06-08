@@ -65,7 +65,16 @@ export function useUserNotification(
     cb: (other: any) => void
 ) {
     const channel = useChannel(`user.${userId}`);
+    const channelAll = useChannel(`user.all`);
     useEvent(channel, EVENT_USER_NOTIFICATION, (data) => {
+        if (systemNotification) {
+            return;
+        }
+
+        cb(data);
+    });
+
+    useEvent(channelAll, EVENT_USER_NOTIFICATION, (data) => {
         if (systemNotification) {
             return;
         }
