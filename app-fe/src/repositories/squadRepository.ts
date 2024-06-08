@@ -60,10 +60,8 @@ export async function getMembers(squadId: string) {
 export async function getMembersRecommend(accId: string, members: ISquadEnrollment[]) {
     const result : IAccount[] = [];
     const accounts = (await Account.find()).filter( acc => {
-        console.log('hello: ',acc.email)
 
         for(const mem of members){
-            console.log('hel',mem.accountId.email)
             if(mem.accountId.email !== acc.email){
                 result.push(acc);
             }
@@ -423,3 +421,5 @@ export async function squadToAlgoInput(
 
     return idealTraits;
 }
+
+

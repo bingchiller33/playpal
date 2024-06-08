@@ -10,7 +10,7 @@ import { IAccount } from "@/models/account";
 const SquadMember = ({ params, members, membersRecommend }: SquadMemberProp) => {
 
     const { id, page } = params;
-    console.log("members " , membersRecommend);
+
     let activePage;
     if (page === "request") {
         activePage = <TabRequest id={id} />;
