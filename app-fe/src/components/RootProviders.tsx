@@ -30,11 +30,11 @@ const RootProviders = ({ children, session }: RootProvidersProps) => {
 
         beamsClient
             .start()
-            .then(() => beamsClient.setUserId(session.user.id, tokProvider))
+            .then(() => beamsClient.setUserId(session?.user.id, tokProvider))
             .then(() => beamsClient.setDeviceInterests(["globals"]))
             .then(() => console.log("Successfully registered and subscribed!"))
             .catch(console.error);
-    }, [session.user.id]);
+    }, [session?.user.id]);
 
     return (
         <SessionProvider session={session}>

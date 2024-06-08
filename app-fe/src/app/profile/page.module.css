@@ -1,0 +1,108 @@
+.profilePage {
+    background-color: #1F1E1E;
+    padding: 20px;
+}
+
+.statsSection {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cardsSection {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 40px 100px;
+}
+
+.card {
+    background-color: #242034;
+    margin-bottom: 20px;
+    border: 1px solid #ED154C;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 0 10px #ED154C;
+    margin: 0 40px 20px;
+}
+
+.profileImage {
+    width: 450px;
+    height: 450px;
+    object-fit: cover;
+}
+
+.cardInfo {
+    margin: 30px 20px 10px;
+    padding: 0 15px;
+    font-size: larger;
+}
+
+.infoLine {
+    display: flex;
+    justify-content: space-between;
+    color: #ED154C;
+    text-transform: uppercase;
+}
+
+.cardInfo p {
+    margin: 5px 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ffffff;
+    background-color: #1f1e1e;
+    border-radius: 2px;
+}
+
+.pagination button.active {
+    background-color: #ffffff;
+    color: #1F1E1E;
+}
+
+.pill {
+    font-size: large;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 5px;
+    color: white;
+    border: white 1px solid;
+    display: inline-block;
+    box-shadow: 0 0 2px #ffffff;
+}
+
+.pillGroup {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 1500px) {
+    .card {
+        margin: 10px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .card {
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .infoLine {
+        flex-direction: column;
+    }
+
+    .pillGroup {
+        justify-content: center;
+        margin-top: 10px;
+    }
+}
