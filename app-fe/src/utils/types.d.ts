@@ -6,3 +6,4 @@ export interface NextPageProps {
 }
 
 export type WithId<T> = T & { _id: mongoose.Types.ObjectId };
+export type MongooseRef<T> = WithId<T> | mongoose.Types.ObjectId;

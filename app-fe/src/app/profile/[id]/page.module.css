@@ -1,0 +1,92 @@
+.profileContainer {
+    margin: 50px 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 100px;
+}
+
+@media (max-width: 900px) {}
+
+
+.playerDetails,
+.feedbacks,
+.highlights {
+    margin-top: 20px;
+}
+
+.profileHeader,
+.playerDetails,
+.feedbacks,
+.highlights {
+    border: 1px solid #ED154C;
+    box-shadow: 0 0 10px #ED154C;
+    padding: 20px;
+    background-color: #242034;
+}
+
+
+.feedback,
+.highlight {
+    background: #f9f9f9;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.addFriendButton {
+    background: #242034;
+    color: #ED154C;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    border: 1px solid #ED154C;
+}
+
+.profileImage {
+    max-width: 100%;
+    height: auto;
+    margin-left: 100px;
+    border-radius: 50%;
+}
+
+.username {
+    color: #ED154C;
+}
+
+
+@media screen and (max-width: 1350px) {
+    .profileContainer {
+        margin: 50px 20px;
+    }
+
+    .profileImage {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .profileHeader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+
+    }
+
+    .profileImage {
+        width: 200px;
+        height: 200px;
+    }
+
+}
+
+.profileInfo {
+    width: 20%;
+}

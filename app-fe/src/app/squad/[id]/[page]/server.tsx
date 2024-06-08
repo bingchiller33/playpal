@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongoConnect";
 import { createSquadByPlayer } from "@/repositories/squadRepository";
-import { sessionOrLogin } from "@/utils";
+import { sessionOrLogin } from "@/utils/server";
 
 export async function createSquad() {
     await dbConnect();
