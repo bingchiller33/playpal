@@ -1,7 +1,7 @@
 import { minMap } from "@/utils";
 
-describe("function minMap", () => {
-    it("should return smallest number", () => {
+describe("Function01", () => {
+    it("UC01", () => {
         const actual = minMap({
             a: 1,
             b: 2,
@@ -11,7 +11,7 @@ describe("function minMap", () => {
         expect(actual).toBe(1);
     });
 
-    it("should return undefined", () => {
+    it("UC02", () => {
         const actual = minMap({});
         expect(actual).toBe(undefined);
     });

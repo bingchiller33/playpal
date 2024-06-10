@@ -12,7 +12,6 @@ import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 import Header from "@/components/Header";
-import { getUserActiveSquads } from "@/repositories/squadRepository";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
@@ -29,8 +28,6 @@ const SquadPage = async (pageProps: NextPageProps) => {
     } else if (page === "members" || page === "request") {
         main = <SquadMember {...pageProps} />;
     }
-
-    const x = await getUserActiveSquads("665dadc892b5b6633fd97111");
 
     return (
         <div className={cx(styles.layout, "pb-1")} style={{ height: "100vh" }}>

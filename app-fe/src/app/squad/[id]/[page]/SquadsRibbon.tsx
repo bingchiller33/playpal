@@ -6,7 +6,7 @@ import { COLORS } from "@/utils/constants";
 import { CiCirclePlus } from "react-icons/ci";
 import IconLink from "@/components/IconLink";
 import { createSquad } from "./server";
-import { sessionOrLogin } from "@/utils";
+import { sessionOrLogin } from "@/utils/server";
 
 const SquadsRibbon = async ({}: SquadsRibbonProps) => {
     await dbConnect();

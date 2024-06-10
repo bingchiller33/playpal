@@ -556,3 +556,74 @@ a {
     position: sticky;
     bottom: 0;
 }
+
+.popup-notification-panel {
+    width: 100vw;
+    max-width: 500px;
+}
+
+.toast-manager {
+    position: fixed;
+    top: 100px;
+    right: 0;
+    z-index: 9999;
+    padding: 1rem;
+}
+
+.toast-notification {
+    background: var(--clr-background-1);
+    color: white;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 95vw;
+}
+
+.toast-notification-parent {
+    animation: showToast 0.25s ease-in-out forwards;
+}
+
+@keyframes showToast {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+    .toast-notification {
+        width: 500px;
+    }
+}
+
+.toast-close-btn {
+    top: 0;
+    right: 0;
+}
+
+.notification-panel-item {
+    border-top: 1px solid var(--clr-primary-1-70);
+    border-bottom: 1px solid var(--clr-primary-1-70);
+    border-left: 6px solid var(--clr-primary-1);
+}
+
+.notification-panel-item-read {
+    border-left: 6px solid transparent;
+}
+
+.notification-panel-mark-read {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.notification-panel-mark-read button {
+    width: 100%;
+    color: var(--clr-primary-1);
+}

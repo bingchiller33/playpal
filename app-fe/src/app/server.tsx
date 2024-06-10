@@ -7,9 +7,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSquadByPlayer } from "@/repositories/squadRepository";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../pages/api/auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Account from "@/models/account";
 import { commonWeights, lolWeights } from "@/models/weightSchema";
+import { sendNotification } from "@/lib/pusher.server";
 
 export async function create(formData: FormData) {
     await dbConnect();
@@ -56,4 +57,35 @@ export async function createSquad() {
     await dbConnect();
     const newSquad = await createSquadByPlayer(session.user.id);
     redirect(`/squad/${newSquad._id}/chat`);
+}
+
+export async function send() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        redirect("/auth/login");
+    }
+
+    await dbConnect();
+    sendNotification({
+        title: "Test",
+        content: "Test",
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        user: session.user.id,
+        saveHistory: true,
+    });
+}
+
+export async function sendTag() {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+        redirect("/auth/login");
+    }
+
+    await dbConnect();
+    sendNotification({
+        title: "Test",
+        content: "Test" + Math.random(),
+        tag: "LMAO",
+        user: session.user.id,
+    });
 }

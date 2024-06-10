@@ -7,7 +7,7 @@ import { createSquad } from "../server";
 import SquadItem from "./SquadItem";
 import dbConnect from "@/lib/mongoConnect";
 import { getUserActiveSquads } from "@/repositories/squadRepository";
-import { sessionOrLogin } from "@/utils";
+import { sessionOrLogin } from "@/utils/server";
 
 const MySquadPage = async () => {
     await dbConnect();
