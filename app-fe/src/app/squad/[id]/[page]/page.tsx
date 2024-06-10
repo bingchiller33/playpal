@@ -64,7 +64,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
 
                     <div className="h-100" style={{ overflow: "auto" }}>
                         <div className="d-md-none">{main}</div>
-                        <div className="d-none d-md-block">
+                        <div className="d-none d-md-block" style={{"height":"100%"}}>
                             <SquadChat {...pageProps} />
                         </div>
                     </div>

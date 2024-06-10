@@ -1,0 +1,99 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    height: 100%;
+    /* Set the background color of the container */
+}
+
+.message-container {
+    position: relative;
+    display: flex;
+    width: 100%; /* Make sure the container takes full width */
+    justify-content: flex-end; /* Align the right message to the right */
+  }
+  
+
+.message-box-right {
+    /* Adjusted to accommodate the avatar */
+    display: flex;
+    width: fit-content;
+    position: relative;
+    /* Relative positioning for the message box */
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: 0px;
+    max-width: 70%;
+    
+}
+
+.message-box-left {
+    padding-left: 50px;
+    /* Adjusted to accommodate the avatar */
+    display: flex;
+    width: fit-content;
+    position: relative;
+    max-width: 70%;
+    /* Relative positioning for the message box */
+    margin: 10px 0;
+}
+
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    /* Add margin to the right to separate the avatar from the text */
+    position: absolute;
+    /* Absolute positioning for the avatar */
+    left: 0;
+    /* Adjust the left value as needed */
+}
+
+.message-text-right {
+    flex: 1;
+    word-wrap: break-word;
+    padding: 10px 10px 10px 20px;
+    max-width: 100%;
+    text-align: right;
+    border: 1px solid #ED154C;
+    /* Add a border to distinguish the box */
+    border-radius: 10px;
+    background-color: #ED154C;
+}
+
+.message-text-left {
+    flex: 1;
+    word-wrap: break-word;
+    padding: 10px 20px 10px 10px;
+    /* Adjust padding for avatar space */
+    max-width: 100%;
+    border: 1px solid #ccc;
+    /* Add a border to distinguish the box */
+    border-radius: 10px;
+}
+
+.message-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.send-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #0056b3;
+}
