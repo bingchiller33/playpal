@@ -1,19 +1,21 @@
+"use client";
 
-
-import React from "react";
-import Account from "@/models/account";
+import React, { useEffect } from "react";
+import Account, { IAccount } from "@/models/account";
 import HeaderView from "./HeaderView";
-import { getServerSession } from "next-auth";
-const Header = async () => {
-    const session = await getServerSession();
-    let user: any;
-    if (session) {
-        user = await Account.findById(session.user.id);
-    }
+import { WithId } from "@/utils/types";
+import { getAccountInfo } from "./Header.server";
+const Header = () => {
+    const [user, setUser] = React.useState<WithId<IAccount> | undefined>();
+    useEffect(() => {
+        getAccountInfo().then((res) => {
+            if (res.success) {
+                setUser(res.data as any);
+            }
+        });
+    }, []);
 
-    return (
-        <HeaderView user = {user}/>
-    );
+    return <HeaderView user={user} />;
 };
 
 export default Header;
