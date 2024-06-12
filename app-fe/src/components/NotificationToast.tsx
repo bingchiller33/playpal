@@ -14,7 +14,7 @@ const ToastNotification = (props: ToastNotificationProps) => {
                 <div className="d-flex align-items-center toast-notification border-primary-glow gap-3 py-3 py-md-4">
                     <Image
                         className="rounded-circle"
-                        src="/images/test.jpg"
+                        src={props.img || "/assets/images/notification.svg"}
                         alt="notification icon"
                         width={50}
                         height={50}
