@@ -1,14 +1,14 @@
 "use client";
 
-import { ISquad } from "@/models/squadModel";
 import { NextPageProps, WithId } from "@/utils/types";
-import io, { Socket } from "socket.io-client";
 import { useState, useEffect, useRef } from "react";
 import { create_message, getChat } from "./SquadChat.server";
 import { IChat } from "@/models/chatModel";
 import { useSession } from "next-auth/react";
 import styles from "./SquadChat.module.css";
 import cx from "classnames";
+import { FaImage, FaMicrophone } from "react-icons/fa";
+import { MdSend } from "react-icons/md";
 
 const SquadChat = (props: NextPageProps) => {
   const { id, page } = props.params;
@@ -26,7 +26,7 @@ const SquadChat = (props: NextPageProps) => {
   useEffect(() => {
     fetchMessages();
 
-    const intervalId = setInterval(fetchMessages, 3000); // Poll every 5 seconds
+    const intervalId = setInterval(fetchMessages, 3000); 
 
     return () => clearInterval(intervalId); // Clean up the interval on component unmount
   }, [id]);
@@ -40,6 +40,7 @@ const SquadChat = (props: NextPageProps) => {
   };
 
   return (
+    <div style={{"height":"100%", "backgroundColor":"#1F1E1E", "overflowY":"hidden", "position":"relative"}}>
     <div className={cx(styles["chat-container"])}>
       <div className={cx(styles["messages-container"])}>
         {messages.map((msg) => (
@@ -65,15 +66,24 @@ const SquadChat = (props: NextPageProps) => {
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        className={cx(styles["message-input"])}
-      />
-      <button onClick={handleSendMessage} className={cx(styles["send-button"])}>
-        Send
-      </button>
+      
+    </div>
+    <div className={cx(styles["input-container"])} >
+      <FaMicrophone fill="#ED154C" style={{"width":"5%", "height":"auto", "padding":"3px", "margin": "0 1%"}} />
+      <FaImage fill="#ED154C" style={{ "width":"5%", "height":"auto", "margin": "0 1%"}} />
+        <input
+          type="text"
+          placeholder="Type something here"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          className={cx(styles["message-input"])}
+        />
+        <button onClick={handleSendMessage} className={cx(styles["send-button"])}>
+          <svg viewBox="0 0 24 24">
+            <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 };
