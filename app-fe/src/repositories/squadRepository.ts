@@ -12,6 +12,7 @@ import MatchMakingQueues, {
 import SquadEnrollments, {
     ISquadEnrollment,
 } from "@/models/squadEnrollmentModel";
+import SquadInvitations, { ISquadInvitation } from "@/models/squadInvitation";
 import SquadMatchs from "@/models/squadMatchModel";
 import Squads, { ISquad } from "@/models/squadModel";
 import {
@@ -20,6 +21,7 @@ import {
     commonWeights,
     lolWeights,
 } from "@/models/weightSchema";
+import { jsonStrip } from "@/utils";
 import { GAME_ID_LOL } from "@/utils/constants";
 import { SquadInput, matchTime, varianceRand } from "@/utils/matchmakingAlgos";
 import { WithId } from "@/utils/types";
@@ -58,16 +60,24 @@ export async function getMembers(squadId: string) {
 }
 
 export async function getMembersRecommend(accId: string, members: ISquadEnrollment[]) {
-    const result : IAccount[] = [];
-    const accounts = (await Account.find()).filter( acc => {
-
-        for(const mem of members){
-            if(mem.accountId.email !== acc.email){
+    const result: IAccount[] = [];
+    const invitationMembers: ISquadInvitation[] = jsonStrip (await SquadInvitations.find());
+    const accounts = (await Account.find()).filter(acc => {
+        for (const mem of members) {
+            if (mem.accountId._id !== acc._id.toString()) {
                 result.push(acc);
             }
         }
     }
     );
+    for(const mem of result){
+        for(const inv of invitationMembers){
+            console.log("inv", inv.accountId)
+            if(inv.accountId === mem._id.toString()){
+                result.pop();
+            }
+        }
+    }
     return result;
 }
 
@@ -422,4 +432,8 @@ export async function squadToAlgoInput(
     return idealTraits;
 }
 
-
+//create invitation
+export async function createInvitationMember(invitation: ISquadInvitation) {
+    const newInvite = await SquadInvitations.create({ ...invitation });
+    return newInvite;
+}

@@ -5,10 +5,10 @@ import mongoose, { Model, Schema } from "mongoose";
 
 
 export interface ISquadInvitation {
-    accountId: IAccount;
-    inviterId: IAccount;
-    squadId: WithId<ISquad>;
-    createdAt: Date;
+    accountId: String;
+    inviterId: String;
+    squadId: String;
+    createdAt?: Date;
     updatedAt?: Date;
 }
 

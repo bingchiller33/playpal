@@ -1,23 +1,33 @@
 "use client"
 import { Button, Container, Modal } from "react-bootstrap";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import InviteMemberPopup from "./InviteMemberPopup";
-import { useState } from "react";
-import { IoSearch } from "react-icons/io5";
-import { BiCloset } from "react-icons/bi";
+import React, { useEffect, useState } from "react";
+import { WithId } from "@/utils/types";
 import { IoMdClose } from "react-icons/io";
 import { ISquadEnrollment } from "@/models/squadEnrollmentModel";
 import IconLink from "./IconLink";
 import Avatar from "./Avatar";
 import { IAccount } from "@/models/account";
+import { createInvitation } from "./SquadInvitation.server";
+import { getAccountInfo } from "./Header.server";
+import { toast } from "react-toastify";
+import MemberToInvite from "./MemberToInvite";
 
-const TabMembers = ({ members, membersRecommend }: MembersProps) => {
+const TabMembers = ({ members, membersRecommend, id }: MembersProps) => {
+  const [user, setUser] = React.useState<WithId<IAccount> | undefined>();
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {setShow(true);}
 
+  useEffect(() => {
+    getAccountInfo().then((res) => {
 
+      if (res.success) {
+        console.log({res: res.data})
+        setUser(res.data as any);
+      }
+    });
+  }, [show]);
 
   return (
     <Container fluid>
@@ -116,31 +126,9 @@ const TabMembers = ({ members, membersRecommend }: MembersProps) => {
                   <div className="col-8"><hr /></div>
                 </div>
 
-                {
+                { user &&
                   membersRecommend.map((member) => (
-                    <div className="d-flex flex-row mt-2" >
-                      <div className="">
-                        <IconLink href="/">
-                          {member.avatar ? (
-                            <Avatar size={36} src={member.avatar} />
-                          ) : (
-                            <Avatar size={36}
-                              initials={member.username?.[0] ?? "P"}
-                            />
-                          )}
-
-                        </IconLink>
-
-                      </div>
-                      <div className=" invite-name d-flex align-items-center">
-                        <p>{member.username ?? "no username"}</p>
-                      </div>
-                      <div>
-                      <button className="btn-noBorder">
-                      Invite
-                    </button>
-                      </div>
-                    </div>
+                    <MemberToInvite member={member} inviterId={user?._id.toString()} id={id}/>
                   ))
                 }
               </div>
@@ -156,6 +144,7 @@ const TabMembers = ({ members, membersRecommend }: MembersProps) => {
 export interface MembersProps {
   members: ISquadEnrollment[];
   membersRecommend: IAccount[];
+  id: string;
 }
 
 export default TabMembers;

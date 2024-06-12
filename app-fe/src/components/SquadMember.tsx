@@ -15,7 +15,7 @@ const SquadMember = ({ params, members, membersRecommend }: SquadMemberProp) => 
     if (page === "request") {
         activePage = <TabRequest id={id} />;
     } else {
-        activePage = <TabMembers members={members}  membersRecommend={membersRecommend}/>;
+        activePage = <TabMembers members={members}  membersRecommend={membersRecommend} id={params.id}/>;
     }
 
     return (
