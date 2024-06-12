@@ -69,6 +69,19 @@ export async function getUserActiveSquads(accountId: string) {
     return squads.filter((x) => x.squadId);
 }
 
+export async function leaveSquad(
+    squadId: string,
+    accountId: string,
+    rating: number
+) {
+    const update = await SquadEnrollments.updateOne(
+        { squadId: squadId, accountId, leaveDate: null },
+        { leaveDate: new Date(), rating }
+    );
+
+    return update.modifiedCount > 0;
+}
+
 export function getModeDiscriminant(gameId: string, modeId: string) {
     // TODO: Remove hard code id when creating admin screen
     if (gameId == (GAME_ID_LOL ?? "6656b7cc0342bce980eeb7cb")) {
