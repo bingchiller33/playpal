@@ -61,7 +61,7 @@ export async function getMembers(squadId: string) {
 
 export async function getMembersRecommend(accId: string, members: ISquadEnrollment[]) {
     const result: IAccount[] = [];
-    const invitationMembers: ISquadInvitation[] = jsonStrip (await SquadInvitations.find());
+    const invitationMembers: ISquadInvitation[] = jsonStrip(await SquadInvitations.find());
     const accounts = (await Account.find()).filter(acc => {
         for (const mem of members) {
             if (mem.accountId._id !== acc._id.toString()) {
@@ -70,11 +70,12 @@ export async function getMembersRecommend(accId: string, members: ISquadEnrollme
         }
     }
     );
-    for(const mem of result){
-        for(const inv of invitationMembers){
-            console.log("inv", inv.accountId)
-            if(inv.accountId === mem._id.toString()){
-                result.pop();
+    for (const mem of result) {
+        for (const inv of invitationMembers) {
+            if (accId === inv.squadId) {
+                if (inv.accountId === mem._id.toString()) {
+                    result.pop();
+                }
             }
         }
     }

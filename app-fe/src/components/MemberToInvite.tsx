@@ -2,7 +2,7 @@
 import { IAccount } from "@/models/account";
 import IconLink from "./IconLink";
 import Avatar from "./Avatar";
-import { createInvitation } from "./SquadInvitation.server";
+import { createInvitation, sendInvitationToSquad } from "./SquadInvitation.server";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
@@ -20,8 +20,14 @@ const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
         if (inviterId) {
             const newInvitation = await createInvitation({ inviterId: inviterId, accountId: accountId, squadId: id });
             toast.success("Send invitation successfully!")
+
+            const newNotificationInvite = await sendInvitationToSquad(inviterId, accountId, id.toString());
+            toast.success("Send notification invitation successfully!")
+
         }
     }
+
+
 
     return (
         <div className="d-flex flex-row mt-2" >
@@ -41,11 +47,11 @@ const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
             <div className=" invite-name d-flex align-items-center">
                 <p>{member.username ?? "no username"}</p>
             </div>
-            <div>
+            <form>
                 <button type="button" className="btn-noBorder" onClick={() => { handleCreateInvitation(member._id), disableButton()}} disabled={isButtonDisabled}>
                     Invite
                 </button>
-            </div>
+            </form>
         </div>
     )
 
@@ -53,7 +59,7 @@ const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
 
 export interface MemberToInviteProp {
     member: IAccount;
-    inviterId: String;
+    inviterId: string;
     id: String;
 }
 

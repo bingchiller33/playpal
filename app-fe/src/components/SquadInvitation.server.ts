@@ -1,9 +1,16 @@
 'use server'
 
+import dbConnect from "@/lib/mongoConnect";
+import { sendNotification } from "@/lib/pusher.server";
+import Account, { IAccount } from "@/models/account";
 import { ISquadInvitation } from "@/models/squadInvitation";
+import Squads from "@/models/squadModel";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { createInvitationMember } from "@/repositories/squadRepository";
+import { jsonStrip } from "@/utils";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+
 
 export async function createInvitation(inviation: ISquadInvitation){
     try {
@@ -19,4 +26,30 @@ export async function createInvitation(inviation: ISquadInvitation){
     }catch(e){
         return {success: false, msg: "False to sent invitation!"}
     }
+}
+
+
+export async function sendInvitationToSquad(inviterId:string, accountId: string, squadId: string) {
+    const session = await getServerSession(authOptions);
+    if(!session){
+        redirect("/auth/login");
+    }
+    const inviterInfo = jsonStrip(await Account.findById(inviterId));
+    let inviterName = "";
+    inviterInfo?.username ? inviterName = inviterInfo?.username : inviterName = "no username";
+
+    const squadInfo = jsonStrip(await Squads.findById(squadId));
+    let squadName = "";
+    squadInfo?.name ? squadName = squadInfo.name : squadName = "no squad name";
+    
+
+    await dbConnect();
+    sendNotification({
+        title:"You have an invitation to a squad.",
+        content: inviterName + " wants you to join the " + squadName +" squad.",
+        tag: "invitation",
+        user: accountId,
+        saveHistory: true
+    })
+    
 }
