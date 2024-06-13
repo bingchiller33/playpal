@@ -38,27 +38,16 @@ const SquadMember = async ({ params }: NextPageProps) => {
         </div>
         <div className="col btnLine text-center mb-4">
           <div className="row">
-            <div
-              className={cx(
-                "col btnLine-members",
-                page != "request" && ["active-membersTab"]
-              )}
-            >
+            <div className={cx("col btnLine-members", page != "request" && ["active-membersTab"])}>
               <Link href={`/squad/${id}/members`}>Members</Link>
             </div>
-            <div
-              className={cx(
-                "col btnLine-request",
-                page === "request" && ["active-membersTab"]
-              )}
-            >
+            <div className={cx("col btnLine-request", page === "request" && ["active-membersTab"])}>
               <Link href={`/squad/${id}/request`}>Request</Link>
             </div>
           </div>
         </div>
         <div>{activePage}</div>
       </div>
-      <div></div>
     </div>
   );
 };
