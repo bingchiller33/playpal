@@ -4,6 +4,7 @@ import TabMembers from "./TabMembers";
 import TabRequest from "./TabRequest";
 import Link from "next/link";
 import cx from "classnames";
+import LeaveSquadButton from "./LeaveSquadButton";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 import dbConnect from "@/lib/mongoConnect";

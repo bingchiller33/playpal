@@ -12,12 +12,25 @@ import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 import Header from "@/components/Header";
+import SquadEnrollments from "@/models/squadEnrollmentModel";
+import { sessionOrLogin } from "@/utils/server";
+import { redirect } from "next/navigation";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
     const { id, page } = params;
 
     await dbConnect();
+    const session = await sessionOrLogin();
+    const hasJoined = await SquadEnrollments.findOne({
+        accountId: session.user.id,
+        squadId: id,
+        leaveDate: null,
+    }).exec();
+    if (!hasJoined) {
+        redirect("/");
+    }
+
     const squad = jsonStrip(await Squads.findOne({ _id: id }).exec());
 
     let main;
@@ -63,8 +76,11 @@ const SquadPage = async (pageProps: NextPageProps) => {
                     </div>
 
                     <div className="h-100" style={{ overflow: "auto" }}>
-                        <div className="d-md-none">{main}</div>
-                        <div className="d-none d-md-block">
+                        <div className="d-md-none h-100">{main}</div>
+                        <div
+                            className="d-none d-md-block"
+                            style={{ height: "100%" }}
+                        >
                             <SquadChat {...pageProps} />
                         </div>
                     </div>
