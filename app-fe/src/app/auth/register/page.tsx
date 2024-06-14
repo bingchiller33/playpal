@@ -55,7 +55,7 @@ export default async function Register() {
               <h2 className={styles["title"]}>Welcome back!</h2>
               <p style={{ fontSize: "0.9rem" }} className="">
                 Already have an account?{" "}
-                <a href="/auth/register" style={{ textDecoration: "none" }}>
+                <a href="/auth/login" style={{ textDecoration: "none" }}>
                   <span style={{ color: "#ED154C" }}>Login here</span>
                 </a>
               </p>

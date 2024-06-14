@@ -1,0 +1,123 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    height: 92%;
+}
+
+.message-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.message-box-right, .message-box-left {
+    display: flex;
+    width: fit-content;
+    margin: 10px 0;
+    max-width: 60%;
+}
+
+.message-box-right {
+    margin-left: auto;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-text-right, .message-text-left {
+    flex: 1;
+    word-wrap: break-word;
+    padding: 10px;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.message-text-right {
+    text-align: right;
+    border: 1px solid #ED154C;
+    background-color: #ED154C;
+}
+
+.message-text-left {
+    border: 1px solid #ccc;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+    height: 8%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.message-input {
+    flex-grow: 1;
+    width: 80%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ED154C;
+    background-color: transparent;
+    color: #fff;
+}
+
+.message-input::placeholder {
+    color: #ED154C;
+}
+
+.send-button {
+    margin-left: 1%;
+    width: 5%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.send-button svg {
+    fill: #ED154C;
+    width: 100%;
+    height: auto;
+}
+
+.send-button:hover svg {
+    fill: #b3133b;
+}
+
+/* Media queries for mobile responsiveness */
+@media (max-width: 600px) {
+    .message-box-right, .message-box-left {
+        max-width: 80%;
+    }
+
+    .input-container {
+        height: 10%;
+    }
+
+    .message-input {
+        width: 70%;
+    }
+
+    .send-button {
+        width: 10%;
+    }
+
+    .avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    .message-text-right, .message-text-left {
+        padding: 8px;
+    }
+}
