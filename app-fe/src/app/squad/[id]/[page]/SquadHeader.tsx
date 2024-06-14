@@ -9,18 +9,26 @@ import IconButton from "@/components/IconButton";
 import NotificationPanel from "@/components/NotificationPanel";
 import NotificationIcon from "@/components/NotificationIcon";
 import { Modal } from "react-bootstrap";
-import { useState } from "react";
-import { changeSquadName, getSquadById } from "./server";
+import { useEffect, useState } from "react";
+import { changeSquadImage, changeSquadName, getSquadById } from "./server";
 import { NextPageProps } from "@/utils/types";
-import { useRouter } from "next/router";
+import { CldUploadWidget } from "next-cloudinary";
 
 const SquadHeader = ({ params }: NextPageProps) => {
   const { id } = params;
-  
+
   const [showModal, setShowModal] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [newSquadName, setNewSquadName] = useState("");
+  const [newSquadImgUrl, setSquadImgUrl] = useState<string>("");
 
+  useEffect(() => {
+    const fetchSquad = async () => {
+      const squad = await getSquadById(id);
+      setSquadImgUrl(squad.img as string);
+    };
+    fetchSquad();
+  }, [id]);
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => {
     setShowModal(false);
@@ -31,7 +39,17 @@ const SquadHeader = ({ params }: NextPageProps) => {
     e.preventDefault();
     if (newSquadName.trim()) {
       await changeSquadName(id, newSquadName);
-      
+      handleCloseModal();
+    }
+  };
+
+  const handleSquadImgChange = async (result: any) => {
+    const newImageUrl = result?.info?.secure_url;
+    console.log(newImageUrl);
+
+    if (newImageUrl) {
+      await changeSquadImage(id, newImageUrl);
+      setSquadImgUrl(newImageUrl);
       handleCloseModal();
     }
   };
@@ -78,9 +96,9 @@ const SquadHeader = ({ params }: NextPageProps) => {
               </li>
               <li
                 className="list-group-item"
-                onClick={() => setActiveSection("changeAvatar")}
+                onClick={() => setActiveSection("changeImage")}
               >
-                Change Squad Avatar
+                Change Squad Image
               </li>
             </ul>
           )}
@@ -118,29 +136,16 @@ const SquadHeader = ({ params }: NextPageProps) => {
               </button>
             </form>
           )}
-          {activeSection === "changeAvatar" && (
-            <form>
-              <div className="mb-3">
-                <label
-                  htmlFor="squadAvatar"
-                  className="form-label"
-                  style={{ color: "black" }}
-                >
-                  Change avatar
-                </label>
-                <input type="file" className="form-control" id="squadAvatar" />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Save changes
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setActiveSection(null)}
-              >
-                Back
-              </button>
-            </form>
+          {activeSection === "changeImage" && (
+            <CldUploadWidget
+              options={{ sources: ["local", "url"] }}
+              signatureEndpoint="/api/sign-image"
+              onSuccess={handleSquadImgChange}
+            >
+              {({ open }) => {
+                return <button onClick={() => open()}>Upload an Image</button>;
+              }}
+            </CldUploadWidget>
           )}
         </Modal.Body>
       </Modal>
