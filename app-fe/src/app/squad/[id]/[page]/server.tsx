@@ -30,7 +30,20 @@ export async function changeSquadName(squadId: string, newSquadName: string) {
   const squad = (await Squads.findById(squadId).exec()) as ISquad;
   if (squad) {
     await Squads.updateOne({ _id: squadId }, { name: newSquadName });
-    revalidatePath(`/squad/${squadId}/chat`) 
+    revalidatePath(`/squad/${squadId}/chat`);
+    return { success: true };
+  } else {
+    throw new Error("Squad not found!");
+  }
+}
+
+export async function changeSquadImage(squadId: string, newSquadImgUrl: string) {
+  await dbConnect();
+  const session = await sessionOrLogin();
+  const squad = (await Squads.findById(squadId).exec()) as ISquad;
+  if (squad) {
+    await Squads.updateOne({ _id: squadId }, { img: newSquadImgUrl });
+    revalidatePath(`/squad/${squadId}/chat`);
     return { success: true };
   } else {
     throw new Error("Squad not found!");
