@@ -641,3 +641,32 @@ a {
     width: 100%;
     color: var(--clr-primary-1);
 }
+
+/* Receive Invite to join the squads */
+.receiveInviteToSquad{
+    background-color: var( --clr-background-1);
+    margin: 1.2rem;
+    border-radius: 0.5rem;
+    padding: 10px;
+
+}
+
+.receiveInvite{
+    margin: 0 10px;
+}
+
+.receiveInvite-button {
+    margin: 5px;
+}
+.receiveInvite-button button{
+    margin: 5px;
+}
+
+.receiveInvite-text {
+    margin: 5px 0;
+}
+
+.receiveInvite-text p{
+    margin: 0;
+    font-size: 1rem;
+}

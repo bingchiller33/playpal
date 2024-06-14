@@ -3,7 +3,7 @@
 import dbConnect from "@/lib/mongoConnect";
 import { sendNotification } from "@/lib/pusher.server";
 import Account, { IAccount } from "@/models/account";
-import { ISquadInvitation } from "@/models/squadInvitation";
+import SquadInvitations, { ISquadInvitation } from "@/models/squadInvitation";
 import Squads from "@/models/squadModel";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { createInvitationMember } from "@/repositories/squadRepository";
@@ -28,8 +28,13 @@ export async function createInvitation(inviation: ISquadInvitation){
     }
 }
 
+export async function getInvitationToSquad(accountId: string, squadId: string) {
+    const invite =  jsonStrip(await SquadInvitations.findOne({accountId: accountId, squadId: squadId}));
+    return invite;
+}
 
-export async function sendInvitationToSquad(inviterId:string, accountId: string, squadId: string) {
+
+export async function sendInvitationToSquad(inviterId:string, accountId: string, squadId: string, invitationId: string) {
     const session = await getServerSession(authOptions);
     if(!session){
         redirect("/auth/login");

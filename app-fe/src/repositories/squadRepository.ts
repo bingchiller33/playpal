@@ -1,6 +1,7 @@
 import {
     notifySquadFilterUpdated,
     queueWaitTimeUpdated,
+    sendNotification,
     squadMatched,
 } from "@/lib/pusher.server";
 import Account, { IAccount } from "@/models/account";
@@ -437,4 +438,40 @@ export async function squadToAlgoInput(
 export async function createInvitationMember(invitation: ISquadInvitation) {
     const newInvite = await SquadInvitations.create({ ...invitation });
     return newInvite;
+}
+
+export async function getAllInvitationToSquad(accountId: String) {
+    const inviteToSquad = await SquadInvitations.find({ accountId: accountId }).exec();
+    return inviteToSquad;
+}
+
+
+
+
+// Invitation To join the Squad
+
+export async function AnswerInvitationToJoinTheSquad(inv: ISquadInvitation, status: boolean, squadName: string, accountName: string) {
+    let join;
+    if (status) {
+        join = joinSquad(inv.squadId.toString(), inv.accountId.toString());
+    }
+    await SquadInvitations.deleteOne(inv);
+
+    if (join) {
+        sendNotification({
+            title: accountName + " accepts your invitation.",
+            content: accountName + " accepts your invitation to join the " + squadName + " squad.",
+            tag: "acceptInv",
+            user: inv.inviterId.toString(),
+        });
+    } else {
+        sendNotification({
+            title: accountName + " declines your invitation.",
+            content: accountName + " declines your invitation to join the " + squadName + " squad.",
+            tag: "declinesInv",
+            user: inv.inviterId.toString(),
+        });
+    }
+    return join;
+
 }

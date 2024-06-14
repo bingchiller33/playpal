@@ -2,7 +2,7 @@
 import { IAccount } from "@/models/account";
 import IconLink from "./IconLink";
 import Avatar from "./Avatar";
-import { createInvitation, sendInvitationToSquad } from "./SquadInvitation.server";
+import { createInvitation, getInvitationToSquad, sendInvitationToSquad } from "./SquadInvitation.server";
 import { toast } from "react-toastify";
 import { useState } from "react";
 
@@ -10,8 +10,8 @@ import { useState } from "react";
 const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
 
     const [isButtonDisabled, setButtonDisabled] = useState(false);
-    
-    console.log({isButtonDisabled})
+
+    console.log({ isButtonDisabled })
     const disableButton = () => {
         setButtonDisabled(true);
     }
@@ -21,8 +21,11 @@ const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
             const newInvitation = await createInvitation({ inviterId: inviterId, accountId: accountId, squadId: id });
             toast.success("Send invitation successfully!")
 
-            const newNotificationInvite = await sendInvitationToSquad(inviterId, accountId, id.toString());
-            toast.success("Send notification invitation successfully!")
+            const invite = await getInvitationToSquad(accountId, id.toString());
+            if (invite) {
+                const newNotificationInvite = await sendInvitationToSquad(inviterId, accountId, id.toString(), invite._id.toString());
+                toast.success("Send notification invitation successfully!")
+            }
 
         }
     }
@@ -48,7 +51,7 @@ const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
                 <p>{member.username ?? "no username"}</p>
             </div>
             <form>
-                <button type="button" className="btn-noBorder" onClick={() => { handleCreateInvitation(member._id), disableButton()}} disabled={isButtonDisabled}>
+                <button type="button" className="btn-noBorder" onClick={() => { handleCreateInvitation(member._id), disableButton() }} disabled={isButtonDisabled}>
                     Invite
                 </button>
             </form>
