@@ -3,8 +3,10 @@ import * as env from "@/utils/env";
 import PushNotifications from "@pusher/push-notifications-server";
 import {
     EVENT_FILTER_UPDATED,
+    EVENT_MEMBER_CHANGED,
     EVENT_QUEUE_WAIT_TIME_UPDATED,
     EVENT_SQUAD_MATCHED,
+    EVENT_SQUAD_MERGED,
     EVENT_USER_NOTIFICATION,
 } from "./pusher.common";
 import Notifications from "@/models/notificationModel";
@@ -81,6 +83,10 @@ export async function notifySquadFilterUpdated(squadId: string) {
     await pusherServer.trigger(`squad.${squadId}`, EVENT_FILTER_UPDATED, {});
 }
 
+export async function notifyMemberChanged(squadId: string) {
+    await pusherServer.trigger(`squad.${squadId}`, EVENT_MEMBER_CHANGED, {});
+}
+
 export async function queueWaitTimeUpdated(squadId: string, contactAt: Date) {
     await pusherServer.trigger(
         `squad.${squadId}`,
@@ -98,6 +104,20 @@ export async function squadMatched(squadA: string, squadB: string) {
 
     const b = pusherServer.trigger(`squad.${squadB}`, EVENT_SQUAD_MATCHED, {
         other: squadA,
+    });
+
+    await Promise.all([a, b]);
+}
+
+export async function squadMerged(squadFrom: string, squadTo: string) {
+    const a = pusherServer.trigger(`squad.${squadFrom}`, EVENT_SQUAD_MERGED, {
+        from: squadFrom,
+        to: squadTo,
+    });
+
+    const b = pusherServer.trigger(`squad.${squadTo}`, EVENT_SQUAD_MERGED, {
+        from: squadFrom,
+        to: squadTo,
     });
 
     await Promise.all([a, b]);

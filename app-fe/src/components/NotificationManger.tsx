@@ -8,9 +8,8 @@ const NotificationManager = (props: NotificationManagerProps) => {
     const [id, setId] = useState<number>(0);
 
     useUserNotification(props.userId, false, (cb) => {
-        console.log(cb);
-
         const old = notifications.find((n) => n.tag === cb.tag && n.tag);
+        console.log("GG");
         if (old) {
             clearTimeout(old.task);
             Object.assign(old, cb);

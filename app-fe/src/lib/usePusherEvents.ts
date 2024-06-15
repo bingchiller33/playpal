@@ -1,7 +1,9 @@
 import { useChannel, useEvent, usePusher } from "@harelpls/use-pusher";
 import {
     EVENT_FILTER_UPDATED,
+    EVENT_MEMBER_CHANGED,
     EVENT_SQUAD_MATCHED,
+    EVENT_SQUAD_MERGED,
     EVENT_USER_NOTIFICATION,
 } from "./pusher.common";
 import { useCallback, useEffect, useState } from "react";
@@ -14,9 +16,24 @@ export function useSquadFilterUpdates(squadId: string, cb: () => void) {
     useEvent(channel, EVENT_FILTER_UPDATED, cb);
 }
 
+export function useSquadMemberChanged(squadId: string, cb: () => void) {
+    const channel = useChannel(`squad.${squadId}`);
+    useEvent(channel, EVENT_MEMBER_CHANGED, cb);
+}
+
 export function useSquadMatched(squadId: string, cb: (other: string) => void) {
     const channel = useChannel(`squad.${squadId}`);
     useEvent(channel, EVENT_SQUAD_MATCHED, (data: any) => cb(data.other));
+}
+
+export function useSquadMerged(
+    squadId: string,
+    cb: (from: string, to: string) => void
+) {
+    const channel = useChannel(`squad.${squadId}`);
+    useEvent(channel, EVENT_SQUAD_MERGED, (data: any) =>
+        cb(data.from, data.to)
+    );
 }
 
 export function useMatchMaking(
@@ -39,7 +56,6 @@ export function useMatchMaking(
 
         if (next.success && next.willMatchAt) {
             const time = +next.willMatchAt - Date.now();
-            console.log("wma", next.willMatchAt, time);
             if (time < 0) {
                 return;
             }

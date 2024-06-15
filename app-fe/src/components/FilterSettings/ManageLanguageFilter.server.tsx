@@ -23,7 +23,6 @@ export async function updateOption(id: string, label: string) {
     try {
         await dbConnect();
         const session = await adminOrLogin();
-        console.log({ id, label });
         const item = await FilterLanguages.updateOne({ _id: id }, { label });
         revalidatePath("/admin/filter/general");
         return { success: true };

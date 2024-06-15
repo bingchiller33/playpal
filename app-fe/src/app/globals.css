@@ -214,6 +214,21 @@ a {
     /* background-color: transparent; */
 }
 
+.header-user {
+    color: var(--clr-primary-1);
+    font-size: 1.5rem;
+}
+
+.header-user .header-avatar {
+    font-size: 1rem;
+    color: var(--clr-primary-1);
+}
+
+.header-user .header-avatar:hover {
+    opacity: 0.8;
+}
+
+
 .footer {
     background-color: #242034;
 }
@@ -291,7 +306,7 @@ a {
 
 .members-name {
     flex-direction: row;
-    margin-left: 30px;
+    /* margin-left: 30px; */
 }
 
 .members-name p {
@@ -301,7 +316,7 @@ a {
 }
 
 .members-line {
-    border: 1px solid #ed154b79;
+    border-bottom: 1px solid #ed154b79;
 }
 
 .btn-inviteFriend {
@@ -628,8 +643,44 @@ a {
     color: var(--clr-primary-1);
 }
 
+/* Receive Invite to join the squads */
+.receiveInviteToSquad {
+    background-color: var(--clr-background-1);
+    margin: 1.2rem;
+    border-radius: 0.5rem;
+    padding: 10px;
+
+}
+
+.receiveInvite {
+    margin: 0 10px;
+}
+
+.receiveInvite-button {
+    margin: 5px;
+}
+
+.receiveInvite-button button {
+    margin: 5px;
+}
+
+.receiveInvite-text {
+    margin: 5px 0;
+}
+
+.receiveInvite-text p {
+    margin: 0;
+    font-size: 1rem;
+}
+
 
 .admin-nav-item:hover {
     background: var(--clr-primary-1);
     color: white;
+}
+
+.text-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
 }

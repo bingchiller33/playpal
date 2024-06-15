@@ -16,6 +16,7 @@ export interface IAccount {
     username?: string;
     token?: string;
     age?: number;
+    avatar?: string;
     role: string;
     gender?: WithId<IFilterGender>;
     playstyles: WithId<IFilterPlaystyle>[];
@@ -62,6 +63,9 @@ const AccountSchema = new Schema<IAccount>(
         },
         age: {
             type: Number,
+        },
+        avatar: {
+            type: String,
         },
         gender: {
             type: mongoose.Types.ObjectId,

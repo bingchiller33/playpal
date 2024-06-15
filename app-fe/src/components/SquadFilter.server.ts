@@ -82,7 +82,6 @@ export async function updateSpecFilter(
         }
         newFilter[`filter.specFilter.mode`] = "LOL";
 
-        console.log(newFilter);
         await Squads.updateOne(filter, newFilter);
         notifySquadFilterUpdated(squadId);
         revalidatePath(`/squad/${squadId}`);
@@ -98,6 +97,7 @@ export async function updateSpecFilter(
 
 export async function enterMatchmaking(squadId: string) {
     try {
+        console.log("GG");
         await dbConnect();
         const checkPriviledge = await requireLeader(squadId);
         if (!checkPriviledge.success) {
@@ -108,6 +108,7 @@ export async function enterMatchmaking(squadId: string) {
         revalidatePath(`/squad/${squadId}`);
         return { success: true, willMatchAt };
     } catch (e) {
+        console.error(e);
         return {
             success: false,
             msg: "Error occured while enter match making! Please try again later!",
@@ -127,6 +128,7 @@ export async function exitMatchMaking(squadId: string) {
         revalidatePath(`/squad/${squadId}`);
         return { success: true };
     } catch (e) {
+        console.error(e);
         return {
             success: false,
             msg: "Error occured while exit match making! Please try again later!",

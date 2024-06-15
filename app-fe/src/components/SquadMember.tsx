@@ -1,19 +1,31 @@
-import { NextPageProps } from "@/utils/types";
+import { NextPageProps, WithId } from "@/utils/types";
 import { PiSignOutBold } from "react-icons/pi";
 import TabMembers from "./TabMembers";
 import TabRequest from "./TabRequest";
 import Link from "next/link";
 import cx from "classnames";
+import { ISquadEnrollment } from "@/models/squadEnrollmentModel";
+import { IAccount } from "@/models/account";
 import LeaveSquadButton from "./LeaveSquadButton";
 
-const SquadMember = ({ params }: NextPageProps) => {
+const SquadMember = ({
+    params,
+    members,
+    membersRecommend,
+}: SquadMemberProp) => {
     const { id, page } = params;
 
     let activePage;
     if (page === "request") {
         activePage = <TabRequest id={id} />;
     } else {
-        activePage = <TabMembers id={id} />;
+        activePage = (
+            <TabMembers
+                members={members}
+                membersRecommend={membersRecommend}
+                id={params.id}
+            />
+        );
     }
 
     return (
@@ -56,5 +68,11 @@ const SquadMember = ({ params }: NextPageProps) => {
         </div>
     );
 };
+
+export interface SquadMemberProp {
+    params: Record<string, string>;
+    members: ISquadEnrollment[];
+    membersRecommend: WithId<IAccount>[];
+}
 
 export default SquadMember;
