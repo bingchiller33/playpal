@@ -1,69 +1,62 @@
-'use client'
+"use client";
 import { IAccount } from "@/models/account";
 import IconLink from "./IconLink";
 import Avatar from "./Avatar";
-import { createInvitation, getInvitationToSquad, sendInvitationToSquad } from "./SquadInvitation.server";
+import {
+    createInvitation,
+    getInvitationToSquad,
+} from "./SquadInvitation.server";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { WithId } from "@/utils/types";
 
-
-const MemberToInvite = ({ member, inviterId, id }: MemberToInviteProp) => {
-
+const MemberToInvite = ({ member, id }: MemberToInviteProp) => {
     const [isButtonDisabled, setButtonDisabled] = useState(false);
-
-    console.log({ isButtonDisabled })
-    const disableButton = () => {
-        setButtonDisabled(true);
-    }
-
-    const handleCreateInvitation = async (accountId: string) => {
-        if (inviterId) {
-            const newInvitation = await createInvitation({ inviterId: inviterId, accountId: accountId, squadId: id });
-            toast.success("Send invitation successfully!")
-
-            const invite = await getInvitationToSquad(accountId, id.toString());
-            if (invite) {
-                const newNotificationInvite = await sendInvitationToSquad(inviterId, accountId, id.toString(), invite._id.toString());
-                toast.success("Send notification invitation successfully!")
-            }
-
+    const handleInvite = async (member: WithId<IAccount>) => {
+        const invitation = await createInvitation(id, member._id.toString());
+        if (invitation.success) {
+            toast.success("Send invitation successfully!");
+            setButtonDisabled(true);
+        } else {
+            toast.error(invitation.msg);
         }
-    }
-
-
+    };
 
     return (
-        <div className="d-flex flex-row mt-2" >
+        <div className="d-flex flex-row mt-2">
             <div className="">
                 <IconLink href="/">
                     {member.avatar ? (
                         <Avatar size={36} src={member.avatar} />
                     ) : (
-                        <Avatar size={36}
+                        <Avatar
+                            size={36}
                             initials={member.username?.[0] ?? "P"}
                         />
                     )}
-
                 </IconLink>
-
             </div>
             <div className=" invite-name d-flex align-items-center">
                 <p>{member.username ?? "no username"}</p>
             </div>
             <form>
-                <button type="button" className="btn-noBorder" onClick={() => { handleCreateInvitation(member._id), disableButton() }} disabled={isButtonDisabled}>
+                <button
+                    type="button"
+                    className="btn-noBorder"
+                    onClick={() => handleInvite(member)}
+                    disabled={isButtonDisabled}
+                >
                     Invite
                 </button>
             </form>
         </div>
-    )
-
-}
+    );
+};
 
 export interface MemberToInviteProp {
-    member: IAccount;
+    member: WithId<IAccount>;
     inviterId: string;
-    id: String;
+    id: string;
 }
 
 export default MemberToInvite;

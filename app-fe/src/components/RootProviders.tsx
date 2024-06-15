@@ -19,7 +19,6 @@ interface RootProvidersProps {
 
 const RootProviders = ({ children, session }: RootProvidersProps) => {
     useEffect(() => {
-        console.log(env.NEXT_PUBLIC_PUSHER_INSTANCE_ID);
         const tokProvider = new PusherPushNotifications.TokenProvider({
             url: "/api/pusher-registration",
         });
@@ -28,12 +27,19 @@ const RootProviders = ({ children, session }: RootProvidersProps) => {
             instanceId: env.NEXT_PUBLIC_PUSHER_INSTANCE_ID,
         });
 
-        beamsClient
-            .start()
-            .then(() => beamsClient.setUserId(session?.user.id, tokProvider))
-            .then(() => beamsClient.setDeviceInterests(["globals"]))
-            .then(() => console.log("Successfully registered and subscribed!"))
-            .catch(console.error);
+        const userId = session?.user.id;
+        if (userId) {
+            beamsClient
+                .start()
+                .then(() =>
+                    beamsClient.setUserId(session?.user.id, tokProvider)
+                )
+                .then(() => beamsClient.setDeviceInterests(["globals"]))
+                .then(() =>
+                    console.log("Successfully registered and subscribed!")
+                )
+                .catch(console.error);
+        }
     }, [session?.user.id]);
 
     return (

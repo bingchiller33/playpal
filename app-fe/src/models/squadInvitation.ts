@@ -1,13 +1,12 @@
-import { WithId } from "@/utils/types";
+import { MongooseRef, WithId } from "@/utils/types";
 import Account, { IAccount } from "./account";
 import Squads, { ISquad } from "./squadModel";
 import mongoose, { Model, Schema } from "mongoose";
 
-
 export interface ISquadInvitation {
-    accountId: String;
-    inviterId: String;
-    squadId: String;
+    accountId: WithId<IAccount>;
+    inviterId: WithId<IAccount>;
+    squadId: WithId<ISquad>;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -35,8 +34,7 @@ const SquadInvitationSchema = new Schema<ISquadInvitation>(
     {
         timestamps: true,
     }
-
-)
+).index({ accountId: 1, inviterId: 1, squadId: 1 }, { unique: true });
 
 const SquadInvitations: Model<ISquadInvitation> =
     mongoose.models.SquadInvitations ||

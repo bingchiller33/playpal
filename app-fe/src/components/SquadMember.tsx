@@ -1,4 +1,4 @@
-import { NextPageProps } from "@/utils/types";
+import { NextPageProps, WithId } from "@/utils/types";
 import { PiSignOutBold } from "react-icons/pi";
 import TabMembers from "./TabMembers";
 import TabRequest from "./TabRequest";
@@ -72,7 +72,7 @@ const SquadMember = ({
 export interface SquadMemberProp {
     params: Record<string, string>;
     members: ISquadEnrollment[];
-    membersRecommend: IAccount[];
+    membersRecommend: WithId<IAccount>[];
 }
 
 export default SquadMember;

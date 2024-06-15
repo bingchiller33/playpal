@@ -678,3 +678,9 @@ a {
     background: var(--clr-primary-1);
     color: white;
 }
+
+.text-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}

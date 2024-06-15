@@ -4,7 +4,7 @@ import Squads, { ISquad } from "./squadModel";
 import { WithId } from "@/utils/types";
 
 export interface ISquadEnrollment {
-    accountId: IAccount;
+    accountId: WithId<IAccount>;
     squadId: WithId<ISquad>;
     leaveDate?: Date | null;
     rating?: number | null;

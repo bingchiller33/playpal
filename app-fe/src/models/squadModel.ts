@@ -62,6 +62,7 @@ export interface ISquad {
     filter: IFilter;
     avgTraits: ICommonTrait;
     squadWeights?: IWeight;
+    disbandedAt?: Date;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -81,6 +82,10 @@ const SquadSchema = new Schema(
             type: mongoose.Types.ObjectId,
             ref: Account,
             required: true,
+        },
+        disbandedAt: {
+            type: Date,
+            default: null,
         },
         filter: {
             type: new Schema(

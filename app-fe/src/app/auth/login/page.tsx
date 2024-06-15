@@ -22,7 +22,6 @@ export default function Login() {
             redirect: false,
         });
 
-        console.log({ response });
         if (!response?.error) {
             router.push("/auth/testAuth");
         }
