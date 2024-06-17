@@ -1,4 +1,8 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Models, Schema } from "mongoose";
+
+export interface IFilterLanguage {
+    label: string;
+}
 
 const FilterLanguageSchema = new Schema(
     {
@@ -15,7 +19,7 @@ const FilterLanguageSchema = new Schema(
 );
 
 // Mapping to Collection
-const FilterLanguages =
+const FilterLanguages: Model<IFilterLanguage> =
     mongoose.models.FilterLanguages ||
     mongoose.model("FilterLanguages", FilterLanguageSchema);
 

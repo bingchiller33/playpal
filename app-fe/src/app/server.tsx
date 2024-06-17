@@ -15,7 +15,6 @@ import { sendNotification } from "@/lib/pusher.server";
 export async function create(formData: FormData) {
     await dbConnect();
     const name = formData.get("name");
-    console.log(name);
     await Aaas.create({ name });
     revalidatePath("/");
 }

@@ -11,22 +11,46 @@ import SquadChat from "@/components/SquadChat";
 import dbConnect from "@/lib/mongoConnect";
 import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
+import {
+    getMembers,
+    getMembersRecommend,
+} from "@/repositories/squadRepository";
 import Header from "@/components/Header";
+import SquadEnrollments from "@/models/squadEnrollmentModel";
+import { sessionOrLogin } from "@/utils/server";
+import { redirect } from "next/navigation";
 
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
     const { id, page } = params;
 
     await dbConnect();
-    const squad = jsonStrip(await Squads.findOne({ _id: id }).exec());
+    const session = await sessionOrLogin();
+    const hasJoined = await SquadEnrollments.findOne({
+        accountId: session.user.id,
+        squadId: id,
+        leaveDate: null,
+    }).exec();
+    if (!hasJoined) {
+        redirect("/");
+    }
 
+    const squad = jsonStrip(await Squads.findOne({ _id: id }).exec());
+    const members = jsonStrip(await getMembers(id));
+    const membersRecommend = jsonStrip(await getMembersRecommend(members));
     let main;
     if (page === "filters") {
-        main = <SquadFilter {...pageProps} squad={squad} page={page} />;
+        main = <SquadFilter {...pageProps} squad={squad!} page={page} />;
     } else if (page === "chat") {
         main = <SquadChat {...pageProps} />;
     } else if (page === "members" || page === "request") {
-        main = <SquadMember {...pageProps} />;
+        main = (
+            <SquadMember
+                {...pageProps}
+                members={members}
+                membersRecommend={membersRecommend}
+            />
+        );
     }
 
     return (
@@ -50,7 +74,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
                     overflow: "auto",
                 }}
             >
-                <SquadHeader {...pageProps} squad={squad} />
+                <SquadHeader squad={squad!} />
                 <div className={cx(styles["main-inner"])}>
                     <div
                         className="h-100 d-none d-md-block "
@@ -59,12 +83,19 @@ const SquadPage = async (pageProps: NextPageProps) => {
                             borderRight: "1px solid red",
                         }}
                     >
-                        <SquadFilter {...pageProps} squad={squad} page={page} />
+                        <SquadFilter
+                            {...pageProps}
+                            squad={squad!}
+                            page={page}
+                        />
                     </div>
 
                     <div className="h-100" style={{ overflow: "auto" }}>
-                        <div className="d-md-none">{main}</div>
-                        <div className="d-none d-md-block">
+                        <div className="d-md-none h-100">{main}</div>
+                        <div
+                            className="d-none d-md-block"
+                            style={{ height: "100%" }}
+                        >
                             <SquadChat {...pageProps} />
                         </div>
                     </div>
@@ -79,7 +110,11 @@ const SquadPage = async (pageProps: NextPageProps) => {
                     position: "relative",
                 }}
             >
-                <SquadMember {...pageProps} />
+                <SquadMember
+                    {...pageProps}
+                    members={members}
+                    membersRecommend={membersRecommend}
+                />
             </div>
             <div className="d-md-none h-100" style={{ gridArea: "t" }}>
                 <SquadTabs active={page as any} id={id} />
