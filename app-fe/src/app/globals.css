@@ -502,6 +502,11 @@ a {
 .inviteMemberSearch .searchForm {
     background-color: transparent;
     border-color: var(--clr-primary-1);
+    color: white;
+}
+
+.inviteMemberSearch .searchForm:disabled {
+    background-color: transparent;
 }
 
 .inviteMemberSearch .searchForm::placeholder {
