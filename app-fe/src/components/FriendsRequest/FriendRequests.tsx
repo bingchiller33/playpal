@@ -50,7 +50,7 @@ const FriendRequests: React.FC<FriendRequestsProps> = ({
         <div className={styles.friendsList}>
           {friendRequests.length > 0 ? (
             friendRequests.map((request) => (
-              <div key={request.id} className={styles.friendItem}>
+              <div key={request._id} className={styles.friendItem}>
                 <img
                   src={request.avatar_url}
                   alt={request.username}

@@ -59,6 +59,31 @@
     color: #ED154C;
 }
 
+.usernameContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .username {
+    font-size: 30px;
+    margin-right: 10px;
+  }
+  
+  .editButton {
+    background-color: #ed154c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .editButton:hover {
+    background-color: #ff4060;
+  }
+
 
 @media screen and (max-width: 1350px) {
     .profileContainer {

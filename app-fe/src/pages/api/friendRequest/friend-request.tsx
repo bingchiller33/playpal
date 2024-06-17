@@ -12,8 +12,6 @@ export default async function handler(
     const { sender_id, receiver_id } = req.body;
 
     try {
-      console.log(sender_id, receiver_id);
-
       await FriendRequest.create({
         sender_id,
         receiver_id,

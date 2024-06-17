@@ -98,9 +98,6 @@ const AccountSchema = new Schema<IAccount>(
       type: String,
     },
     preferences: {
-      language: {
-        type: [String],
-      },
       server: {
         type: String,
       },

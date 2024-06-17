@@ -1,0 +1,122 @@
+.editProfile {
+    background-color: #242034;
+    border-radius: 10px;
+    margin: 50px 200px;
+    border: 1px solid #ED154C;
+    box-shadow: 0 0 10px #ED154C;
+    padding: 10px;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.tabButton {
+    display: block;
+    background-color: #242034;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: left;
+    width: 100%;
+}
+
+.activeTab {
+    background-color: #ed154c;
+}
+
+.title {
+    text-align: center;
+    font-size: 36px;
+    color: #ED154C;
+    margin-bottom: 20px;
+    justify-self: center;
+}
+
+.form {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-left: 10%;
+}
+
+.titleContainer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+
+.backButton {
+    text-decoration: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.formGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 60%;
+}
+
+.formGroup label {
+    font-size: 16px;
+    color: #ed154c;
+    flex: 1;
+    text-align: right;
+}
+
+.formGroup input,
+.formGroup textarea {
+    padding: 5px;
+    border: 1px solid #ED154C;
+    border-radius: 5px;
+    background-color: #2a2a4a;
+    color: #fff;
+    flex: 3;
+}
+
+.formGroup input[type="file"] {
+    padding: 10px;
+    border: none;
+    background-color: #2a2a4a;
+    color: #fff;
+}
+
+.avatarContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    border-radius: 50%;
+}
+
+.submitButton {
+    background-color: #ED154C;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+    width: 15%;
+}
+
+.submitButton:hover {
+    background-color: #c01241;
+}
