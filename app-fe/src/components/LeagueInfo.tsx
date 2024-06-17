@@ -81,8 +81,6 @@ const LeagueInfo = ({ profile }: LeagueInfoProps) => {
     fetchData();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-
   // Caculate Stats
   let totalKills = 0,
     totalDeaths = 0,
@@ -114,11 +112,16 @@ const LeagueInfo = ({ profile }: LeagueInfoProps) => {
   const averageGoldPerMin = totalGold / totalDuration;
   const averageDamagePerGold = totalDamage / totalGold;
 
-  
+  if (!summonerInfo || !accountInfo) {
+    return <p>No data available</p>;
+  }
+
+  if (loading) return <p>Loading...</p>;
+
   return (
     <div className={styles.container}>
       <div className={styles.tabContainer}>
-        {/* <button className={styles.tabButton}>Valorant</button> */}
+        <button className={styles.tabButton}>Valorant</button>
         <button className={`${styles.tabButton} ${styles.activeTab}`}>
           League Of Legends
         </button>

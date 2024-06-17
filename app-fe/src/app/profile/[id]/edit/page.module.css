@@ -36,10 +36,11 @@
 
 .title {
     text-align: center;
-    font-size: 36px;
+    font-size: 30px;
     color: #ED154C;
     margin-bottom: 20px;
     justify-self: center;
+
 }
 
 .form {
@@ -114,9 +115,21 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 24px;
-    width: 15%;
 }
 
 .submitButton:hover {
     background-color: #c01241;
+}
+
+.Toastify__toast-theme--light {
+    background-color: #242034 !important;
+    color: #fff !important;
+}
+
+.toast-success-container {
+    background-color: #51a351 !important;
+}
+
+.toast-error-container {
+    background-color: #bd362f !important;
 }

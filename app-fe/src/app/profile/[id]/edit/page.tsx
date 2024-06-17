@@ -6,6 +6,8 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Link from "next/link";
 import { TiArrowBackOutline } from "react-icons/ti";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 const EditProfile = ({ params }: { params: { id: string } }) => {
   const [activeTab, setActiveTab] = useState("basicInfo");
@@ -48,11 +50,16 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "avatar") {
-      setFormData({
-        ...formData,
-        avatar: URL.createObjectURL(files[0]),
-      });
+    if (name === "avatar" && files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          avatar: reader.result,
+        });
+      };
     } else {
       setFormData({
         ...formData,
@@ -63,20 +70,54 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let avatarUrl = formData.avatar;
+
+    if (formData.avatar && formData.avatar.startsWith("data:image")) {
+      try {
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ file: formData.avatar }),
+        });
+
+        if (uploadResponse.ok) {
+          const { url } = await uploadResponse.json();
+          formData.avatar = url;
+        } else {
+          console.error("Failed to upload image to Cloudinary");
+          return;
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+        return;
+      }
+    }
+
     try {
       const response = await fetch(`/api/profile/${params.id}/updateProfile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          avatar_url: avatarUrl,
+        }),
       });
       if (response.ok) {
         const result = await response.json();
-        console.log(result.message);
+        toast("Profile updated successfully!", {
+          className: "toast-success-container",
+          bodyClassName: "toast-success-body",
+        });
       } else {
         const error = await response.json();
-        console.error(error.message);
+        toast(`Profile update failed: ${error.message}`, {
+          className: "toast-error-container",
+          bodyClassName: "toast-error-body",
+        });
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -91,7 +132,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
           <Link href={`/profile/${params.id}`} className={styles.backButton}>
             <TiArrowBackOutline size={40} fill="#ED154C" />
           </Link>
-          <h1 className={styles.title}>Edit Profile</h1>
+          <h2 className={`${styles.title} font-all-star`}>EDIT PROFILE</h2>{" "}
           <div></div>
         </div>
         <div className={styles.container}>
@@ -200,13 +241,12 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
             {activeTab === "avatar" && (
               <>
                 <div className={styles.formGroup}>
-                  <label htmlFor="avatar">Avatar</label>
                   <div className={styles.avatarContainer}>
                     <Image
                       src={formData.avatar}
                       alt="Avatar"
-                      width={100}
-                      height={100}
+                      width={200}
+                      height={200}
                       className={styles.avatar}
                     />
                     <input
@@ -222,11 +262,12 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
             )}
 
             <button type="submit" className={styles.submitButton}>
-              update
+              save
             </button>
           </form>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

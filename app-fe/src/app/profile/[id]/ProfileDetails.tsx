@@ -6,8 +6,7 @@ interface ProfileDetailsProps {
 }
 
 const ProfileDetails = ({ profile }: ProfileDetailsProps) => (
-  <div className={styles.profileDetails}>
-    <h2>Player Details</h2>
+  <div className={styles.playerDetails}>
     <LeagueInfo profile={profile} />
   </div>
 );

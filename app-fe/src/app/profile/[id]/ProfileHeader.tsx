@@ -5,6 +5,7 @@ import FriendsModal from "@/components/FriendsModal/FriendsModal";
 import FriendRequests from "@/components/FriendsRequest/FriendRequests";
 import styles from "./page.module.css";
 import Link from "next/link";
+import { IoSettings, IoSettingsOutline } from "react-icons/io5";
 
 interface ProfileHeaderProps {
   profile: any;
@@ -54,16 +55,22 @@ const ProfileHeader = ({
         className={styles.profileImage}
       />
       <div className={styles.profileInfo}>
-        <h1 className={styles.username}>{profile.username}</h1>
-        {session?.user.id === params.id && (
-          <Link
-            href={`/profile/${params.id}/edit`}
-            className={styles.editButton}
-          >
-            Edit Profile
-          </Link>
-        )}
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className={styles.editContainer}>
+          <h1 className={styles.username}>{profile.username}</h1>
+          {session?.user.id === params.id && (
+            <Link
+              href={`/profile/${params.id}/edit`}
+              className={styles.editButton}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <IoSettingsOutline style={{ marginRight: "10px" }} size={30} />
+                <span>Edit</span>
+              </div>
+            </Link>
+          )}
+        </div>
+
+        <div style={{ display: "flex", gap: "30px" }}>
           <p onClick={openModal} style={{ cursor: "pointer" }}>
             {friends.length} Friends
           </p>
@@ -72,6 +79,15 @@ const ProfileHeader = ({
               {friendRequests.length} Friend Requests
             </p>
           )}
+        </div>
+        <div
+          style={{
+            wordWrap: "break-word",
+            overflowWrap: "break-word",
+            maxWidth: "500px",
+          }}
+        >
+          <p style={{ color: "gray" }}>{profile.bio}</p>
         </div>
 
         {session?.user.id !== params.id &&

@@ -7,12 +7,14 @@
 
 .profileHeader {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 100px;
+    height: 400px;
 }
 
-@media (max-width: 900px) {}
-
+.profileInfo {
+    padding-top: 5%;
+}
 
 .playerDetails,
 .feedbacks,
@@ -30,12 +32,16 @@
     background-color: #242034;
 }
 
-
 .feedback,
 .highlight {
     background: #f9f9f9;
     padding: 10px;
     margin: 10px 0;
+}
+
+.editContainer {
+    display: flex;
+    align-items: center;
 }
 
 .addFriendButton {
@@ -63,14 +69,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-  
-  .username {
+}
+
+.username {
     font-size: 30px;
     margin-right: 10px;
-  }
-  
-  .editButton {
+}
+
+.editButton {
     background-color: #ed154c;
     color: white;
     border: none;
@@ -78,11 +84,11 @@
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-  }
-  
-  .editButton:hover {
+}
+
+.editButton:hover {
     background-color: #ff4060;
-  }
+}
 
 
 @media screen and (max-width: 1350px) {
@@ -110,8 +116,4 @@
         height: 200px;
     }
 
-}
-
-.profileInfo {
-    width: 20%;
 }
