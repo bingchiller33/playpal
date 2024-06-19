@@ -3,11 +3,12 @@ import styles from "./page.module.css";
 
 interface ProfileDetailsProps {
   profile: any;
+  isCurrentUser: boolean;
 }
 
-const ProfileDetails = ({ profile }: ProfileDetailsProps) => (
+const ProfileDetails = ({ profile, isCurrentUser }: ProfileDetailsProps) => (
   <div className={styles.playerDetails}>
-    <LeagueInfo profile={profile} />
+    <LeagueInfo profile={profile} isCurrentUser={isCurrentUser} />
   </div>
 );
 

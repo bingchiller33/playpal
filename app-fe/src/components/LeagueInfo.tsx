@@ -11,10 +11,8 @@ import { IoIosStats } from "react-icons/io";
 import { PiClockCountdownFill } from "react-icons/pi";
 
 interface LeagueInfoProps {
-  gameName: string;
-  tagLine: string;
-  region: string;
   profile: any;
+  isCurrentUser: boolean;
 }
 
 const calculateKDA = (kills: number, deaths: number, assists: number) => {
@@ -35,7 +33,7 @@ const tierIcons: any = {
   challenger: "/assets/games/lol/rank-badges/challenger.webp",
 };
 
-const LeagueInfo = ({ profile }: LeagueInfoProps) => {
+const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
   const [accountInfo, setAccountInfo] = useState<any>(null);
   const [summonerInfo, setSummonerInfo] = useState<any>(null);
   const [leagueInfo, setLeagueInfo] = useState<any>(null);
@@ -45,41 +43,82 @@ const LeagueInfo = ({ profile }: LeagueInfoProps) => {
   const [matchDetails, setMatchDetails] = useState<any[]>([]);
   const [tierIcon, setTierIcon] = useState<string>("unranked");
 
-  const [player, id] = profile.riot_id.split("#");
+  const [riotId, setRiotId] = useState<string>("");
+  const [showRiotIdInput, setShowRiotIdInput] = useState<boolean>(
+    !profile.riot_id
+  );
+
+  const [player, id] = profile.riot_id ? profile.riot_id.split("#") : ["", ""];
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const accountData = await fetchAccountV1(player, id);
-        setAccountInfo(accountData);
+    if (profile.riot_id) {
+      const fetchData = async () => {
+        try {
+          const accountData = await fetchAccountV1(player, id);
+          setAccountInfo(accountData);
 
-        const summonerData = await fetchSummonerV4(accountData.puuid);
-        setSummonerInfo(summonerData);
+          const summonerData = await fetchSummonerV4(accountData.puuid);
+          setSummonerInfo(summonerData);
 
-        const leagueData = await fetchLeagueV4(summonerData.id);
-        setLeagueInfo(leagueData);
-        if (leagueData.length > 0) {
-          const tier = leagueData[0]?.tier.toLowerCase();
-          setTierIcon(tierIcons[tier] || tierIcons["unranked"]);
+          const leagueData = await fetchLeagueV4(summonerData.id);
+          setLeagueInfo(leagueData);
+          if (leagueData.length > 0) {
+            const tier = leagueData[0]?.tier.toLowerCase();
+            setTierIcon(tierIcons[tier] || tierIcons["unranked"]);
+          }
+
+          const matchIds = await fetchMatchesByPUUID(accountData.puuid);
+          setMatches(matchIds);
+
+          const matchDataPromises = matchIds.map((matchId: string) =>
+            fetchMatchById(matchId)
+          );
+          const matchesData = await Promise.all(matchDataPromises);
+          setMatchDetails(matchesData);
+        } catch (error) {
+          console.error("Failed to fetch Riot information", error);
+        } finally {
+          setLoading(false);
         }
+      };
 
-        const matchIds = await fetchMatchesByPUUID(accountData.puuid);
-        setMatches(matchIds);
+      fetchData();
+    } else {
+      setLoading(false);
+    }
+  }, [profile.riot_id]);
 
-        const matchDataPromises = matchIds.map((matchId: string) =>
-          fetchMatchById(matchId)
+  const handleRiotIdSave = async () => {
+    if (riotId.includes("#")) {
+      try {
+        const response = await fetch(
+          `/api/profile/${profile._id}/updateProfile`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              riot_id: riotId,
+            }),
+          }
         );
-        const matchesData = await Promise.all(matchDataPromises);
-        setMatchDetails(matchesData);
-      } catch (error) {
-        console.error("Failed to fetch Riot information", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
+        if (response.ok) {
+          setShowRiotIdInput(false);
+          // Refresh the page or re-fetch the data to reflect the new Riot ID
+          window.location.reload();
+        } else {
+          const error = await response.json();
+          console.error(error.message);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    } else {
+      alert("Please enter a valid Riot ID (e.g., player#1234).");
+    }
+  };
 
   // Caculate Stats
   let totalKills = 0,
@@ -112,11 +151,31 @@ const LeagueInfo = ({ profile }: LeagueInfoProps) => {
   const averageGoldPerMin = totalGold / totalDuration;
   const averageDamagePerGold = totalDamage / totalGold;
 
+  if (loading) return <p>Loading...</p>;
+
+  if (!profile.riot_id && isCurrentUser) {
+    return (
+      <div className={styles.container}>
+        <h3 className={styles.inputHeader}>
+          Please enter your Riot ID to fetch your League of Legends data:
+        </h3>
+        <input
+          type="text"
+          value={riotId}
+          onChange={(e) => setRiotId(e.target.value)}
+          placeholder="player#1234"
+          className={styles.inputField}
+        />
+        <button onClick={handleRiotIdSave} className={styles.saveButton}>
+          Save
+        </button>
+      </div>
+    );
+  }
+
   if (!summonerInfo || !accountInfo) {
     return <p>No data available</p>;
   }
-
-  if (loading) return <p>Loading...</p>;
 
   return (
     <div className={styles.container}>

@@ -165,7 +165,10 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           handleAcceptProfile={handleAcceptProfile}
           isReceiver={isReceiver}
         />
-        <ProfileDetails profile={profile} />
+        <ProfileDetails
+          profile={profile}
+          isCurrentUser={session?.user.id === params.id}
+        />
         <div className={styles.feedbacks}>
           <h2>Feedbacks</h2>
           {/* Feedbacks placeholder */}
