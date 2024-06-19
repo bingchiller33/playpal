@@ -11,6 +11,26 @@ import * as env from "@/utils/env";
 import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import { useEffect } from "react";
 import NotificationManager from "./NotificationManger";
+import {
+    Chart as ChartJS,
+    LinearScale,
+    PointElement,
+    Tooltip,
+    Legend,
+    TimeScale,
+    LineElement,
+    ArcElement,
+} from "chart.js";
+
+ChartJS.register(
+    LinearScale,
+    PointElement,
+    Tooltip,
+    Legend,
+    TimeScale,
+    LineElement,
+    ArcElement
+);
 
 interface RootProvidersProps {
     children: React.ReactNode;

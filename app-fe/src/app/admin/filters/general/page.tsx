@@ -34,7 +34,6 @@ const AdminPage = async () => {
                             className="my-4"
                             style={{
                                 border: `1px solid ${COLORS.PRIMARY_1}`,
-
                                 opacity: 0.5,
                             }}
                         />
