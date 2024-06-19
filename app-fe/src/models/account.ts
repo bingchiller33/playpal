@@ -37,91 +37,81 @@ export interface IAccount {
 }
 
 const AccountSchema = new Schema<IAccount>(
-    {
-        email: {
-            type: String,
-            required: [true, "email is Required"],
-            unique: [true, "email is not duplicate"],
-        },
-        password: {
-            type: String,
-            required: [false],
-        },
-        username: {
-            type: String,
-            required: [true],
-        },
-        token: {
-            type: String,
-        },
-        role: {
-            type: String,
-            default: "user",
-        },
-        verified: {
-            type: Boolean,
-        },
-        age: {
-            type: Number,
-        },
-        avatar: {
-            type: String,
-        },
-        gender: {
-            type: mongoose.Types.ObjectId,
-            ref: FilterGenders,
-        },
-        playstyles: {
-            type: [mongoose.Types.ObjectId],
-            ref: FilterPlaystyles,
-            default: [],
-        },
-        lolRank: {
-            type: mongoose.Types.ObjectId,
-            ref: FilterLOLRanks,
-        },
-        matchMakingWeights: {
-            type: [
-                new Schema(
-                    {
-                        mode: {
-                            type: String,
-                            required: true,
-                        },
-                        weights: {
-                            type: WeightSchema,
-                        },
-                    },
-                    { _id: false }
-                ),
-            ],
-            default: [],
-        },
-        avatar_url: {
-            type: String,
-        },
-        bio: {
-            type: String,
-        },
-        riot_id: {
-            type: String,
-        },
-        preferences: {
-            language: {
-                type: [String],
-            },
-            server: {
-                type: String,
-            },
-        },
-        rating: {
-            type: String,
-        },
+  {
+    email: {
+      type: String,
+      required: [true, "email is Required"],
+      unique: [true, "email is not duplicate"],
     },
-    {
-        // auto createAt, updateAt
-        timestamps: true,
-    }
+    password: {
+      type: String,
+      required: [false],
+    },
+    username: {
+      type: String,
+      required: [true],
+    },
+    token: {
+      type: String,
+    },
+    verified: {
+      type: Boolean,
+    },
+    age: {
+      type: Number,
+    },
+    gender: {
+      type: mongoose.Types.ObjectId,
+      ref: FilterGenders,
+    },
+    playstyles: {
+      type: [mongoose.Types.ObjectId],
+      ref: FilterPlaystyles,
+      default: [],
+    },
+    lolRank: {
+      type: mongoose.Types.ObjectId,
+      ref: FilterLOLRanks,
+    },
+    matchMakingWeights: {
+      type: [
+        new Schema(
+          {
+            mode: {
+              type: String,
+              required: true,
+            },
+            weights: {
+              type: WeightSchema,
+            },
+          },
+          { _id: false }
+        ),
+      ],
+      default: [],
+    },
+    avatar_url: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    riot_id: {
+      type: String,
+    },
+    preferences: {
+      server: {
+        type: String,
+      },
+    },
+    rating: {
+      type: String,
+    },
+  },
+  {
+    // auto createAt, updateAt
+    timestamps: true,
+  }
 );
 
 // Mapping to Collection
