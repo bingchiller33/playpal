@@ -7,6 +7,7 @@ import { create, createSquad, send, sendTag, weight } from "./server";
 import { Button as B2r } from "primereact/button";
 import Dropdown from "@/components/Dropdown";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 export default async function Home() {
     await dbConnect();
@@ -16,6 +17,10 @@ export default async function Home() {
 
     return (
         <main>
+            <Header/>
+            <div>
+                
+            </div>
             {process.env.MONGO_URI}
             {doc.map((x, i) => (
                 <p key={i}>{x.name}</p>

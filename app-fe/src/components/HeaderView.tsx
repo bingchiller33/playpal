@@ -16,6 +16,7 @@ import {
 import { MdNotifications } from "react-icons/md";
 import { IAccount } from "@/models/account";
 import Avatar from "./Avatar";
+import NotificationIcon from "./NotificationIcon";
 
 const HeaderView = ({ user }: HeaderProps) => {
     return (
@@ -51,8 +52,8 @@ const HeaderView = ({ user }: HeaderProps) => {
                             </NavLink>
                         </Nav>
                     ) : (
-                        <Nav>
-                            <MdNotifications />
+                        <Nav style={{alignItems:"center"}}>
+                            <NotificationIcon />
                             <Dropdown className="header-user">
                                 <DropdownToggle
                                     className="header-avatar "
