@@ -610,6 +610,7 @@ export async function getActiveSquad() {
                 },
             },
         },
+        {$sort: {date: 1}},
         {
             $project: {
                 _id: 0,

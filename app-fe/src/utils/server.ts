@@ -2,6 +2,7 @@ import Account from "@/models/account";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { jsonStrip } from ".";
 
 export async function sessionOrLogin() {
     const session = await getServerSession(authOptions);
@@ -14,8 +15,11 @@ export async function sessionOrLogin() {
 
 export async function adminOrLogin() {
     const session = await sessionOrLogin();
-    const user = await Account.findById(session.user.id).exec();
+    const user = jsonStrip(await Account.findById(session.user.id).exec());
+    console.log("Pre" , user, user?.role)
     if (user?.role !== "admin") {
+    console.log("Post", user?.role)
+
         return redirect("/auth/login"); // TODO: Change to insufficicent role page
     }
 

@@ -14,6 +14,7 @@ import {
     getActiveSquad,
     getGameDistribution,
 } from "@/repositories/squadRepository";
+import { sessionOrLogin } from "@/utils/server";
 import { Col, Row } from "react-bootstrap";
 
 const AdminPage = async () => {
@@ -26,6 +27,8 @@ const AdminPage = async () => {
     const gameData = await getGameDistribution();
     const filterData = await getFilterDistribution();
     // TODO: Queue Times
+
+    console.log(await sessionOrLogin())
 
     return (
         <div>
