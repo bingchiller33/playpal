@@ -111,7 +111,11 @@ a {
 }
 
 .bg-1 {
-    background-color: var(--clr-background-1);
+    background-color: var(--clr-background-1) !important;
+}
+
+.bg-primary-1 {
+    background-color: var(--clr-primary-1) !important;
 }
 
 .color-primary-1 {

@@ -1,0 +1,272 @@
+.container {
+    background-color: #242034;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.tabContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tabButton {
+    background-color: #242034;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 15px;
+}
+
+.activeTab {
+    background-color: #ed154c;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.playerInfo {
+    background-color: #242034;
+    border: 1px solid #ed154c;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    flex: 1;
+    margin-right: 20px;
+    color: #ed154c;
+}
+
+.iconContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.playerIcon {
+    width: 60%;
+    border-radius: 30px;
+}
+
+.level {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.rankIcon {
+    margin-bottom: 10px;
+}
+
+.overview {
+    border: 1px solid #ed154c;
+    background-color: #242034;
+    border-radius: 10px;
+    flex: 3;
+    color: #ed154c;
+}
+
+.overviewTitles {
+    padding: 20px 20px 0;
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.iconAndTitle {
+    color: #ed154c;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.playtimeAndMatches {
+    display: flex;
+    gap: 20px;
+}
+
+.overviewHeader {
+    padding: 0 20%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #1f1e1e;
+    border-top: 1px solid #ed154c;
+}
+
+.bigBold {
+    font-size: 2em;
+    font-weight: bold
+}
+
+.statsContainer {
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.statBox {
+    background-color: #2a2a4a;
+    padding: 10px 10px 0 20px;
+    border-radius: 10px;
+    width: 30%;
+    margin-bottom: 20px;
+    border: 1px solid #ed154c;
+
+}
+
+.statBox p:first-child {
+    font-size: 1.2em;
+    color: #fff;
+}
+
+.statBox p:last-child {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #ed154c;
+}
+
+.nameTagContainer {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.rankWRContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .rankWRContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+
+    .playerInfo {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .overview {
+        width: 100%;
+    }
+
+    .overviewHeader {
+        padding: 0 10%;
+    }
+
+    .statBox {
+        width: 48%;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 20px;
+    }
+
+    .tabButton {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .level {
+        font-size: 14px;
+    }
+
+    .bigBold {
+        font-size: 1.5em;
+    }
+
+    .overviewHeader {
+        padding: 0 5%;
+    }
+
+    .statBox {
+        width: 100%;
+    }
+
+    .nameTagContainer {
+        font-size: 24px;
+    }
+
+    .overviewTitles {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .overviewHeader {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .iconAndTitle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .playtimeAndMatches {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rankWRContainer {
+        align-items: flex-start;
+        font-size: 1.75em;
+    }
+}
+
+.inputHeader {
+    margin-bottom: 1rem;
+    color: #ed154c;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.inputField {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.saveButton {
+    background-color: #ed154c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.saveButton:hover {
+    background-color: #c5123b;
+}
