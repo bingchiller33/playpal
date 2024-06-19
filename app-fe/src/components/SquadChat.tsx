@@ -23,6 +23,11 @@ const SquadChat = (props: NextPageProps) => {
       setMessages(response.data);
     }
   };
+  const handleKeyDown = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
 
   useEffect(() => {
     fetchMessages();
@@ -90,6 +95,7 @@ const SquadChat = (props: NextPageProps) => {
           placeholder="Type something here"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
           className={cx(styles["message-input"])}
         />
         <button onClick={handleSendMessage} className={cx(styles["send-button"])}>
