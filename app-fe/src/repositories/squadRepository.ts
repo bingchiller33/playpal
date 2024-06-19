@@ -578,3 +578,96 @@ export async function getMatchSquads(squadId: string) {
         return { ...data, matchId: x._id.toString() };
     });
 }
+
+export async function getActiveSquad() {
+    const cdata = await Squads.aggregate([
+        {
+            $group: {
+                _id: {
+                    year: {
+                        $year: "$createdAt",
+                    },
+                    month: {
+                        $month: "$createdAt",
+                    },
+                    day: {
+                        $dayOfMonth: "$createdAt",
+                    },
+                },
+                count: {
+                    $sum: 1,
+                },
+            },
+        },
+        {
+            $addFields: {
+                date: {
+                    $dateFromParts: {
+                        year: "$_id.year",
+                        month: "$_id.month",
+                        day: "$_id.day",
+                    },
+                },
+            },
+        },
+        {
+            $project: {
+                _id: 0,
+                date: 1,
+                count: 1,
+            },
+        },
+    ]).exec();
+
+    const rs: { x: number; y: number }[] = [];
+    let total = 0;
+    cdata.forEach((x) => {
+        rs.push({
+            x: Date.parse(x.date),
+            y: total + x.count,
+        });
+        total += x.count;
+    });
+
+    return rs;
+}
+
+export async function getGameDistribution() {
+    const cdata = await Squads.aggregate([
+        {
+            $group: {
+                _id: "$filter.gameId",
+                value: {
+                    $sum: 1,
+                },
+            },
+        },
+        {
+            $lookup: {
+                from: "filtergames",
+                localField: "_id",
+                foreignField: "_id",
+                as: "data",
+            },
+        },
+        {
+            $unwind: {
+                path: "$data",
+            },
+        },
+        {
+            $addFields: {
+                name: "$data.name",
+            },
+        },
+        {
+            $project: {
+                name: 1,
+                value: 1,
+                _id: 0,
+            },
+        },
+    ]).exec();
+
+    return cdata as { name: string; value: number }[];
+}
