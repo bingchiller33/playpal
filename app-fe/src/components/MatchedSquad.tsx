@@ -31,7 +31,7 @@ const MatchedSquad = async (props: MatchedSquadProps) => {
                     <div className="col-2">
                         <Avatar
                             size={50}
-                            src={m.accountId.avatar_url}
+                            src={m.accountId.avatar}
                             initials={m.accountId.username?.[0] ?? "P"}
                         />
                     </div>

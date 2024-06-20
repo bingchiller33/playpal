@@ -6,7 +6,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Link from "next/link";
 import { TiArrowBackOutline } from "react-icons/ti";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 
 const EditProfile = ({ params }: { params: { id: string } }) => {
@@ -32,7 +32,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
             username: user.username,
             riot_id: user.riot_id,
             bio: user.bio || "",
-            avatar: user.avatar_url,
+            avatar: user.avatar,
             // password: "",
             // newPassword: "",
             // confirmNewPassword: "",
@@ -84,7 +84,8 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
 
         if (uploadResponse.ok) {
           const { url } = await uploadResponse.json();
-          formData.avatar = url;
+          avatarUrl = url;
+          console.log("Uploaded image to Cloudinary", avatarUrl);
         } else {
           console.error("Failed to upload image to Cloudinary");
           return;
@@ -103,21 +104,16 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
         },
         body: JSON.stringify({
           ...formData,
-          avatar_url: avatarUrl,
+          avatar: avatarUrl,
         }),
       });
       if (response.ok) {
         const result = await response.json();
-        toast("Profile updated successfully!", {
-          className: "toast-success-container",
-          bodyClassName: "toast-success-body",
-        });
+        console.log("Profile update result:", result);
+        toast.success("Profile updated successfully!");
       } else {
         const error = await response.json();
-        toast(`Profile update failed: ${error.message}`, {
-          className: "toast-error-container",
-          bodyClassName: "toast-error-body",
-        });
+        toast.error(`Profile update failed: ${error.message}`);
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -267,7 +263,6 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
           </form>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };

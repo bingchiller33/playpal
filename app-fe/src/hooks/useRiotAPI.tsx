@@ -1,4 +1,4 @@
-const API_KEY = "RGAPI-2c040d1a-7da1-403b-8fe7-6a887675f33b";
+const API_KEY = "RGAPI-3197410a-a5fd-440d-8bde-c1da766cf50f";
 const BASE_API_URL = "/api/riotAPIs";
 
 export const fetchAccountV1 = async (gameName: string, tagLine: string) => {

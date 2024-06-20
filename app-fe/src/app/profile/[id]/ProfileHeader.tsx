@@ -50,7 +50,7 @@ const ProfileHeader = ({
       <Image
         width={350}
         height={350}
-        src={profile.avatar_url}
+        src={profile.avatar}
         alt="Profile Picture"
         className={styles.profileImage}
       />

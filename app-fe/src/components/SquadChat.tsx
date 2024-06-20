@@ -48,7 +48,7 @@ const SquadChat = (props: NextPageProps) => {
             {msg.account_id?._id.toString() !== session?.user.id ? (
               <div className={cx(styles["message-box-left"])}>
                 <img
-                  src={msg.account_id?.avatar_url}
+                  src={msg.account_id?.avatar}
                   className={cx(styles["avatar"])}
                   alt="avatar"
                 />
