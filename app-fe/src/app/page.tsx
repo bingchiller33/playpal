@@ -31,27 +31,27 @@ export default async function Home() {
         <main>
             <Header />
             <div className="landing">
-                <div className="d-flex landing-1 flex-wrap">
-                    <div className="landing-text">
+                <div className="row landing-1">
+                    <div className="col-xxl-4 landing-text">
                         <h1>FIND YOUR DREAM SQUAD</h1>
                         <p className="mt-3">PlayPal is your go-to service for finding and matching players with similar interests. Whether you love intense RPGs, fast-paced shooters, or relaxing strategy games, PlayPal ensures you always have the perfect gaming squad. Join now and enhance your gaming experience!</p>
                         <button className="btn-noBorder mt-3">LET'S TEAM UP</button>
                     </div>
-                    <div className="ms-auto landing-img">
+                    <div className="col-xxl-6 landing-img text-center">
                         <img
                             src="/images/landing_1.png"
                         // style={{  borderRadius: "50%", height: "5rem" }}
                         />
                     </div>
                 </div>
-                <div className="d-flex mb-3 landing-2 flex-wrap">
-                    <div className="p-2 landing-img">
+                <div className="row mb-3 landing-2">
+                    <div className="col-xxl-6 landing-img text-center">
                         <img
                             src="/images/landing_2.png"
                         // style={{ borderRadius: "50%", height: "5rem" }}
                         />
                     </div>
-                    <div className="ms-auto p-2 landing-text">
+                    <div className="col-xxl-6 landing-text">
                         <h1>UNIQUE MATCHMAKING SYSTEM</h1>
                         <p>PlayPal is your go-to service for finding and matching players with similar interests. Whether you love intense RPGs, fast-paced shooters, or relaxing strategy games, PlayPal ensures you always have the perfect gaming squad. Join now and enhance your gaming experience! Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                         </p>

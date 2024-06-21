@@ -717,9 +717,9 @@ a {
     margin: 5rem !important;
 }
 
-.landing-text{
-    width: 40rem !important;
-}
+/* .landing-text{
+    max-width: 40rem !important;
+} */
 .landing-text .btn-noBorder {
     width: 10rem;
     border-radius: 5px;
