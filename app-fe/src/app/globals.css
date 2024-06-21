@@ -176,7 +176,13 @@ a {
     border-top-left-radius: 0 !important;
 }
 
+.header-res{
+    border-color: var(--clr-primary-1) !important;
+}
 
+.header-res span{
+    background-image: none;
+}
 
 .text-logo {
     color: var(--clr-primary-1);
