@@ -693,3 +693,69 @@ a {
     text-overflow: ellipsis;
     word-break: break-all;
 }
+
+/* landing page */
+
+
+.landing-1 {
+    background-color: #12101A;
+    padding: 5rem !important;
+}
+
+.landing-1 .landing-text{
+    margin-top: 5rem;
+}
+.landing-1 .landing-img{
+    margin-right: 10rem;
+}
+
+.landing-1 h1, .landing-2 h1{
+    font-weight: 800;
+}
+
+.landing-2 {
+    margin: 5rem !important;
+}
+
+.landing-text{
+    width: 40rem !important;
+}
+.landing-text .btn-noBorder {
+    width: 10rem;
+    border-radius: 5px;
+}
+
+
+.landing-4, .landing-5 {
+    margin: 5px !important;
+}
+
+.landing-4 .btn-noBorder{
+    width: 10rem;
+}
+
+.landing-border {
+    border: 1.5px solid var(--clr-primary-1-70);
+    border-radius: 15px;
+    margin: 5px;
+    
+}
+
+.landing-icon {
+    font-size: 4rem;
+    fill: var(--clr-primary-1);
+}
+
+
+@media screen and (max-width: 1120px) {
+    .landing-1 .landing-img img{
+        height: 18rem;
+    }
+    .landing-2 .landing-img img{
+        height: 16rem;
+    }
+
+    .landing-4 .landing-text{
+        text-align: center;
+    }
+}
