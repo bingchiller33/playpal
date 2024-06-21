@@ -17,6 +17,9 @@ export function minMap(input: Record<string, number>) {
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
-export function fmtRelDate(time: number | Date) {
+export function fmtRelDate(time: number | Date | string) {
+    if (typeof time === "string") {
+        time = Date.parse(time);
+    }
     return timeAgo.format(time);
 }

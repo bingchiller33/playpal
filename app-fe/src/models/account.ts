@@ -26,7 +26,6 @@ export interface IAccount {
     matchMakingWeights: MatchMakingWeight[];
     createdAt?: Date;
     updatedAt?: Date;
-    avatar_url?: string;
     bio?: string;
     riot_id?: string;
     preferences?: {
@@ -34,84 +33,92 @@ export interface IAccount {
         server?: string;
     };
     rating?: string;
+    banUntil: Date | null;
+    banReason: string | null;
 }
 
 const AccountSchema = new Schema<IAccount>(
-  {
-    email: {
-      type: String,
-      required: [true, "email is Required"],
-      unique: [true, "email is not duplicate"],
-    },
-    password: {
-      type: String,
-      required: [false],
-    },
-    username: {
-      type: String,
-      required: [true],
-    },
-    token: {
-      type: String,
-    },
-    verified: {
-      type: Boolean,
-    },
-    age: {
-      type: Number,
-    },
-    gender: {
-      type: mongoose.Types.ObjectId,
-      ref: FilterGenders,
-    },
-    playstyles: {
-      type: [mongoose.Types.ObjectId],
-      ref: FilterPlaystyles,
-      default: [],
-    },
-    lolRank: {
-      type: mongoose.Types.ObjectId,
-      ref: FilterLOLRanks,
-    },
-    matchMakingWeights: {
-      type: [
-        new Schema(
-          {
-            mode: {
-              type: String,
-              required: true,
+    {
+        email: {
+            type: String,
+            required: [true, "email is Required"],
+            unique: [true, "email is not duplicate"],
+        },
+        password: {
+            type: String,
+            required: [false],
+        },
+        username: {
+            type: String,
+            required: [true],
+        },
+        token: {
+            type: String,
+        },
+        verified: {
+            type: Boolean,
+        },
+        age: {
+            type: Number,
+        },
+        gender: {
+            type: mongoose.Types.ObjectId,
+            ref: FilterGenders,
+        },
+        playstyles: {
+            type: [mongoose.Types.ObjectId],
+            ref: FilterPlaystyles,
+            default: [],
+        },
+        lolRank: {
+            type: mongoose.Types.ObjectId,
+            ref: FilterLOLRanks,
+        },
+        matchMakingWeights: {
+            type: [
+                new Schema(
+                    {
+                        mode: {
+                            type: String,
+                            required: true,
+                        },
+                        weights: {
+                            type: WeightSchema,
+                        },
+                    },
+                    { _id: false }
+                ),
+            ],
+            default: [],
+        },
+
+        bio: {
+            type: String,
+        },
+        riot_id: {
+            type: String,
+        },
+        preferences: {
+            server: {
+                type: String,
             },
-            weights: {
-              type: WeightSchema,
-            },
-          },
-          { _id: false }
-        ),
-      ],
-      default: [],
+        },
+        rating: {
+            type: String,
+        },
+        banUntil: {
+            type: Date,
+            default: null,
+        },
+        banReason: {
+            type: String,
+            default: null,
+        },
     },
-    avatar_url: {
-      type: String,
-    },
-    bio: {
-      type: String,
-    },
-    riot_id: {
-      type: String,
-    },
-    preferences: {
-      server: {
-        type: String,
-      },
-    },
-    rating: {
-      type: String,
-    },
-  },
-  {
-    // auto createAt, updateAt
-    timestamps: true,
-  }
+    {
+        // auto createAt, updateAt
+        timestamps: true,
+    }
 );
 
 // Mapping to Collection
