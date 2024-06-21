@@ -55,18 +55,29 @@
     margin-top: 20px;
 }
 
+.pagination * {
+    color: white;
+}
+
+
+
 .pagination button {
-    margin: 0 5px;
     padding: 5px 10px;
-    border: 1px solid #ffffff;
+    border: 1px solid var(--clr-primary-1);
     background-color: #1f1e1e;
-    border-radius: 2px;
 }
 
 .pagination button.active {
-    background-color: #ffffff;
-    color: #1F1E1E;
+    background-color: var(--clr-primary-1);
 }
+
+.pagination button:hover,
+.pagination button:focus {
+    background-color: var(--clr-primary-1);
+    border: 1px solid var(--clr-primary-1);
+    color: white;
+}
+
 
 .pill {
     font-size: large;

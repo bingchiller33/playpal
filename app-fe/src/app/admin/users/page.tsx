@@ -14,6 +14,8 @@ import { IAccount } from "@/models/account";
 import { useEffect, useState } from "react";
 import { WithId } from "@/utils/types";
 import { searchPlayers } from "./server";
+import Pagination from "@/components/Pagination";
+import Dividers from "@/components/Dividers";
 
 const isBanned = (user: WithId<IAccount>) => {
     return user.banUntil && user.banUntil > new Date();
@@ -24,14 +26,22 @@ const ManageUsersPage = () => {
     const [accountStatus, setAccountStatus] = useState<string>("active");
     const [search, setSearch] = useState<string>("");
     const [users, setUsers] = useState<WithId<IAccount>[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [pageCount, setPageCount] = useState<number>(1);
+    const [count, setCount] = useState<number>(0);
+
     useEffect(() => {
-        searchPlayers(search, roleFilter, accountStatus).then((res) => {
-            console.log(res);
-            if (res.success) {
-                setUsers(res.data!);
+        searchPlayers(search, roleFilter, accountStatus, page - 1).then(
+            (res) => {
+                console.log(res);
+                if (res.success) {
+                    setUsers(res.data!);
+                    setPageCount(res.pageCount!);
+                    setCount(res.count!);
+                }
             }
-        });
-    }, [roleFilter, accountStatus, search]);
+        );
+    }, [roleFilter, accountStatus, search, page]);
 
     return (
         <div>
@@ -59,6 +69,7 @@ const ManageUsersPage = () => {
                                     <div className="d-flex gap-2 align-items-center">
                                         <label>Role</label>
                                         <Dropdown
+                                            className="flex-grow-1"
                                             options={ROLES_FILTERS}
                                             onChange={(e) =>
                                                 setRoleFilter(e as any)
@@ -71,6 +82,7 @@ const ManageUsersPage = () => {
                                     <div className="d-flex gap-2 align-items-center">
                                         <label>Ban Status</label>
                                         <Dropdown
+                                            className="flex-grow-1"
                                             options={BAN_STATUS_FILTERS}
                                             onChange={(e) =>
                                                 setAccountStatus(e as any)
@@ -82,6 +94,8 @@ const ManageUsersPage = () => {
                             </Row>
                         </form>
 
+                        <Dividers />
+                        <h2>Showing {count} results</h2>
                         <Table
                             responsive
                             striped
@@ -102,8 +116,8 @@ const ManageUsersPage = () => {
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <tr key={user._id}>
-                                        <td>{user._id}</td>
+                                    <tr key={user._id.toString()}>
+                                        <td>{user._id.toString()}</td>
                                         <td>
                                             <Link
                                                 href={`/profile/${user._id}`}
@@ -137,6 +151,11 @@ const ManageUsersPage = () => {
                                 ))}
                             </tbody>
                         </Table>
+                        <Pagination
+                            currentPage={page}
+                            total={pageCount}
+                            onPageChange={(e) => setPage(e)}
+                        />
                     </div>
                 </Col>
             </Row>

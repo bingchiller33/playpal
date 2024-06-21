@@ -6,9 +6,10 @@ import { jsonStrip } from "@/utils";
 export async function searchPlayers(
     q: string,
     roleFilter: string,
-    accountStatus: string
+    accountStatus: string,
+    page: number
 ) {
-    console.log({ q, roleFilter, accountStatus });
+    const pageSize = 50;
     try {
         let ban = [] as any[];
         if (accountStatus === "active") {
@@ -22,7 +23,7 @@ export async function searchPlayers(
             ban = [{ banUntil: { $ne: "rv" } }];
         }
 
-        const rs = await Account.find({
+        const query = {
             $and: [
                 {
                     $or: [
@@ -37,9 +38,17 @@ export async function searchPlayers(
             ],
 
             role: roleFilter === "all" ? { $ne: "rv" } : roleFilter,
-        }).exec();
+        };
 
-        return { success: true, data: jsonStrip(rs) };
+        const rs = await Account.find(query)
+            .skip(page * pageSize)
+            .limit(pageSize)
+            .exec();
+
+        const count = await Account.countDocuments(query).exec();
+        const pageCount = Math.ceil(count / pageSize);
+
+        return { success: true, data: jsonStrip(rs), count, pageCount };
     } catch (e) {
         console.error(e);
         return { success: false, msg: "Cannot filter players" };
