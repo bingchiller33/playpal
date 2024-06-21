@@ -2,43 +2,33 @@
 
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import Image from "next/image";
-import { FaArrowRightLong } from "react-icons/fa6";
-import FriendsModal from "@/components/FriendsModal/FriendsModal";
 import { useSession } from "next-auth/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FriendRequests from "@/components/FriendsRequest/FriendRequests";
-
-const fetchProfile = async (id: string) => {
-  const response = await fetch(`/api/profile/${id}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch profile");
-  }
-  return response.json();
-};
-
-const fetchFriends = async (id: string) => {
-  const response = await fetch(`/api/profile/${id}/friends`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch friends");
-  }
-  const data = await response.json();
-  console.log("Response data:", data);
-  return data;
-};
+import ProfileDetails from "./ProfileDetails";
+import ProfileHeader from "./ProfileHeader";
+import {
+  acceptFriendRequest,
+  cancelFriendRequest,
+  fetchFriendRequests,
+  fetchFriends,
+  fetchProfile,
+  sendFriendRequest,
+  unfriend,
+} from "@/hooks/useProfile";
+import { sendFriendRequestNotification } from "./server";
 
 export default function ProfilePage({ params }: { params: { id: string } }) {
   const { data: session, status } = useSession();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [friends, setFriends] = useState<any[]>([]);
   const [isFriend, setIsFriend] = useState(false);
+  const [isReceiver, setIsReceiver] = useState(false);
+  const [friendRequest, setFriendRequest] = useState("");
 
   // FR: might put this in Header later
-  const [isFRModalOpen, setIsFRModalOpen] = useState(false);
   const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
 
   const checkFriendRequest = async () => {
@@ -61,6 +51,17 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
 
     setRequestSent(checkData.exists);
     setIsFriend(checkData.isFriend);
+
+    if (
+      session.user.id === checkData.receiver_id &&
+      params.id === checkData.sender_id &&
+      checkData.exists === true
+    ) {
+      setIsReceiver(true);
+      setFriendRequest(checkData.request_id);
+    } else {
+      setIsReceiver(false);
+    }
   };
 
   useEffect(() => {
@@ -83,6 +84,15 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     fetchData();
   }, [params.id, session]);
 
+  const handleAccept = async (requestId: string) => {
+    try {
+      await acceptFriendRequest(requestId);
+      setFriendRequests((prev) => prev.filter((req) => req._id !== requestId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleAddFriend = async () => {
     if (!session) {
       alert("You need to be logged in to send friend requests");
@@ -93,72 +103,32 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
 
     try {
       if (isFriend) {
-        // unfriend APi
+        await unfriend(session.user.id, params.id);
+        setIsFriend(false);
+        setFriends((prev) => prev.filter((friend) => friend.id !== params.id));
       } else if (requestSent) {
-        const response = await fetch("/api/friendRequest/unrequest", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            sender_id: session.user.id,
-            receiver_id: params.id,
-          }),
-        });
-
-        if (response.ok) {
-          setRequestSent(false);
-        } else {
-          const errorData = await response.json();
-          alert(`Failed to cancel friend request: ${errorData.message}`);
-        }
-
-        return;
-      }
-
-      const response = await fetch("/api/friendRequest/friend-request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          sender_id: session.user.id,
-          receiver_id: params.id,
-        }),
-      });
-
-      if (response.ok) {
+        await cancelFriendRequest(session.user.id, params.id);
+        setRequestSent(false);
       } else {
-        const errorData = await response.json();
-        alert(`Failed to send friend request: ${errorData.message}`);
+        await sendFriendRequest(session.user.id, params.id);
+        await sendFriendRequestNotification(params.id);
+        setRequestSent(true);
       }
     } catch (error) {
-      alert("Failed to send friend request");
+      alert(error.message);
     } finally {
       setLoading(false);
       checkFriendRequest();
     }
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // FR: might put this in Header later
-  const fetchFriendRequests = async () => {
-    const response = await fetch(`/api/friendRequest/requests`, {
-      credentials: "include",
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch friend requests");
+  const handleAcceptProfile = async () => {
+    try {
+      await acceptFriendRequest(friendRequest);
+      setIsReceiver(false);
+    } catch (error) {
+      console.error(error);
     }
-
-    const friendRequests = await response.json();
-    return friendRequests;
   };
 
   useEffect(() => {
@@ -173,39 +143,6 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     fetchAndSetFriendRequests();
   }, []);
 
-  const acceptFriendRequest = async (requestId: string) => {
-    const response = await fetch(`/api/friendRequest/accept`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ requestId }),
-      credentials: "include",
-    });
-    if (!response.ok) {
-      throw new Error("Failed to accept friend request");
-    }
-    return response.json();
-  };
-
-  const handleAccept = async (requestId: string) => {
-    try {
-      await acceptFriendRequest(requestId);
-      setFriendRequests((prev) => prev.filter((req) => req.id !== requestId));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  //
-
-  const openFRModal = () => {
-    setIsFRModalOpen(true);
-  };
-
-  const closeFRModal = () => {
-    setIsFRModalOpen(false);
-  };
-
   if (!profile) {
     return <div>Loading...</div>;
   }
@@ -214,54 +151,24 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     <>
       <Header />
       <div className={styles.profileContainer}>
-        <div className={styles.profileHeader}>
-          <Image
-            width={350}
-            height={350}
-            src={profile.avatar_url}
-            alt="Profile Picture"
-            className={styles.profileImage}
-          />
-          <div className={styles.profileInfo}>
-            <h1 className={styles.username}>{profile.username}</h1>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p onClick={openModal} style={{ cursor: "pointer" }}>
-                {friends.length} Friends
-              </p>
-              {session?.user.id === params.id && (
-                <p onClick={openFRModal} style={{ cursor: "pointer" }}>
-                  {friendRequests.length} Friend Requests
-                </p>
-              )}
-            </div>
-
-            {session?.user.id !== params.id && (
-              <button
-                onClick={handleAddFriend}
-                disabled={loading}
-                className={styles.addFriendButton}
-              >
-                {loading ? (
-                  "Sending..."
-                ) : isFriend ? (
-                  "Unfriend"
-                ) : requestSent ? (
-                  <>
-                    <FaArrowRightLong fill="#ED154C" /> Cancel Request
-                  </>
-                ) : (
-                  "Add Friend"
-                )}{" "}
-              </button>
-            )}
-          </div>
-        </div>
-        <div className={styles.playerDetails}>
-          <h2>Player Details</h2>
-          <p>Bio: {profile.bio}</p>
-          <p>Riot ID: {profile.riot_id}</p>
-          <p>Preferences: {JSON.stringify(profile.preferences)}</p>
-        </div>
+        <ProfileHeader
+          profile={profile}
+          friends={friends}
+          session={session}
+          params={params}
+          loading={loading}
+          requestSent={requestSent}
+          isFriend={isFriend}
+          friendRequests={friendRequests}
+          handleAddFriend={handleAddFriend}
+          handleAccept={handleAccept}
+          handleAcceptProfile={handleAcceptProfile}
+          isReceiver={isReceiver}
+        />
+        <ProfileDetails
+          profile={profile}
+          isCurrentUser={session?.user.id === params.id}
+        />
         <div className={styles.feedbacks}>
           <h2>Feedbacks</h2>
           {/* Feedbacks placeholder */}
@@ -270,20 +177,6 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           <h2>Highlights</h2>
           {/* Highlights placeholder */}
         </div>
-        {isModalOpen && (
-          <FriendsModal
-            friends={friends}
-            onClose={closeModal}
-            isCurrentUser={params.id === session?.user.id}
-          />
-        )}
-        {isFRModalOpen && (
-          <FriendRequests
-            friendRequests={friendRequests}
-            onAccept={handleAccept}
-            onClose={closeFRModal}
-          />
-        )}
       </div>
       <Footer />
     </>

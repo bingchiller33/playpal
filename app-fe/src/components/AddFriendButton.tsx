@@ -19,10 +19,8 @@ export default function AddFriendButton({
   const handleAddFriend = async () => {
     setLoading(true);
 
-    const sender_id = 1;
-    const receiver_id = 2;
     await dbConnect();
-    await FriendRequest.create({ sender_id, receiver_id });
+    await FriendRequest.create({ senderId, receiverId });
     alert("Friend request sent!");
     setLoading(false);
   };

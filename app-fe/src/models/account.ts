@@ -55,18 +55,11 @@ const AccountSchema = new Schema<IAccount>(
         token: {
             type: String,
         },
-        role: {
-            type: String,
-            default: "user",
-        },
         verified: {
             type: Boolean,
         },
         age: {
             type: Number,
-        },
-        avatar: {
-            type: String,
         },
         gender: {
             type: mongoose.Types.ObjectId,
@@ -98,6 +91,7 @@ const AccountSchema = new Schema<IAccount>(
             ],
             default: [],
         },
+
         bio: {
             type: String,
         },
@@ -105,9 +99,6 @@ const AccountSchema = new Schema<IAccount>(
             type: String,
         },
         preferences: {
-            language: {
-                type: [String],
-            },
             server: {
                 type: String,
             },
