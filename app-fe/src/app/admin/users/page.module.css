@@ -1,0 +1,5 @@
+.table-user td,
+.table-user th {
+    background-color: transparent !important;
+    color: white !important
+}

@@ -26,7 +26,6 @@ export interface IAccount {
     matchMakingWeights: MatchMakingWeight[];
     createdAt?: Date;
     updatedAt?: Date;
-    avatar_url?: string;
     bio?: string;
     riot_id?: string;
     preferences?: {
@@ -34,6 +33,8 @@ export interface IAccount {
         server?: string;
     };
     rating?: string;
+    banUntil: Date | null;
+    banReason: string | null;
 }
 
 const AccountSchema = new Schema<IAccount>(
@@ -97,9 +98,6 @@ const AccountSchema = new Schema<IAccount>(
             ],
             default: [],
         },
-        avatar_url: {
-            type: String,
-        },
         bio: {
             type: String,
         },
@@ -116,6 +114,14 @@ const AccountSchema = new Schema<IAccount>(
         },
         rating: {
             type: String,
+        },
+        banUntil: {
+            type: Date,
+            default: null,
+        },
+        banReason: {
+            type: String,
+            default: null,
         },
     },
     {
