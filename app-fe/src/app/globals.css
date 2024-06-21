@@ -773,3 +773,15 @@ a {
         text-align: center;
     }
 }
+.text-white {
+    color: 'white' !important;
+}
+
+.pp-form-input {
+    background-color: var(--clr-background-1);
+    border: 1px solid var(--clr-primary-1);
+    color: white;
+    padding: 4px;
+    border-radius: 8px;
+    width: 100%;
+}

@@ -1,4 +1,5 @@
 import AdminNavigationPanel from "@/components/AdminNavigationPanel";
+import Dividers from "@/components/Dividers";
 import ManageLOLModeFilter from "@/components/FilterSettings/ManageLOLModeFilter";
 import ManageLOLRankFilter from "@/components/FilterSettings/ManageLOLRankFilter";
 import ManageLOLServerFilter from "@/components/FilterSettings/ManageLOLServerFilter";
@@ -41,27 +42,14 @@ const AdminPage = async () => {
                             items={filterModes}
                             defaults={defaults}
                         />
-                        <div
-                            className="my-4"
-                            style={{
-                                border: `1px solid ${COLORS.PRIMARY_1}`,
+                        <Dividers />
 
-                                opacity: 0.5,
-                            }}
-                        />
                         <ManageLOLServerFilter
                             items={filterServers}
                             defaults={defaults}
                         />
 
-                        <div
-                            className="my-4"
-                            style={{
-                                border: `1px solid ${COLORS.PRIMARY_1}`,
-
-                                opacity: 0.5,
-                            }}
-                        />
+                        <Dividers />
 
                         <ManageLOLRankFilter
                             items={filterRanks}

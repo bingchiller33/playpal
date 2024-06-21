@@ -16,7 +16,6 @@ export async function sessionOrLogin() {
 export async function adminOrLogin() {
     const session = await sessionOrLogin();
     const user = jsonStrip(await Account.findById(session.user.id).exec());
-    console.log("Pre" , user, user?.role)
     if (user?.role !== "admin") {
     console.log("Post", user?.role)
 
