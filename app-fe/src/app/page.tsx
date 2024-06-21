@@ -20,6 +20,7 @@ import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { HiChatBubbleLeftRight, HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { GrConnect } from "react-icons/gr";
 import { FaGamepad } from "react-icons/fa";
+import Link from "next/link";
 
 export default async function Home() {
     await dbConnect();
@@ -32,12 +33,14 @@ export default async function Home() {
             <Header />
             <div className="landing">
                 <div className="row landing-1">
-                    <div className="col-xxl-4 landing-text">
+                    <div className="col-md-6 landing-text">
                         <h1>FIND YOUR DREAM SQUAD</h1>
                         <p className="mt-3">PlayPal is your go-to service for finding and matching players with similar interests. Whether you love intense RPGs, fast-paced shooters, or relaxing strategy games, PlayPal ensures you always have the perfect gaming squad. Join now and enhance your gaming experience!</p>
-                        <button className="btn-noBorder mt-3">LET'S TEAM UP</button>
+                        <Link href='/auth/register'>
+                            <button className="btn-noBorder mt-3">LET'S TEAM UP</button>
+                        </Link>
                     </div>
-                    <div className="col-xxl-6 landing-img text-center">
+                    <div className="col-md-6 landing-img text-center">
                         <img
                             src="/images/landing_1.png"
                         // style={{  borderRadius: "50%", height: "5rem" }}
@@ -45,13 +48,13 @@ export default async function Home() {
                     </div>
                 </div>
                 <div className="row mb-3 landing-2">
-                    <div className="col-xxl-6 landing-img text-center">
+                    <div className="col-md-6 landing-img text-center">
                         <img
                             src="/images/landing_2.png"
                         // style={{ borderRadius: "50%", height: "5rem" }}
                         />
                     </div>
-                    <div className="col-xxl-6 landing-text">
+                    <div className="col-md-6 landing-text">
                         <h1>UNIQUE MATCHMAKING SYSTEM</h1>
                         <p>PlayPal is your go-to service for finding and matching players with similar interests. Whether you love intense RPGs, fast-paced shooters, or relaxing strategy games, PlayPal ensures you always have the perfect gaming squad. Join now and enhance your gaming experience! Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                         </p>
@@ -93,21 +96,23 @@ export default async function Home() {
                 </div>
                 <div className="row landing-4 landing-border pt-4 pb-4 mb-5">
                     <div className="col-sm-6 text-center">
-                    <img
+                        <img
                             src="/images/landing_1.png"
-                        style={{height: "15rem" }}
+                            style={{ height: "15rem" }}
                         />
                     </div>
                     <div className="col-sm-6 landing-text">
                         <h2>Sign up now & find your perfect squad</h2>
                         <p> You are one click from being the champion</p>
-                        <button className="btn-noBorder mt-3 mb-2">Sign Up Now</button>
+                        <Link href='/auth/register'>
+                            <button className="btn-noBorder mt-3 mb-2">Sign Up Now</button>
+                        </Link>
                     </div>
                 </div>
                 <div className="row text-center landing-5 landing-border pt-4 pb-4">
                     <h2 className="text-center">How To Get Start</h2>
                     <div className="col-sm-4 landing-5-content">
-                        <div className="landing-icon"><PiPlugsConnectedFill  fill={COLORS.PRIMARY_1} /></div>
+                        <div className="landing-icon"><PiPlugsConnectedFill fill={COLORS.PRIMARY_1} /></div>
                         <h3> Match Squad</h3>
                         <p>Easily find the perfect squad using our advanced matching system. Whether you're a casual or competitive gamer, you'll be paired with players who fit your style.</p>
                     </div>
