@@ -12,7 +12,7 @@ import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { banUser, changeRole } from "./server";
 import { reportToast } from "@/utils/client";
-const ROLES = ["user", "admin"].map((x) => ({ value: x, label: x }));
+import { ROLES } from "@/utils/constants";
 
 const ManageUserView = ({ user }: ManageUserViewProps) => {
     const [role, setRole] = useState(user.role);
