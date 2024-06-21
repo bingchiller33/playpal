@@ -106,17 +106,17 @@ export default async function Home() {
                 </div>
                 <div className="row text-center landing-5 landing-border pt-4 pb-4">
                     <h2 className="text-center">How To Get Start</h2>
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 landing-5-content">
                         <div className="landing-icon"><PiPlugsConnectedFill  fill={COLORS.PRIMARY_1} /></div>
                         <h3> Match Squad</h3>
                         <p>Easily find the perfect squad using our advanced matching system. Whether you're a casual or competitive gamer, you'll be paired with players who fit your style.</p>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 landing-5-content">
                         <div className="landing-icon"><HiChatBubbleLeftRight fill={COLORS.PRIMARY_1} /></div>
                         <h3>Quick Chat</h3>
                         <p>Quickly connect with your squad using our integrated chat. Strategies, share tips, and get to know your teammates before jumping into the game.</p>
                     </div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-4 landing-5-content">
                         <div className="landing-icon"><FaGamepad fill={COLORS.PRIMARY_1} /></div>
                         <h3>Play Games</h3>
                         <p>Dive into your favorite games with your matched squad.Enjoy a seamless, engaging gaming experience with players passion.who share your</p>
