@@ -9,6 +9,7 @@ import styles from "./SquadChat.module.css";
 import cx from "classnames";
 import { FaImage, FaMicrophone } from "react-icons/fa";
 import { MdSend } from "react-icons/md";
+import Avatar from "./Avatar";
 
 const SquadChat = (props: NextPageProps) => {
   const { id, page } = props.params;
@@ -31,7 +32,7 @@ const SquadChat = (props: NextPageProps) => {
   useEffect(() => {
     fetchMessages();
 
-    const intervalId = setInterval(fetchMessages, 3000); 
+    const intervalId = setInterval(fetchMessages, 3000);
 
     return () => clearInterval(intervalId); // Clean up the interval on component unmount
   }, [id]);
@@ -45,37 +46,50 @@ const SquadChat = (props: NextPageProps) => {
   };
 
   return (
-    <div style={{"height":"100%", "backgroundColor":"#1F1E1E", "overflowY":"hidden", "position":"relative"}}>
-    <div className={cx(styles["chat-container"])}>
-      <div className={cx(styles["messages-container"])}>
-        {messages.map((msg) => (
-          <div style={{"width":"100%", "alignItems":"flex-end"}}>
-            {msg.account_id?._id.toString() !== session?.user.id ? (
-              <div className={cx(styles["message-box-left"])}>
-                <img
-                  src={msg.account_id?.avatar_url}
-                  className={cx(styles["avatar"])}
-                  alt="avatar"
-                />
-                <span className={cx(styles["message-text-left"])}>
-                  {msg.text}
-                </span>
-              </div>
-            ) : (
-              <div className={cx(styles["message-box-right"])}>
-                <span className={cx(styles["message-text-right"])}>
-                  {msg.text}
-                </span>
-              </div>
-            )}
-          </div>
-        ))}
+    <div style={{ "height": "100%", "backgroundColor": "#1F1E1E", "overflowY": "hidden", "position": "relative" }}>
+      <div className={cx(styles["chat-container"])}>
+        <div className={cx(styles["messages-container"])}>
+          {messages.map((msg) => (
+            <div style={{ "width": "100%", "alignItems": "flex-end" }}>
+              {msg.account_id?._id.toString() !== session?.user.id ? (
+                <div className={cx(styles["message-box-left"])}>
+                  <div className={cx(styles["avatar"])}>
+                  {msg.account_id?.avatar ? (
+                    <Avatar
+                      size={36}
+                      src={msg.account_id?.avatar}
+                      
+                    />
+                  ) : (
+                    <Avatar
+                      size={36}
+                      initials={
+                        msg.account_id?.username?.[0] ??
+                        "P"
+                      }
+                    />
+                  )}
+                  </div>
+                  
+                  <span className={cx(styles["message-text-left"])}>
+                    {msg.text}
+                  </span>
+                </div>
+              ) : (
+                <div className={cx(styles["message-box-right"])}>
+                  <span className={cx(styles["message-text-right"])}>
+                    {msg.text}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
       </div>
-      
-    </div>
-    <div className={cx(styles["input-container"])} >
-      <FaMicrophone fill="#ED154C" style={{"width":"5%", "height":"auto", "padding":"3px", "margin": "0 1%"}} />
-      <FaImage fill="#ED154C" style={{ "width":"5%", "height":"auto", "margin": "0 1%"}} />
+      <div className={cx(styles["input-container"])} >
+        <FaMicrophone fill="#ED154C" style={{ "width": "5%", "height": "auto", "padding": "3px", "margin": "0 1%" }} />
+        <FaImage fill="#ED154C" style={{ "width": "5%", "height": "auto", "margin": "0 1%" }} />
         <input
           type="text"
           placeholder="Type something here"

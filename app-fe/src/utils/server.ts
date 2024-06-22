@@ -17,6 +17,8 @@ export async function adminOrLogin() {
     const session = await sessionOrLogin();
     const user = jsonStrip(await Account.findById(session.user.id).exec());
     if (user?.role !== "admin") {
+    console.log("Post", user?.role)
+
         return redirect("/auth/login"); // TODO: Change to insufficicent role page
     }
 
