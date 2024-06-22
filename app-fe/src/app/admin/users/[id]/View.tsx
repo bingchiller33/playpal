@@ -43,15 +43,15 @@ const ManageUserView = ({ user }: ManageUserViewProps) => {
                         <Link href={`/profile/${user?._id.toString()}`}>
                             View profile
                         </Link>
-                        <h2>Change user info</h2>
+                        <h2>Change User Info</h2>
                         <p>TODO</p>
                         <Dividers />
-                        <h2>Manage subscription</h2>
+                        <h2>Manage Subscription</h2>
                         <p>TODO</p>
                         <Dividers />
                         <h2 className="mt-3">Change Role</h2>
                         <div className="d-flex align-items-center gap-2">
-                            <span>New role: </span>
+                            <span>New Role: </span>
                             <Dropdown
                                 options={ROLES}
                                 onChange={(e) => setRole(e as any)}
@@ -96,7 +96,7 @@ const ManageUserView = ({ user }: ManageUserViewProps) => {
                             variant="danger"
                             onClick={handleBan}
                         >
-                            Apply restriction!
+                            Apply Restriction!
                         </Button>
                     </div>
                 </Col>
