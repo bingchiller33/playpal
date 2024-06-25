@@ -1,4 +1,5 @@
 import AdminNavigationPanel from "@/components/AdminNavigationPanel";
+import Dividers from "@/components/Dividers";
 import ManageLanguageFilter from "@/components/FilterSettings/ManageLanguageFilter";
 import ManagePlayStyleFilter from "@/components/FilterSettings/ManagePlaystyleFilter";
 import Header from "@/components/Header";
@@ -30,13 +31,7 @@ const AdminPage = async () => {
                             defaults={defaults}
                         />
 
-                        <div
-                            className="my-4"
-                            style={{
-                                border: `1px solid ${COLORS.PRIMARY_1}`,
-                                opacity: 0.5,
-                            }}
-                        />
+                        <Dividers />
 
                         <ManagePlayStyleFilter items={filterPlaystyles} />
                     </div>

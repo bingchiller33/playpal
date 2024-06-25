@@ -8,12 +8,12 @@ const Footer = () => {
     return (
         <Container fluid>
             <div className="row p-4 footer" >
-                <div className="col-4 text-center">
+                <div className="col-lg-4 text-center">
                     <p className="footer-logo fw-bold font-all-star">PLAYPAL</p>
                 </div>
-                <div className="offset-2 col-6">
+                <div className="offset-2 col-lg-6">
                     <div className="row">
-                        <div className="col">
+                        <div className="col-lg">
                             <h5 className=""> PlayPal</h5>
                             <ul
                                 className="list-unstyled "
@@ -36,7 +36,7 @@ const Footer = () => {
                                 </li>
                             </ul>
                         </div>
-                        <div className="col">
+                        <div className="col-lg">
                             <h5 className=" "> Contact us</h5>
                             <ul
                                 className="list-unstyled "
@@ -59,7 +59,7 @@ const Footer = () => {
                                 </li>
                             </ul>
                         </div>
-                        <div className="col"></div>
+                        <div className="col-lg"></div>
                     </div>
                 </div>
                 <div className="row">

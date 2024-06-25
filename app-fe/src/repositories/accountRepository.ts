@@ -172,6 +172,8 @@ export async function getDailyAccountRegistered() {
                 },
             },
         },
+        {$sort: {date: 1}},
+
         {
             $project: {
                 _id: 0,

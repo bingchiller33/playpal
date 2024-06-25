@@ -13,10 +13,12 @@ import {
   NavbarCollapse,
   NavbarToggle,
 } from "react-bootstrap";
-import { MdNotifications } from "react-icons/md";
 import { IAccount } from "@/models/account";
 import Avatar from "./Avatar";
 import SearchBar from "./SearchBar";
+import NotificationIcon from "./NotificationIcon";
+import { COLORS } from "@/utils/constants";
+import { IoMdMenu } from "react-icons/io";
 
 const HeaderView = ({ user }: HeaderProps) => {
   return (
@@ -27,7 +29,7 @@ const HeaderView = ({ user }: HeaderProps) => {
             PLAYPAL{" "}
           </Link>
         </NavbarBrand>
-        <NavbarToggle aria-controls="basic-navbar-nav" />
+        <NavbarToggle aria-controls="basic-navbar-nav " className="header-res"><IoMdMenu fill={COLORS.PRIMARY_1}/> </NavbarToggle>
         <NavbarCollapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavLink href="" className="text-white header-element">
@@ -53,8 +55,8 @@ const HeaderView = ({ user }: HeaderProps) => {
               </NavLink>
             </Nav>
           ) : (
-            <Nav>
-              <MdNotifications />
+            <Nav style={{alignItems: 'center'}}>
+              <NotificationIcon/>
               <Dropdown className="header-user">
                 <DropdownToggle
                   className="header-avatar "

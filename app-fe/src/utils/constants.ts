@@ -32,3 +32,14 @@ function generateTimeFilterOptions() {
 }
 
 export const TIME_FILTER_OPTIONS = generateTimeFilterOptions();
+
+export const ROLES = ["user", "admin"].map((x) => ({ value: x, label: x }));
+export const ROLES_FILTERS = ["all", "user", "admin"].map((x) => ({
+    value: x,
+    label: x,
+}));
+
+export const BAN_STATUS_FILTERS = ["all", "active", "banned"].map((x) => ({
+    value: x,
+    label: x,
+}));
