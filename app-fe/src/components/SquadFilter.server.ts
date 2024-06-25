@@ -97,7 +97,6 @@ export async function updateSpecFilter(
 
 export async function enterMatchmaking(squadId: string) {
     try {
-        console.log("GG");
         await dbConnect();
         const checkPriviledge = await requireLeader(squadId);
         if (!checkPriviledge.success) {
