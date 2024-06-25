@@ -9,6 +9,8 @@ const Avatar = ({ size, src, initials }: AvatarProps) => {
                 alt="avatar"
                 style={{ width: size, height: size }}
                 className="rounded-circle"
+                width={size}
+                height={size}
             />
         );
     }

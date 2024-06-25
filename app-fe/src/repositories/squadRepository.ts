@@ -624,7 +624,7 @@ export async function getActiveSquad() {
                 },
             },
         },
-        {$sort: {date: 1}},
+        { $sort: { date: 1 } },
         {
             $project: {
                 _id: 0,
@@ -685,4 +685,37 @@ export async function getGameDistribution() {
     ]).exec();
 
     return cdata as { name: string; value: number }[];
+}
+
+export async function getPlayTime() {
+    const cdata = await Squads.aggregate([
+        {
+            $addFields: {
+                time: {
+                    $min: [new Date(), "$disbandedAt"],
+                },
+            },
+        },
+        {
+            $addFields: {
+                diff: {
+                    $dateDiff: {
+                        startDate: "$createdAt",
+                        endDate: "$time",
+                        unit: "hour",
+                    },
+                },
+            },
+        },
+        {
+            $group: {
+                _id: 1,
+                total: {
+                    $sum: "$diff",
+                },
+            },
+        },
+    ]);
+
+    return cdata[0].total;
 }
