@@ -107,3 +107,12 @@ export const fetchFriendRequests = async () => {
   const friendRequests = await response.json();
   return friendRequests;
 };
+
+export const fetchFeedback = async(id: string) => {
+  const response = await fetch(`/api/profile/${id}/feedback`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch feedback");
+  }
+  const data = await response.json();
+  return data;
+}

@@ -5,7 +5,7 @@ import { Mode } from "fs";
 
 
 export interface IFeedback {
-    giver_id: WithId<IAccount>;
+    reciever_id: WithId<IAccount>;
     sender_id: WithId<IAccount>;
     rate: number;
     text: string;
@@ -14,7 +14,7 @@ export interface IFeedback {
 
 const feedbackSchema = new Schema<IFeedback>(
     {
-        giver_id: {
+        reciever_id: {
             type: mongoose.Types.ObjectId,
             require: true,
         },
