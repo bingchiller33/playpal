@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/mongoConnect";
 import FriendRequest from "@/models/friendRequestModel";
+import { request } from "http";
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,9 +32,21 @@ export default async function handler(
       });
 
       if (pendingRequest) {
-        return res.status(200).json({ exists: true, isFriend: false });
+        return res.status(200).json({
+          exists: true,
+          isFriend: false,
+          sender_id: pendingRequest.sender_id,
+          receiver_id: pendingRequest.receiver_id,
+          request_id: pendingRequest._id,
+        });
       } else if (acceptedRequest) {
-        return res.status(200).json({ exists: false, isFriend: true });
+        return res.status(200).json({
+          exists: false,
+          isFriend: true,
+          sender_id: acceptedRequest.sender_id,
+          receiver_id: acceptedRequest.receiver_id,
+          request_id: acceptedRequest._id,
+        });
       } else {
         return res.status(200).json({ exists: false, isFriend: false });
       }

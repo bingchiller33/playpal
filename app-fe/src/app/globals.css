@@ -111,7 +111,11 @@ a {
 }
 
 .bg-1 {
-    background-color: var(--clr-background-1);
+    background-color: var(--clr-background-1) !important;
+}
+
+.bg-primary-1 {
+    background-color: var(--clr-primary-1) !important;
 }
 
 .color-primary-1 {
@@ -172,7 +176,13 @@ a {
     border-top-left-radius: 0 !important;
 }
 
+.header-res {
+    border-color: var(--clr-primary-1) !important;
+}
 
+.header-res span {
+    background-image: none;
+}
 
 .text-logo {
     color: var(--clr-primary-1);
@@ -213,6 +223,21 @@ a {
     /* border-color: var(--clr-primary-1); */
     /* background-color: transparent; */
 }
+
+.header-user {
+    color: var(--clr-primary-1);
+    font-size: 1.5rem;
+}
+
+.header-user .header-avatar {
+    font-size: 1rem;
+    color: var(--clr-primary-1);
+}
+
+.header-user .header-avatar:hover {
+    opacity: 0.8;
+}
+
 
 .footer {
     background-color: #242034;
@@ -291,7 +316,7 @@ a {
 
 .members-name {
     flex-direction: row;
-    margin-left: 30px;
+    /* margin-left: 30px; */
 }
 
 .members-name p {
@@ -301,7 +326,7 @@ a {
 }
 
 .members-line {
-    border: 1px solid #ed154b79;
+    border-bottom: 1px solid #ed154b79;
 }
 
 .btn-inviteFriend {
@@ -487,6 +512,11 @@ a {
 .inviteMemberSearch .searchForm {
     background-color: transparent;
     border-color: var(--clr-primary-1);
+    color: white;
+}
+
+.inviteMemberSearch .searchForm:disabled {
+    background-color: transparent;
 }
 
 .inviteMemberSearch .searchForm::placeholder {
@@ -628,8 +658,169 @@ a {
     color: var(--clr-primary-1);
 }
 
+/* Receive Invite to join the squads */
+.receiveInviteToSquad {
+    background-color: var(--clr-background-1);
+    margin: 1.2rem;
+    border-radius: 0.5rem;
+    padding: 10px;
+
+}
+
+.receiveInvite {
+    margin: 0 10px;
+}
+
+.receiveInvite-button {
+    margin: 5px;
+}
+
+.receiveInvite-button button {
+    margin: 5px;
+}
+
+.receiveInvite-text {
+    margin: 5px 0;
+}
+
+.receiveInvite-text p {
+    margin: 0;
+    font-size: 1rem;
+}
+
 
 .admin-nav-item:hover {
     background: var(--clr-primary-1);
     color: white;
+}
+
+.text-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+/* landing page */
+
+
+.landing-1 {
+    background-color: #12101A;
+    padding: 1rem !important;
+}
+
+.landing-1 .landing-text {
+    margin-top: 5rem;
+}
+
+
+.landing-1 h1,
+.landing-2 h1 {
+    font-weight: 800;
+}
+
+.landing-2 {
+    margin: 1rem !important;
+}
+
+@media screen and (min-width: 1120px) {
+    .landing-1 {
+        padding: 5rem !important;
+    }
+
+    .landing-2 {
+        margin: 5rem !important;
+    }
+}
+
+.landing-text .btn-noBorder:hover {
+    box-shadow: 2px 1px 11px 0px var(--clr-primary-1),
+        0 0 0 1px var(--clr-primary-1);
+}
+
+.landing-text {
+    text-align: justify;
+}
+
+.landing-text .btn-noBorder {
+    width: 10rem;
+    border-radius: 5px;
+}
+
+
+.landing-4,
+.landing-5 {
+    margin: 5px !important;
+}
+
+.landing-4 .btn-noBorder {
+    width: 10rem;
+}
+
+
+.landing-5-content p {
+    padding: 0 3rem;
+    /* text-align: justify; */
+}
+
+.landing-border {
+    border: 1.5px solid var(--clr-primary-1-70);
+    border-radius: 15px;
+    margin: 5px;
+
+}
+
+.landing-icon {
+    font-size: 4rem;
+    fill: var(--clr-primary-1);
+}
+
+
+@media screen and (max-width: 1120px) {
+    .landing-1 .landing-img img {
+        height: 18rem;
+    }
+
+    .landing-2 .landing-img img {
+        height: 16rem;
+    }
+
+    .landing-4 .landing-text {
+        text-align: center;
+    }
+}
+
+.text-white {
+    color: 'white' !important;
+}
+
+.pp-form-input {
+    background-color: var(--clr-background-1);
+    border: 1px solid var(--clr-primary-1);
+    color: white;
+    padding: 4px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+
+/* header dropdown */
+
+.header-user .dropdown-menu {
+    background-color: var(--clr-background-1);
+    box-shadow: 2px 1px 11px 0px var(--clr-primary-1),
+        0 0 0 1px var(--clr-primary-1);
+}
+
+.header-user .dropdown-menu .dropdown-item {
+    color: white;
+}
+
+.header-user .dropdown-menu .dropdown-divider {
+    border-color: var(--clr-primary-1);
+}
+
+.header-user .dropdown-menu .dropdown-item:hover {
+    background-color: transparent;
+    color: var(--clr-primary-1);
+    font-weight: 600;
 }

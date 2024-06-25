@@ -1,5 +1,5 @@
 function loadenv(name: string) {
-    return process.env[name] || console.warn(`Failed to load env ${name}}!`)!;
+    return process.env[name]!;
 }
 
 export const MONGO_URI = loadenv("MONGO_URI");

@@ -5,7 +5,7 @@ import { jsonStrip } from "@/utils";
 
 
 
-export async function getChat(squadId: String) {
+export async function getChat(squadId: String) {    
     try {
         await dbConnect();
         const chat = jsonStrip(await Chat.find({squad_id: squadId}).populate('account_id').exec()) ;
