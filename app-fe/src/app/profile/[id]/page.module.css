@@ -91,6 +91,46 @@
 }
 
 
+.starsValueContainer {
+  padding: 20px;
+  align-items: center; /* Align items vertically in the center */
+  margin-right: 20px; /* Add some space between starsValue and starSelectContainer */
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.starsValue {
+  align-items: center;
+  position: relative;
+}
+
+.starSelectContainer {
+  align-items: center;
+  width: 80%;
+  display: flex;
+}
+
+.starSelect {
+  border: 1px solid #ED154C;
+  margin-right: 10px; /* Add some space between starSelect items */
+  height: 50%;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+.starSelect:hover {
+  background-color: #ed154c; /* Change background color on hover */
+}
+
+.starSelectContainer > .starSelect:last-child {
+  margin-right: 0; /* Remove the margin-right for the last item */
+}
+
+
 
 .feedbackContainer {
   background-color: transparent;

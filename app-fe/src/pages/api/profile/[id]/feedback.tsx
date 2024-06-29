@@ -12,7 +12,7 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
-      const feedback = await Feedback.find({ reciever_id: id }).populate('sender_id').exec();
+      const feedback = await Feedback.find({ reciever_id: id }).sort({createdAt: -1}).populate('sender_id').exec();
       
       const formattedFeedback = feedback.map(fb => ({
         id: fb._id,

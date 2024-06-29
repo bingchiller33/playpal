@@ -108,16 +108,19 @@ export const fetchFriendRequests = async () => {
   return friendRequests;
 };
 
-export const fetchFeedback = async(id: string) => {
-  const response = await fetch(`/api/profile/${id}/feedback`);
+export const fetchFeedback = async (id: string) => {
+  const response = await fetch(`/api/profile/${id}/feedback`, {
+    method: "GET",
+    cache: 'no-store',
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch feedback");
   }
   const data = await response.json();
   return data;
-}
+};
 
-export const voteFeedback = async(id: string, user: string) => {
+export const voteFeedback = async (id: string, user: string) => {
   const response = await fetch(`/api/feedback/vote/${id}`, {
     method: "PUT",
     headers: {
@@ -131,9 +134,9 @@ export const voteFeedback = async(id: string, user: string) => {
   }
   const data = await response.json();
   return data;
-}
+};
 
-export const unvoteFeedback = async(id: string, user: string) => {
+export const unvoteFeedback = async (id: string, user: string) => {
   const response = await fetch(`/api/feedback/unvote/${id}`, {
     method: "PUT",
     headers: {
@@ -147,9 +150,14 @@ export const unvoteFeedback = async(id: string, user: string) => {
   }
   const data = await response.json();
   return data;
-}
+};
 
-export const reviewPlayer = async(id: string, sender_id: string, rate: number, text: string) => {
+export const reviewPlayer = async (
+  id: string,
+  sender_id: string,
+  rate: number,
+  text: string
+) => {
   const response = await fetch(`/api/profile/${id}/review`, {
     method: "POST",
     headers: {
@@ -163,5 +171,4 @@ export const reviewPlayer = async(id: string, sender_id: string, rate: number, t
   }
   const data = await response.json();
   return data;
-}
-
+};
