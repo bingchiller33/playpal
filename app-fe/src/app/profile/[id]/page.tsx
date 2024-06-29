@@ -84,8 +84,8 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     };
 
     const fetchData = async () => {
-      await fetchAndSetProfile();
       await fetchAndSetFeedback();
+      await fetchAndSetProfile();
       await fetchAndSetFriends();
       await checkFriendRequest();
       console.log(feedback);
@@ -185,7 +185,8 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           <Feedback
             profile={profile}
             isCurrentUser={session?.user.id === params.id}
-            feedback={feedback}
+            CurrentUser={session?.user.id}
+            feedbacks={feedback}
           />
         </div>
         <div className={styles.highlights}>

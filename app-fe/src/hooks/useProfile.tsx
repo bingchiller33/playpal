@@ -116,3 +116,52 @@ export const fetchFeedback = async(id: string) => {
   const data = await response.json();
   return data;
 }
+
+export const voteFeedback = async(id: string, user: string) => {
+  const response = await fetch(`/api/feedback/vote/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user }),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch feedback");
+  }
+  const data = await response.json();
+  return data;
+}
+
+export const unvoteFeedback = async(id: string, user: string) => {
+  const response = await fetch(`/api/feedback/unvote/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user }),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch feedback");
+  }
+  const data = await response.json();
+  return data;
+}
+
+export const reviewPlayer = async(id: string, sender_id: string, rate: number, text: string) => {
+  const response = await fetch(`/api/profile/${id}/review`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ sender_id, rate, text }),
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch feedback");
+  }
+  const data = await response.json();
+  return data;
+}
+

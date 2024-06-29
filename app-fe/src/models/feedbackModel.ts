@@ -1,6 +1,6 @@
 import mongoose, { Schema, Model } from "mongoose";
 import { WithId } from "@/utils/types";
-import { IAccount } from "./account";
+import Account, { IAccount } from "./account";
 import { Mode } from "fs";
 
 
@@ -9,17 +9,19 @@ export interface IFeedback {
     sender_id: WithId<IAccount>;
     rate: number;
     text: string;
-    vote: number;
+    vote: WithId<IAccount>[];
 }
 
 const feedbackSchema = new Schema<IFeedback>(
     {
         reciever_id: {
             type: mongoose.Types.ObjectId,
+            ref: Account,
             require: true,
         },
         sender_id: {
             type: mongoose.Types.ObjectId,
+            ref: Account,
             require: true,
         },
         rate: {
@@ -30,10 +32,11 @@ const feedbackSchema = new Schema<IFeedback>(
             type: String,
             require: true,
         },
-        vote: {
-            type: Number,
+        vote: [{
+            type: mongoose.Types.ObjectId,
+            ref: Account,
             require: true,
-        },
+        }],
     },
     {
         timestamps: true

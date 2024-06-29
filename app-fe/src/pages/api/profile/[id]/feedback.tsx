@@ -12,8 +12,21 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
-      const feedback = await Feedback.find({ reciever_id: id }).lean();
-      return res.status(200).json(feedback);
+      const feedback = await Feedback.find({ reciever_id: id }).populate('sender_id').exec();
+      
+      const formattedFeedback = feedback.map(fb => ({
+        id: fb._id,
+        sender_id: fb.sender_id,
+        rate: fb.rate,
+        reciever_id: fb.reciever_id,
+        createdAt: fb.createdAt,
+        text: fb.text,
+        vote: fb.vote,
+        voteCount: fb.vote.length,
+        // Add more fields as necessary
+      }));
+      
+      return res.status(200).json(formattedFeedback);
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error", error });
     }
