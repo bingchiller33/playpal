@@ -243,6 +243,51 @@
   fill: orange; /* Color of stars on hover */
 }
 
+.dropbtn {
+  min-width: 200px;
+  background-color: #242034;
+  color: white;
+  padding: 10px;
+  border: 1px solid #ED154C;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropbtn:hover {
+  background-color: #1e1b29;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownContent {
+  display: none;
+  position: absolute;
+  background-color: #242034; /* Background color */
+  border: 1px solid #ED154C; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  min-width: 200px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+.dropdownContent p {
+  color: white; /* Text color */
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdownContent p:hover {
+  background-color: #ED154C; /* Hover background color */
+}
 
 @media screen and (max-width: 1350px) {
   .profileContainer {

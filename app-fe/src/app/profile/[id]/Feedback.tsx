@@ -30,17 +30,39 @@ const Feedback = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [ifeedbacks, setIfeedbacks] = useState(feedbacks);
   const [rating, setRating] = useState(0);
+  const [sort, setSort] = useState(1);
   const [review, setReview] = useState<string>("");
 
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleMouseEnter = () => {
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setDropdownVisible(false);
+  };
 
   const itemsPerPage = 2;
   const totalPages = Math.ceil(ifeedbacks.length / itemsPerPage);
-  const currentFeedback = feedbacks.slice(
+  const currentFeedback = ifeedbacks.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-
+  const handleSort = async (type: number) => {
+    const ufeedbacks = [...ifeedbacks]; // Create a copy of the ifeedbacks array
+  
+    if (type === 1) {
+      const sortedByDate = ufeedbacks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setIfeedbacks(sortedByDate);
+      setSort(1);
+    } else if (type === 2) {
+      const sortedByVotes = ufeedbacks.sort((a, b) => b.voteCount - a.voteCount);
+      setIfeedbacks(sortedByVotes);
+      setSort(2);
+    }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -79,11 +101,30 @@ const Feedback = ({
       console.error(error);
     }
     setReview("");
-    setRating(0)
+    setRating(0);
   };
 
   return (
-    <div style={{ borderTop: "1px solid #ED154C" }}>
+    <div >
+      <div style={{ borderBottom: "1px solid #ED154C", paddingBottom:"150px"}}>
+        <span style={{width:"5%", paddingRight:"20px", fontSize:"25px"}}>Sort</span>
+        <div
+          className={`${styles.dropdown}`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <button className={styles.dropbtn}>
+            {sort == 1 ? "Latest Reviews" : "Most Helpful Reviews"}
+          </button>
+          {isDropdownVisible && (
+            <div className={styles.dropdownContent}>
+              <p onClick={() => handleSort(1)}>Latest Reviews</p>
+              <p onClick={() => handleSort(2)}>Most Helpful Reviews</p>
+            </div>
+          )}
+        </div>
+      </div>
+
       {currentFeedback.map((feedback) => {
         const userHasVoted = feedback.vote.includes(CurrentUser);
 
@@ -139,11 +180,6 @@ const Feedback = ({
           </div>
         );
       })}
-      <Pagination
-        total={totalPages}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
       <div style={{ paddingTop: "10px" }}>
         <div className="star-rating">
           <ReactStars
@@ -168,6 +204,11 @@ const Feedback = ({
           </svg>
         </button>
       </div>
+      <Pagination
+        total={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 };
