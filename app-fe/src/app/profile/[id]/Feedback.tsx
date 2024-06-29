@@ -7,7 +7,8 @@ import {
 import styles from "./page.module.css";
 import { IoMdThumbsDown, IoMdThumbsUp } from "react-icons/io";
 import { FormEvent, useEffect, useState } from "react";
-import { Rating } from "react-simple-star-rating";
+import ReactStars from "react-stars";
+import Pagination from "@/components/Pagination";
 
 interface FeedbackProps {
   profile: any;
@@ -26,22 +27,20 @@ const Feedback = ({
   feedbacks,
   CurrentUser,
 }: FeedbackProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [ifeedbacks, setIfeedbacks] = useState(feedbacks);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState<string>("");
 
-  const handleRating = (rate: number) => {
 
-    setRating(rate);
-    console.log(rate);
-    
-    // other logic
-  };
-  // Optinal callback functions
-  const onPointerEnter = () => console.log("Enter");
-  const onPointerLeave = () => console.log("Leave");
-  const onPointerMove = (value: number, index: number) =>
-    console.log(value, index);
+  const itemsPerPage = 2;
+  const totalPages = Math.ceil(ifeedbacks.length / itemsPerPage);
+  const currentFeedback = feedbacks.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -70,6 +69,8 @@ const Feedback = ({
   };
 
   const handleReview = async () => {
+    console.log(rating);
+
     try {
       await reviewPlayer(profile._id, CurrentUser, rating, review);
       const updatedFeedbacks = await fetchFeedback(profile._id);
@@ -78,11 +79,12 @@ const Feedback = ({
       console.error(error);
     }
     setReview("");
+    setRating(0)
   };
 
   return (
     <div style={{ borderTop: "1px solid #ED154C" }}>
-      {ifeedbacks.map((feedback) => {
+      {currentFeedback.map((feedback) => {
         const userHasVoted = feedback.vote.includes(CurrentUser);
 
         return (
@@ -98,11 +100,13 @@ const Feedback = ({
                   {feedback.sender_id.username}
                 </span>
                 <div className={styles.rating}>
-                  {Array.from({ length: feedback.rate }, (_, i) => (
-                    <span key={i} className={styles.star}>
-                      ⭐
-                    </span>
-                  ))}
+                  <ReactStars
+                    edit={false}
+                    value={feedback.rate}
+                    count={5}
+                    size={24}
+                    color2={"#ffd700"}
+                  />
                 </div>
                 <span className={styles.feedbackDate}>
                   {formatDate(feedback.createdAt)}
@@ -135,9 +139,20 @@ const Feedback = ({
           </div>
         );
       })}
+      <Pagination
+        total={totalPages}
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+      />
       <div style={{ paddingTop: "10px" }}>
         <div className="star-rating">
-          <Rating onClick={handleRating} initialValue={rating} />
+          <ReactStars
+            onChange={(e) => setRating(e)}
+            value={rating}
+            count={5}
+            size={24}
+            color2={"#ffd700"}
+          />
         </div>
         <input
           className={styles.reviewInput}

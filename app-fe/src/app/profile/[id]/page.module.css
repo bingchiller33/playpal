@@ -227,19 +227,20 @@
   fill: #b3133b;
 }
 
-.on {
-  color: #ffd900;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
+.star-rating .rating-svg {
+  width: 24px;
+  height: 24px;
+  fill: #d3d3d3; /* Default color */
 }
-.off {
-  color: #ffd90073;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
+
+.star-rating .rating-svg.rating-fill {
+  fill: gold; /* Color of selected stars */
+}
+
+/* Change color on hover */
+.star-rating .rating-svg:hover,
+.star-rating .rating-svg:hover ~ .rating-svg {
+  fill: orange; /* Color of stars on hover */
 }
 
 
