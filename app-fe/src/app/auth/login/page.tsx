@@ -23,11 +23,11 @@ export default function Login() {
         });
 
         if (!response?.error) {
-            router.push("/auth/testAuth");
+            router.push("/");
         }
     };
     const handleGoogleSignIn = async () => {
-        await signIn("google", { callbackUrl: "/auth/testAuth" });
+        await signIn("google", { callbackUrl: "/" });
     };
 
     return (

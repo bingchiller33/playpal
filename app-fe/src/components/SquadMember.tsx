@@ -7,13 +7,23 @@ import cx from "classnames";
 import { ISquadEnrollment } from "@/models/squadEnrollmentModel";
 import { IAccount } from "@/models/account";
 import LeaveSquadButton from "./LeaveSquadButton";
+import Squads from "@/models/squadModel";
+import { jsonStrip } from "@/utils";
+import dbConnect from "@/lib/mongoConnect";
+import Image from "next/image";
 
-const SquadMember = ({
+const SquadMember = async ({
     params,
     members,
     membersRecommend,
 }: SquadMemberProp) => {
     const { id, page } = params;
+    await dbConnect();
+    const squad = jsonStrip(await Squads.findById(id).exec());
+    console.log(squad);
+
+    const squadImgUrl = squad?.img || "/images/test.jpg";
+    console.log(squadImgUrl);
 
     let activePage;
     if (page === "request") {
@@ -31,16 +41,21 @@ const SquadMember = ({
     return (
         <div className="container-fluid">
             <div>
-                <LeaveSquadButton id={id} />
+                <a className="leave-chat-btn">
+                    <PiSignOutBold />
+                </a>
             </div>
 
             <div>
                 <div className="col text-center squadChat-head">
-                    <img
-                        src="/images/test.jpg"
+                    <Image
+                        src={squadImgUrl}
+                        alt="Squad Image"
+                        width={80}
+                        height={80}
                         style={{ borderRadius: "50%", height: "5rem" }}
                     />
-                    <h4 className="mt-3 mb-3 ">We bare bears</h4>
+                    <h4 className="mt-3 mb-3 ">{squad?.name}</h4>
                 </div>
                 <div className="col btnLine text-center mb-4">
                     <div className="row">
@@ -64,7 +79,6 @@ const SquadMember = ({
                 </div>
                 <div>{activePage}</div>
             </div>
-            <div></div>
         </div>
     );
 };

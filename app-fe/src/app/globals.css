@@ -705,7 +705,7 @@ a {
 
 .landing-1 {
     background-color: #12101A;
-    padding: 5rem !important;
+    padding: 1rem !important;
 }
 
 .landing-1 .landing-text {
@@ -719,7 +719,22 @@ a {
 }
 
 .landing-2 {
-    margin: 5rem !important;
+    margin: 1rem !important;
+}
+
+@media screen and (min-width: 1120px) {
+    .landing-1 {
+        padding: 5rem !important;
+    }
+
+    .landing-2 {
+        margin: 5rem !important;
+    }
+}
+
+.landing-text .btn-noBorder:hover {
+    box-shadow: 2px 1px 11px 0px var(--clr-primary-1),
+        0 0 0 1px var(--clr-primary-1);
 }
 
 .landing-text {
@@ -742,7 +757,7 @@ a {
 }
 
 
-.landing-5-content p{
+.landing-5-content p {
     padding: 0 3rem;
     /* text-align: justify; */
 }
@@ -773,6 +788,7 @@ a {
         text-align: center;
     }
 }
+
 .text-white {
     color: 'white' !important;
 }
@@ -784,4 +800,27 @@ a {
     padding: 4px;
     border-radius: 8px;
     width: 100%;
+}
+
+
+/* header dropdown */
+
+.header-user .dropdown-menu {
+    background-color: var(--clr-background-1);
+    box-shadow: 2px 1px 11px 0px var(--clr-primary-1),
+        0 0 0 1px var(--clr-primary-1);
+}
+
+.header-user .dropdown-menu .dropdown-item {
+    color: white;
+}
+
+.header-user .dropdown-menu .dropdown-divider {
+    border-color: var(--clr-primary-1);
+}
+
+.header-user .dropdown-menu .dropdown-item:hover {
+    background-color: transparent;
+    color: var(--clr-primary-1);
+    font-weight: 600;
 }
