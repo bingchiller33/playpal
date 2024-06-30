@@ -27,6 +27,7 @@ import { jsonStrip } from "@/utils";
 import { GAME_ID_LOL } from "@/utils/constants";
 import { SquadInput, matchTime, varianceRand } from "@/utils/matchmakingAlgos";
 import { WithId } from "@/utils/types";
+import { getData } from "./masterDataAlgoRepository";
 
 // Write common database query here, dont write basic crud here, use the Collection directly
 export async function createSquad(leader: string) {
@@ -360,12 +361,25 @@ async function recalcQueueFor(squadId: string) {
         return;
     }
 
+    const algoSettings = await getData();
     const updateTasks = [] as Promise<Date>[];
     for (const other of squads.filter((x) => x._id.toString() !== squadId)) {
-        // TODO: Change 0 to actual random
-        const curInput = await squadToAlgoInput(curSquad, other, 0);
-        const otherInput = await squadToAlgoInput(other, curSquad, 0);
-        const time = matchTime(curInput, otherInput);
+        const curInput = await squadToAlgoInput(
+            curSquad,
+            other,
+            algoSettings.variance
+        );
+        const otherInput = await squadToAlgoInput(
+            other,
+            curSquad,
+            algoSettings.variance
+        );
+        const time = matchTime(
+            curInput,
+            otherInput,
+            algoSettings.base,
+            algoSettings.exp
+        );
         const willMatchAt = new Date(Date.now() + time * 1000);
         const [squadA, squadB] = [squadId, other._id.toString()].toSorted();
 
@@ -610,6 +624,7 @@ export async function getActiveSquad() {
                 },
             },
         },
+        { $sort: { date: 1 } },
         {
             $project: {
                 _id: 0,
@@ -670,4 +685,37 @@ export async function getGameDistribution() {
     ]).exec();
 
     return cdata as { name: string; value: number }[];
+}
+
+export async function getPlayTime() {
+    const cdata = await Squads.aggregate([
+        {
+            $addFields: {
+                time: {
+                    $min: [new Date(), "$disbandedAt"],
+                },
+            },
+        },
+        {
+            $addFields: {
+                diff: {
+                    $dateDiff: {
+                        startDate: "$createdAt",
+                        endDate: "$time",
+                        unit: "hour",
+                    },
+                },
+            },
+        },
+        {
+            $group: {
+                _id: 1,
+                total: {
+                    $sum: "$diff",
+                },
+            },
+        },
+    ]);
+
+    return cdata[0]?.total ?? 0;
 }

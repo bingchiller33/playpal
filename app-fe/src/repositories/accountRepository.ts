@@ -1,7 +1,7 @@
 import Account from "@/models/account";
 import FilterLOLRanks from "@/models/filterLOLRankModel";
 import SquadEnrollments from "@/models/squadEnrollmentModel";
-import { IWeight } from "@/models/weightSchema";
+import { IWeight, commonWeights, lolWeights } from "@/models/weightSchema";
 import { jsonStrip } from "@/utils";
 import { GAME_ID_LOL } from "@/utils/constants";
 import {
@@ -172,6 +172,8 @@ export async function getDailyAccountRegistered() {
                 },
             },
         },
+        { $sort: { date: 1 } },
+
         {
             $project: {
                 _id: 0,
@@ -224,11 +226,15 @@ export async function getFilterDistribution() {
     ]).exec();
     console.log(cdata);
 
-    const { _id, ...rest } = jsonStrip(cdata[0]);
-    return Object.keys(rest).map((x) => ({
-        name: x,
-        value: rest[x] as number,
-    }));
+    if (cdata.length > 0) {
+        const { _id, ...rest } = jsonStrip(cdata)[0];
+        return Object.keys(rest).map((x) => ({
+            name: x,
+            value: rest[x] as number,
+        }));
+    } else {
+        return [];
+    }
 }
 
 export async function getTotalAccount() {
@@ -262,4 +268,23 @@ export async function getUserGrowthThisMonth() {
 
     const count = await Account.countDocuments({ createdAt: { $gt: date } });
     return count;
+}
+
+export async function initializeWeights() {
+    const weights = {
+        mode: "LOL",
+    } as any;
+    const totalWeights = commonWeights.length + lolWeights.length;
+    for (const w of commonWeights) {
+        weights[w] = 1 / totalWeights;
+    }
+
+    return {
+        matchMakingWeights: [
+            {
+                mode: "LOL",
+                weights,
+            },
+        ],
+    };
 }

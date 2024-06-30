@@ -5,12 +5,30 @@ import Squads from "@/models/squadModel";
 import Aaas from "@/models/aaaModel";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSquadByPlayer } from "@/repositories/squadRepository";
+import {
+    createSquadByPlayer,
+    getActiveSquad,
+    getUserActiveSquads,
+} from "@/repositories/squadRepository";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import Account from "@/models/account";
 import { commonWeights, lolWeights } from "@/models/weightSchema";
 import { sendNotification } from "@/lib/pusher.server";
+import { sessionOrLogin } from "@/utils/server";
+
+export async function callToAction() {
+    const session = await sessionOrLogin();
+    await dbConnect();
+    const squads = await getUserActiveSquads(session.user.id);
+    if (squads.length == 0) {
+        const newSquad = await createSquadByPlayer(session.user.id);
+        redirect(`/squad/${newSquad._id}/chat`);
+    } else {
+        console.log(`/squad/${squads[0].squadId._id}/chat`);
+        redirect(`/squad/${squads[0].squadId._id}/chat`);
+    }
+}
 
 export async function create(formData: FormData) {
     await dbConnect();

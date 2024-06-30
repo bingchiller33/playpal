@@ -11,28 +11,30 @@ export interface MatchMakingWeight {
 }
 
 export interface IAccount {
-  email?: string;
-  password?: string;
-  username?: string;
-  token?: string;
-  age?: number;
-  avatar?: string;
-  role: string;
-  gender?: WithId<IFilterGender>;
-  playstyles: WithId<IFilterPlaystyle>[];
-  // TODO: Change this after riot integration!
-  lolRank?: IFilterLOLRank;
-  verified?: boolean;
-  matchMakingWeights: MatchMakingWeight[];
-  createdAt?: Date;
-  updatedAt?: Date;
-  bio?: string;
-  riot_id?: string;
-  preferences?: {
-    language?: string[];
-    server?: string;
-  };
-  rating?: string;
+    email?: string;
+    password?: string;
+    username?: string;
+    token?: string;
+    age?: number;
+    avatar?: string;
+    role: string;
+    gender?: WithId<IFilterGender>;
+    playstyles: WithId<IFilterPlaystyle>[];
+    // TODO: Change this after riot integration!
+    lolRank?: IFilterLOLRank;
+    verified?: boolean;
+    matchMakingWeights: MatchMakingWeight[];
+    createdAt?: Date;
+    updatedAt?: Date;
+    bio?: string;
+    riot_id?: string;
+    preferences?: {
+        language?: string[];
+        server?: string;
+    };
+    rating?: string;
+    banUntil: Date | null;
+    banReason: string | null;
 }
 
 const AccountSchema = new Schema<IAccount>(
@@ -111,6 +113,87 @@ const AccountSchema = new Schema<IAccount>(
     // auto createAt, updateAt
     timestamps: true,
   }
+    {
+        email: {
+            type: String,
+            required: [true, "email is Required"],
+            unique: [true, "email is not duplicate"],
+        },
+        password: {
+            type: String,
+            required: [false],
+        },
+        username: {
+            type: String,
+            required: [true],
+        },
+        token: {
+            type: String,
+        },
+        verified: {
+            type: Boolean,
+        },
+        age: {
+            type: Number,
+        },
+        gender: {
+            type: mongoose.Types.ObjectId,
+            ref: FilterGenders,
+        },
+        playstyles: {
+            type: [mongoose.Types.ObjectId],
+            ref: FilterPlaystyles,
+            default: [],
+        },
+        lolRank: {
+            type: mongoose.Types.ObjectId,
+            ref: FilterLOLRanks,
+        },
+        matchMakingWeights: {
+            type: [
+                new Schema(
+                    {
+                        mode: {
+                            type: String,
+                            required: true,
+                        },
+                        weights: {
+                            type: WeightSchema,
+                        },
+                    },
+                    { _id: false }
+                ),
+            ],
+            default: [],
+        },
+
+        bio: {
+            type: String,
+        },
+        riot_id: {
+            type: String,
+        },
+        preferences: {
+            server: {
+                type: String,
+            },
+        },
+        rating: {
+            type: String,
+        },
+        banUntil: {
+            type: Date,
+            default: null,
+        },
+        banReason: {
+            type: String,
+            default: null,
+        },
+    },
+    {
+        // auto createAt, updateAt
+        timestamps: true,
+    }
 );
 
 // Mapping to Collection

@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import { useMatchMaking, useSquadFilterUpdates } from "@/lib/usePusherEvents";
 import { useRouter } from "next/navigation";
 import { ISquad } from "@/models/squadModel";
+import Dividers from "./Dividers";
 
 const SquadFilterView = (props: SquadFilterProps) => {
     const { id, page } = props.params;
@@ -256,13 +257,7 @@ const SquadFilterView = (props: SquadFilterProps) => {
                     </Col>
                 </Row>
 
-                <div
-                    className="mb-4"
-                    style={{
-                        border: `1px solid ${COLORS.PRIMARY_1}`,
-                        opacity: 0.5,
-                    }}
-                />
+                <Dividers />
 
                 <Row>
                     <Col className="d-flex align-items-center gap-2 mb-3">
