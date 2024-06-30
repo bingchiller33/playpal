@@ -19,7 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <ul className={cx(styles.pagination, "pagination")}>
             <li className={cx(styles.pagination, "page-item")}>
                 <button
-                    onClick={() => onPageChange(Math.max(currentPage - 1))}
+                    onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
                     className="page-link"
                 >
                     Prev
@@ -43,7 +43,9 @@ const Pagination: React.FC<PaginationProps> = ({
             ))}
             <li className={cx(styles.pagination, "page-item")}>
                 <button
-                    onClick={() => onPageChange(Math.min(currentPage + 1, total))}
+                    onClick={() =>
+                        onPageChange(Math.min(currentPage + 1, total))
+                    }
                     className="page-link"
                 >
                     Next

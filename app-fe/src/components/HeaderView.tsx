@@ -70,7 +70,7 @@ const HeaderView = ({ user }: HeaderProps) => {
                             <NotificationIcon />
                             <Dropdown className="header-user ">
                                 <DropdownToggle
-                                    className="header-avatar "
+                                    className="header-avatar d-flex align-items-center gap-2"
                                     variant="none"
                                     id="dropdown-basic"
                                 >
@@ -96,7 +96,9 @@ const HeaderView = ({ user }: HeaderProps) => {
 
                                 <DropdownMenu>
                                     {/* <Dropdown.Item onClick={() => signOut()}>Sign out</Dropdown.Item> */}
-                                    <Dropdown.Item href={`/profile/${user._id}`}>
+                                    <Dropdown.Item
+                                        href={`/profile/${user._id}`}
+                                    >
                                         My Profile
                                     </Dropdown.Item>
                                     <Dropdown.Item href="/notifications">
