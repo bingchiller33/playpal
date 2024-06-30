@@ -717,5 +717,5 @@ export async function getPlayTime() {
         },
     ]);
 
-    return cdata[0].total;
+    return cdata[0]?.total ?? 0;
 }
