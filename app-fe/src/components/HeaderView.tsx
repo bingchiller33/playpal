@@ -96,7 +96,7 @@ const HeaderView = ({ user }: HeaderProps) => {
 
                                 <DropdownMenu>
                                     {/* <Dropdown.Item onClick={() => signOut()}>Sign out</Dropdown.Item> */}
-                                    <Dropdown.Item href={`profile/${user._id}`}>
+                                    <Dropdown.Item href={`/profile/${user._id}`}>
                                         My Profile
                                     </Dropdown.Item>
                                     <Dropdown.Item href="/notifications">

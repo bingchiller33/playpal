@@ -7,9 +7,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProfileDetails from "./ProfileDetails";
 import ProfileHeader from "./ProfileHeader";
+import Feedback from "./Feedback";
 import {
   acceptFriendRequest,
   cancelFriendRequest,
+  fetchFeedback,
   fetchFriendRequests,
   fetchFriends,
   fetchProfile,
@@ -27,6 +29,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [isFriend, setIsFriend] = useState(false);
   const [isReceiver, setIsReceiver] = useState(false);
   const [friendRequest, setFriendRequest] = useState("");
+  const [feedback, setFeedback] = useState<any[]>([]);
 
   // FR: might put this in Header later
   const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
@@ -70,15 +73,23 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
       setProfile(fetchedProfile);
     };
 
+    const fetchAndSetFeedback = async () => {
+      const fetchedFeedback = await fetchFeedback(params.id);
+      setFeedback(fetchedFeedback);
+    };
+
     const fetchAndSetFriends = async () => {
       const fetchedFriends = await fetchFriends(params.id);
       setFriends(fetchedFriends);
     };
 
     const fetchData = async () => {
+      await fetchAndSetFeedback();
       await fetchAndSetProfile();
       await fetchAndSetFriends();
       await checkFriendRequest();
+      console.log(feedback);
+      
     };
 
     fetchData();
@@ -171,7 +182,12 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         />
         <div className={styles.feedbacks}>
           <h2>Feedbacks</h2>
-          {/* Feedbacks placeholder */}
+          <Feedback
+            profile={profile}
+            isCurrentUser={session?.user.id === params.id}
+            CurrentUser={session?.user.id}
+            feedbacks={feedback}
+          />
         </div>
         <div className={styles.highlights}>
           <h2>Highlights</h2>
