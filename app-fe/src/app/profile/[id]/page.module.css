@@ -122,6 +122,10 @@
   background-color: transparent;
 }
 
+.starSelected {
+  background-color: #ed154c;
+}
+
 .starSelect:hover {
   background-color: #ed154c; /* Change background color on hover */
 }
@@ -284,6 +288,9 @@
 }
 
 .dropbtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   min-width: 200px;
   background-color: #242034;
   color: white;
@@ -327,6 +334,18 @@
 
 .dropdownContent p:hover {
   background-color: #ED154C; /* Hover background color */
+}
+
+.dropdownFBItem {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdownFBItem:hover {
+  background-color: #ed154c;
 }
 
 @media screen and (max-width: 1350px) {

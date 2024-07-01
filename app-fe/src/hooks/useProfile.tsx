@@ -172,3 +172,26 @@ export const reviewPlayer = async (
   const data = await response.json();
   return data;
 };
+
+export const DeleteFeedback = async (id: string) => {
+  const response = await fetch(`/api/feedback/${id}`, {
+    method: "DELETE",
+  });
+  if(!response.ok) {
+    throw new Error("Failed to delete feedback");
+  }
+}
+
+export const UpdateFeedback = async (id:string, rate:number, text:string) => {
+  const response = await fetch(`/api/feedback/${id}`,{
+    method:"PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ rate, text }),
+    credentials: "include",
+  });
+  if(!response.ok) {
+    throw new Error("Failed to update feedback");
+  }
+}
