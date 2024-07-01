@@ -11,9 +11,27 @@ export default async function handler(
   const { id } = req.query;
 
   if (req.method === "POST") {
-    const { username, riot_id, bio, avatar } = req.body;
+    const {
+      username,
+      riot_id,
+      bio,
+      avatar,
+      age,
+      gender,
+      playstyles,
+      language,
+    } = req.body;
 
-    console.log("Request payload:", { username, riot_id, bio, avatar });
+    console.log("Request payload:", {
+      username,
+      riot_id,
+      bio,
+      avatar,
+      age,
+      gender,
+      playstyles,
+      language,
+    });
 
     try {
       const profile = await Account.findOneAndUpdate(
@@ -24,6 +42,10 @@ export default async function handler(
             riot_id,
             bio: avatar,
             avatar: avatar,
+            age,
+            gender,
+            playstyles,
+            language,
           },
         },
         { new: true }

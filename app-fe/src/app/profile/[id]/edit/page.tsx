@@ -8,6 +8,7 @@ import Link from "next/link";
 import { TiArrowBackOutline } from "react-icons/ti";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import TooltipSlider from "@/components/TooltipSlider";
 
 const EditProfile = ({ params }: { params: { id: string } }) => {
   const [activeTab, setActiveTab] = useState("basicInfo");
@@ -17,10 +18,47 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
     riot_id: "",
     bio: "",
     avatar: "",
-    // password: "",
-    // newPassword: "",
-    // confirmNewPassword: "",
+    age: 18,
+    gender: "",
+    playstyles: [],
+    language: [],
   });
+
+  const [options, setOptions] = useState({
+    genders: [],
+    playstyles: [],
+    languages: [],
+  });
+
+  const fetchOptions = async () => {
+    try {
+      const [playstylesResponse, languagesResponse, gendersResponse] =
+        await Promise.all([
+          fetch("/api/profile/playstyles"),
+          fetch("/api/profile/languages"),
+          fetch("/api/profile/genders"),
+        ]);
+
+      const [playstyles, languages, genders] = await Promise.all([
+        playstylesResponse.json(),
+        languagesResponse.json(),
+        gendersResponse.json(),
+      ]);
+
+      setOptions({
+        playstyles,
+        languages,
+        genders,
+      });
+      console.log(options["playstyles"]);
+    } catch (error) {
+      console.error("Failed to fetch options:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOptions();
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,9 +71,10 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
             riot_id: user.riot_id,
             bio: user.bio || "",
             avatar: user.avatar,
-            // password: "",
-            // newPassword: "",
-            // confirmNewPassword: "",
+            age: user.age || 18,
+            gender: user.gender || "",
+            playstyles: user.playstyles || [],
+            language: user.language || [],
           });
         } else {
           console.error("Failed to fetch user data");
@@ -66,6 +105,22 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
         [name]: value,
       });
     }
+  };
+
+  const handleSliderChange = (e) => {
+    setFormData({
+      ...formData,
+      age: e.value,
+    });
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    setFormData((prevData) => {
+      const newArray = prevData[name].includes(value)
+        ? prevData[name].filter((item) => item !== value)
+        : [...prevData[name], value];
+      return { ...prevData, [name]: newArray };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -230,6 +285,73 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                     value={formData.bio}
                     onChange={handleChange}
                   />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="age">Age</label>
+                  <div className={styles.sliderContainer}>
+                    <TooltipSlider
+                      value={formData.age}
+                      min={1}
+                      max={100}
+                      onChange={handleSliderChange}
+                    />
+                  </div>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="gender">Gender</label>
+                  <select
+                    id="gender"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Gender</option>
+                    {options.genders.map((gender) => (
+                      <option key={gender._id} value={gender._id}>
+                        {gender.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Playstyles</label>
+                  <div className={styles.checkboxContainer}>
+                    {options.playstyles.map((playstyle) => (
+                      <label
+                        key={playstyle._id}
+                        className={
+                          formData.playstyles.includes(playstyle._id)
+                            ? styles.selected
+                            : ""
+                        }
+                        onClick={() =>
+                          handleCheckboxChange("playstyles", playstyle._id)
+                        }
+                      >
+                        {playstyle.label}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Languages</label>
+                  <div className={styles.checkboxContainer}>
+                    {options.languages.map((language) => (
+                      <label
+                        key={language._id}
+                        className={
+                          formData.language.includes(language._id)
+                            ? styles.selected
+                            : ""
+                        }
+                        onClick={() =>
+                          handleCheckboxChange("language", language._id)
+                        }
+                      >
+                        {language.label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </>
             )}

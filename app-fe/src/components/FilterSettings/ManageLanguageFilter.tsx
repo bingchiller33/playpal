@@ -18,8 +18,8 @@ const ManageLanguageFilter = (props: ManageLanguageFilterProps) => {
     const [defaultLang, setDefaultLang] = useState<DropDownItem | string>();
     const langs = props.items.map((x) => ({ label: x.label, value: x._id }));
     useEffect(() => {
-        if (props.defaults.lang) {
-            setDefaultLang(props.defaults.lang.toString());
+        if (props.defaults?.lang) {
+            setDefaultLang(props.defaults?.lang.toString());
         }
     }, [props.defaults]);
 
