@@ -3,7 +3,7 @@ import styles from "../app/profile/page.module.css";
 
 type ProfileCardProps = {
   username: string;
-  avatar_url: string;
+  avatar: string;
   bio: string;
   riot_id: string;
   preferences: {
@@ -15,7 +15,7 @@ type ProfileCardProps = {
 };
 const ProfileCard: React.FC<ProfileCardProps> = ({
   username,
-  avatar_url,
+  avatar,
   bio,
   riot_id,
   preferences,
@@ -23,7 +23,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
   return (
     <div className={styles.card}>
-      <img src={avatar_url} alt={username} className={styles.profileImage} />
+      <img src={avatar} alt={username} className={styles.profileImage} />
       <div className={styles.cardInfo}>
         <div className={styles.infoLine}>
           <h3 style={{ fontWeight: "bold" }}>{username}</h3>

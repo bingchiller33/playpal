@@ -6,6 +6,7 @@ import FriendRequests from "@/components/FriendsRequest/FriendRequests";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { IoSettings, IoSettingsOutline } from "react-icons/io5";
+import Avatar from "@/components/Avatar";
 
 interface ProfileHeaderProps {
   profile: any;
@@ -47,13 +48,13 @@ const ProfileHeader = ({
 
   return (
     <div className={styles.profileHeader}>
-      <Image
-        width={350}
-        height={350}
-        src={profile.avatar_url}
-        alt="Profile Picture"
-        className={styles.profileImage}
-      />
+      <div className={styles.profileImage}>
+        <Avatar
+          size={350}
+          src={profile.avatar}
+          initials={profile.username[0]}
+        />
+      </div>
       <div className={styles.profileInfo}>
         <div className={styles.editContainer}>
           <h1 className={styles.username}>{profile.username}</h1>

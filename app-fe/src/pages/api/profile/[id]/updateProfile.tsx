@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/mongoConnect";
 import Account from "@/models/account";
-import { getSession } from "next-auth/react";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,10 +9,19 @@ export default async function handler(
   await dbConnect();
 
   const { id } = req.query;
-  console.log(id);
 
   if (req.method === "POST") {
-    const { username, riot_id, bio, avatar_url } = req.body;
+    const {
+      username,
+      riot_id,
+      bio,
+      avatar,
+      age,
+      gender,
+      playstyles,
+      language,
+      email,
+    } = req.body;
 
     try {
       const profile = await Account.findOneAndUpdate(
@@ -23,7 +31,12 @@ export default async function handler(
             username,
             riot_id,
             bio,
-            avatar_url,
+            avatar,
+            age,
+            gender,
+            playstyles,
+            language,
+            email,
           },
         },
         { new: true }
@@ -31,6 +44,8 @@ export default async function handler(
       if (!profile) {
         return res.status(404).json({ message: "Profile not found" });
       }
+
+      console.log("Updated profile:", profile);
       return res
         .status(200)
         .json({ message: "Profile updated successfully", profile });

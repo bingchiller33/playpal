@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const QUEUE_ID = "420";
-const API_KEY = process.env.RIOT_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_RIOT_API_KEY;
 const BASE_URL = "https://sea.api.riotgames.com/lol/match/v5/matches";
 
 export default async function handler(

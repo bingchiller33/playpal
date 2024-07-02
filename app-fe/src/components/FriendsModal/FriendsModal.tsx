@@ -5,7 +5,7 @@ import { IoCloseOutline } from "react-icons/io5";
 type Friend = {
   id: string;
   username: string;
-  avatar_url: string;
+  avatar: string;
 };
 
 type FriendsModalProps = {
@@ -74,7 +74,7 @@ const FriendsModal: React.FC<FriendsModalProps> = ({
             filteredFriends.map((friend) => (
               <div key={friend.id} className={styles.friendItem}>
                 <img
-                  src={friend.avatar_url}
+                  src={friend.avatar}
                   alt={friend.username}
                   className={styles.friendAvatar}
                 />

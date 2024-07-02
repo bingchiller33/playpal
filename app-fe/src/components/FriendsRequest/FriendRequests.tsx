@@ -5,7 +5,7 @@ import { IoCloseOutline } from "react-icons/io5";
 type FriendRequest = {
   id: string;
   username: string;
-  avatar_url: string;
+  avatar: string;
 };
 
 type FriendRequestsProps = {
@@ -52,7 +52,7 @@ const FriendRequests: React.FC<FriendRequestsProps> = ({
             friendRequests.map((request) => (
               <div key={request._id} className={styles.friendItem}>
                 <img
-                  src={request.avatar_url}
+                  src={request.avatar}
                   alt={request.username}
                   className={styles.friendAvatar}
                 />
