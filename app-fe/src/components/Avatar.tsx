@@ -29,13 +29,13 @@ const Avatar = ({ size, src, initials }: AvatarProps) => {
         );
     }
 
-    return <></>;
+  return <></>;
 };
 
 export interface AvatarProps {
-    size: number;
-    src?: string;
-    initials?: string;
+  size: number;
+  src?: string;
+  initials?: string;
 }
 
 export default Avatar;

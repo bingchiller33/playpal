@@ -39,6 +39,7 @@
         "react-spinners": "^0.13.8",
         "react-stars": "^2.2.5",
         "react-toastify": "^10.0.5",
+        "react-loading-skeleton": "^3.4.0",
         "relative-time-format": "^1.1.6",
         "vnpay": "^1.5.1"
     },

@@ -4,6 +4,7 @@ import FilterLOLRanks, { IFilterLOLRank } from "./filterLOLRankModel";
 import FilterPlaystyles, { IFilterPlaystyle } from "./filterPlaystyleModel";
 import { WithId } from "@/utils/types";
 import FilterGenders, { IFilterGender } from "./filterGenderModel";
+import FilterLanguages, { IFilterLanguage } from "./filterLanguageModel";
 
 export interface MatchMakingWeight {
     mode: (typeof modes)[number];
@@ -35,7 +36,7 @@ export interface IAccount {
     rating?: string;
     banUntil: Date | null;
     banReason: string | null;
-    plan: string;
+    language?: WithId<IFilterLanguage>[];
 }
 
 const AccountSchema = new Schema<IAccount>(
@@ -53,6 +54,15 @@ const AccountSchema = new Schema<IAccount>(
             type: String,
             required: [true],
         },
+        avatar: {
+            type: String,
+        },
+        bio: {
+            type: String,
+        },
+        riot_id: {
+            type: String,
+        },
         token: {
             type: String,
         },
@@ -69,6 +79,11 @@ const AccountSchema = new Schema<IAccount>(
         playstyles: {
             type: [mongoose.Types.ObjectId],
             ref: FilterPlaystyles,
+            default: [],
+        },
+        language: {
+            type: [mongoose.Types.ObjectId],
+            ref: FilterLanguages,
             default: [],
         },
         lolRank: {
@@ -92,13 +107,6 @@ const AccountSchema = new Schema<IAccount>(
             ],
             default: [],
         },
-
-        bio: {
-            type: String,
-        },
-        riot_id: {
-            type: String,
-        },
         preferences: {
             server: {
                 type: String,
@@ -114,10 +122,6 @@ const AccountSchema = new Schema<IAccount>(
         banReason: {
             type: String,
             default: null,
-        },
-        plan: {
-            type: String,
-            default: "STARTER",
         },
     },
     {

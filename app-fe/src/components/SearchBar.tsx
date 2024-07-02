@@ -6,7 +6,7 @@ interface User {
   id: string;
   username: string;
   email: string;
-  avatar_url: string;
+  avatar: string;
 }
 
 const SearchBar = () => {
@@ -111,7 +111,7 @@ const SearchBar = () => {
                   onClick={() => handleSearchSelect(user)}
                 >
                   <img
-                    src={user.avatar_url}
+                    src={user.avatar}
                     alt={user.username}
                     className={styles.avatar}
                   />
@@ -133,12 +133,18 @@ const SearchBar = () => {
                 onClick={() => handleSearchSelect(user)}
               >
                 <img
-                  src={user.avatar_url}
+                  src={user.avatar}
                   alt={user.username}
                   className={styles.avatar}
                 />
                 <div className={styles.userInfo}>
-                  <p style={{ fontWeight: "bold", fontSize: 24 }}>
+                  <p
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 24,
+                      marginBottom: 0,
+                    }}
+                  >
                     {user.username}
                   </p>
                   <p className={styles.userEmail}>{user.email}</p>

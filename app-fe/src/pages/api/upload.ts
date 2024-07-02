@@ -16,8 +16,10 @@ export default async function handler(
 
     try {
       const uploadResponse = await cloudinary.v2.uploader.upload(file, {
-        upload_preset: "playpal", 
+        upload_preset: "playpal",
       });
+
+      console.log("Cloudinary upload response:", uploadResponse);
 
       return res.status(200).json({ url: uploadResponse.secure_url });
     } catch (error) {

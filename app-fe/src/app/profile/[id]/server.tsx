@@ -16,7 +16,7 @@ export async function sendFriendRequestNotification(receiverId: string) {
   await dbConnect();
   sendNotification({
     title: "Friend Request",
-    content: `${session.user.email} has sent you a friend request.`,
+    content: `${session.user.username} has sent you a friend request.`,
     href: `/profile/${session.user.id}`,
     user: receiverId,
     saveHistory: true,

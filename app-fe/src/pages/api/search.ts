@@ -20,7 +20,7 @@ export default async function handler(
         { email: { $regex: q, $options: "i" } },
         { riot_id: { $regex: q, $options: "i" } },
       ],
-    }).select("_id username email avatar_url rating riot_id");
+    }).select("_id username email avatar rating riot_id");
     res.status(200).json({ users });
   } catch (error) {
     console.error("Error searching users:", error);
