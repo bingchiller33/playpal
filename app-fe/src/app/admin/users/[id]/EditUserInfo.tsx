@@ -96,6 +96,11 @@ const EditUserInfo: React.FC<UserEditProps> = ({ userId }) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!formData.gender || formData.gender === "select gender") {
+      toast.error("Please select a gender.");
+      return;
+    }
     try {
       const res = await fetch(`/api/profile/${userId}/updateProfile`, {
         method: "POST",
@@ -162,7 +167,7 @@ const EditUserInfo: React.FC<UserEditProps> = ({ userId }) => {
           value={formData.gender}
           onChange={handleInputChange}
         >
-          <option value="">Select Gender</option>
+          <option disabled>Select Gender</option>
           {genderOptions.map((option) => (
             <option key={option._id} value={option._id}>
               {option.label}

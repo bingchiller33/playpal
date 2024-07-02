@@ -191,6 +191,11 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
     e.preventDefault();
     let avatarUrl = formData.avatar;
 
+    if (!formData.gender || formData.gender === "select gender") {
+      toast.error("Please select a gender.");
+      return;
+    }
+    
     if (formData.avatar && formData.avatar.startsWith("data:image")) {
       try {
         const uploadResponse = await fetch("/api/upload", {
@@ -385,7 +390,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                       value={formData.gender}
                       onChange={handleChange}
                     >
-                      <option value="">Select Gender</option>
+                      <option disabled>Select Gender</option>
                       {options.genders.map((gender) => (
                         <option key={gender._id} value={gender._id}>
                           {gender.label}
