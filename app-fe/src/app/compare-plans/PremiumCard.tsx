@@ -24,7 +24,7 @@ const PremiumCard = ({ exp, premiumPrice }: PremiumCardProps) => {
 
             <p className="">Premium</p>
             <h2 className="color-primary-1 fw-bold" style={{ fontSize: 32 }}>
-                19,000 VND / month
+                {premiumPrice} VND / month
             </h2>
 
             <ul className="list-unstyled">

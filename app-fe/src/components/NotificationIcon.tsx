@@ -29,10 +29,19 @@ const NotificationIcon = () => {
 
             <div
                 className="position-absolute popup-notification-panel  d-none d-md-block"
-                style={{ top: "100%", right: 0 }}
+                style={{
+                    top: "100%",
+                    right: 0,
+                    maxHeight: "80vh",
+                    zIndex: 1000,
+                }}
             >
                 <div
-                    style={{ display: isOpen ? "block" : "none" }}
+                    style={{
+                        display: isOpen ? "block" : "none",
+                        maxHeight: "80vh",
+                        overflowY: "auto",
+                    }}
                     className="border-primary-glow"
                 >
                     <NotificationPanel />
