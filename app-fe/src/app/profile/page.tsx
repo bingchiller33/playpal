@@ -67,15 +67,3 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }) => {
 };
 
 export default UserProfile;
-
-// {
-//   id: "1",
-//   username: "User1",
-//   rank: "Diamond",
-//   language: ["EN", "KR"],
-//   server: "Asia",
-//   style: "Entertain Only",
-//   rating: "4.9",
-//   image:
-//     "https://res.cloudinary.com/dnzy2vddm/image/upload/v1709534551/avatar-guest_2x_nbk1bw.png",
-// },

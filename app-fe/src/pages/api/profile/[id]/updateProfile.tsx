@@ -20,18 +20,8 @@ export default async function handler(
       gender,
       playstyles,
       language,
+      email,
     } = req.body;
-
-    console.log("Request payload:", {
-      username,
-      riot_id,
-      bio,
-      avatar,
-      age,
-      gender,
-      playstyles,
-      language,
-    });
 
     try {
       const profile = await Account.findOneAndUpdate(
@@ -40,12 +30,13 @@ export default async function handler(
           $set: {
             username,
             riot_id,
-            bio: avatar,
-            avatar: avatar,
+            bio,
+            avatar,
             age,
             gender,
             playstyles,
             language,
+            email,
           },
         },
         { new: true }

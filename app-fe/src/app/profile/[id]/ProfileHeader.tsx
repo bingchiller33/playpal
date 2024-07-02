@@ -48,14 +48,13 @@ const ProfileHeader = ({
 
   return (
     <div className={styles.profileHeader}>
-      <Avatar size={350} src={profile.avatar} initials={profile.username[0]} />
-      {/* <Image
-        width={350}
-        height={350}
-        src={profile.avatar}
-        alt="Profile Picture"
-        className={styles.profileImage}
-      /> */}
+      <div className={styles.profileImage}>
+        <Avatar
+          size={350}
+          src={profile.avatar}
+          initials={profile.username[0]}
+        />
+      </div>
       <div className={styles.profileInfo}>
         <div className={styles.editContainer}>
           <h1 className={styles.username}>{profile.username}</h1>

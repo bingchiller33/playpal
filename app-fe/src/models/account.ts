@@ -21,7 +21,6 @@ export interface IAccount {
   role: string;
   gender?: WithId<IFilterGender>;
   playstyles: WithId<IFilterPlaystyle>[];
-  // TODO: Change this after riot integration!
   lolRank?: IFilterLOLRank;
   verified?: boolean;
   matchMakingWeights: MatchMakingWeight[];

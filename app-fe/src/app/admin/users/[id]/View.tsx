@@ -13,6 +13,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import { banUser, changeRole } from "./server";
 import { reportToast } from "@/utils/client";
 import { ROLES } from "@/utils/constants";
+import EditUserInfo from "./EditUserInfo";
 
 const ManageUserView = ({ user }: ManageUserViewProps) => {
     const [role, setRole] = useState(user.role);
@@ -44,7 +45,7 @@ const ManageUserView = ({ user }: ManageUserViewProps) => {
                             View profile
                         </Link>
                         <h2>Change User Info</h2>
-                        <p>TODO</p>
+                        <EditUserInfo userId={user._id} />
                         <Dividers />
                         <h2>Manage Subscription</h2>
                         <p>TODO</p>
