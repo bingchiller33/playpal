@@ -73,7 +73,7 @@ const ChoosePremiumButton = ({
 
                     <div className="modal-body">
                         <h2>You are about to subcribe to PlayPal Premium!</h2>
-                        <PremiumCard exp={exp} />
+                        <PremiumCard exp={exp} premiumPrice={premiumPrice} />
 
                         <p className="m-0">Duration: </p>
                         <div className="d-flex gap-2">
