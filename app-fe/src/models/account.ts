@@ -35,6 +35,7 @@ export interface IAccount {
     rating?: string;
     banUntil: Date | null;
     banReason: string | null;
+    plan: string;
 }
 
 const AccountSchema = new Schema<IAccount>(
@@ -113,6 +114,10 @@ const AccountSchema = new Schema<IAccount>(
         banReason: {
             type: String,
             default: null,
+        },
+        plan: {
+            type: String,
+            default: "STARTER",
         },
     },
     {

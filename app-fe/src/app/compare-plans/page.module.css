@@ -1,0 +1,27 @@
+.plan-btn {
+    border-radius: 100px;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-plan {
+    justify-content: center;
+    gap: 2rem;
+}
+
+.section-plan>div {
+    flex: 0 1 400px;
+}
+
+.recommended-tag {
+    left: 0;
+    top: -40px;
+    z-index: -1;
+}
+
+.main {
+    background: url('/assets/images/Moodboard2.png');
+    background-position: center;
+    background-size: cover;
+}

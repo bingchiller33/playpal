@@ -23,3 +23,15 @@ export function fmtRelDate(time: number | Date | string) {
     }
     return timeAgo.format(time);
 }
+
+export function addMonth(d: Date, months: number) {
+    const curMonth = d.getMonth();
+    if (d.getMonth() + months > 12) {
+        d.setFullYear(d.getFullYear() + 1);
+        d.setMonth(d.getMonth() + months - 12);
+    } else {
+        d.setMonth(curMonth + months);
+    }
+
+    return d;
+}
