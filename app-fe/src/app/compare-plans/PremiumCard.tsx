@@ -48,6 +48,10 @@ const PremiumCard = ({ exp, premiumPrice }: PremiumCardProps) => {
                     <SiTicktick fill={COLORS.PRIMARY_1} />
                     Advanced player stats filtering.
                 </li>
+                <li className="d-flex align-items-center gap-2 my-3">
+                    <SiTicktick fill={COLORS.PRIMARY_1} />
+                    An awesome badge to show off your profile.
+                </li>
             </ul>
 
             <ChoosePremiumButton exp={exp} premiumPrice={premiumPrice} />
