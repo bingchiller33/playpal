@@ -119,7 +119,7 @@ a {
 }
 
 .color-primary-1 {
-    color: var(--clr-primary-1);
+    color: var(--clr-primary-1) !important;
 }
 
 .unstyled-button {
@@ -153,6 +153,12 @@ a {
 
 .background-1 {
     background: var(--clr-background-1);
+}
+
+.bg-moodboard {
+    background: url('/assets/images/Moodboard.png');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .border-primary-glow {

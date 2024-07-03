@@ -168,6 +168,12 @@
     background-color: #c01241;
 }
 
+.table-history td,
+.table-history th {
+    background-color: transparent !important;
+    color: white !important
+}
+
 @media (max-width: 768px) {
     .editProfile {}
 
