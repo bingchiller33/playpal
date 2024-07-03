@@ -24,6 +24,10 @@ export function fmtRelDate(time: number | Date | string) {
     return timeAgo.format(time);
 }
 
+export function fmtDateInput(date: Date) {
+    return date.toISOString().substring(0, 10);
+}
+
 export function addMonth(d: Date, months: number) {
     const curMonth = d.getMonth();
     if (d.getMonth() + months > 12) {

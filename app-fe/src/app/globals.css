@@ -155,6 +155,12 @@ a {
     background: var(--clr-background-1);
 }
 
+.bg-moodboard {
+    background: url('/assets/images/Moodboard.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .border-primary-glow {
     box-shadow: 2px 1px 11px 0px var(--clr-primary-1),
         0 0 0 1px var(--clr-primary-1);

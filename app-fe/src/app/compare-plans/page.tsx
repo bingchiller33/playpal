@@ -9,7 +9,7 @@ import { dbUserFromSession } from "@/utils/server";
 import ChoosePremiumButton from "./ChoosePremiumButton";
 import PremiumCard from "./PremiumCard";
 import dbConnect from "@/lib/mongoConnect";
-import { getPremiumExpiry } from "@/repositories/premiumRepository";
+import { getFutPremiumExpiry } from "@/repositories/premiumRepository";
 import { getMasterData } from "@/repositories/masterDataRepository";
 
 const HEIGHT = 500;
@@ -17,7 +17,9 @@ const HEIGHT = 500;
 const ComparePlanPage = async () => {
     await dbConnect();
     const user = await dbUserFromSession();
-    const exp = user ? await getPremiumExpiry(user._id.toString()) : undefined;
+    const exp = user
+        ? await getFutPremiumExpiry(user._id.toString())
+        : undefined;
     const price = (await getMasterData()).premiumPrice;
 
     return (
