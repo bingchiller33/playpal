@@ -10,186 +10,200 @@ import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import TooltipSlider from "@/components/TooltipSlider";
 import { ImProfile } from "react-icons/im";
-import { FaRegUserCircle, FaSave } from "react-icons/fa";
+import { FaHeart, FaRegUserCircle, FaSave } from "react-icons/fa";
 import { MdOutlineSecurity } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import PremiumTransactionHistory from "@/components/PremiumTransactionHistory";
+import { getFutPremiumExpiry } from "@/server/subscriptions.server";
 
 const EditProfile = ({ params }: { params: { id: string } }) => {
-  const { data: session, status } = useSession();
-  const [activeTab, setActiveTab] = useState("basicInfo");
-  const [loading, setLoading] = useState(true);
+    const { data: session, status } = useSession();
+    const [activeTab, setActiveTab] = useState("basicInfo");
+    const [loading, setLoading] = useState(true);
+    const [premiumExpire, setPremiumExpire] = useState<Date | undefined>();
 
-  const [formData, setFormData] = useState({
-    username: "",
-    riot_id: "",
-    bio: "",
-    avatar: "",
-    age: 18,
-    gender: "",
-    playstyles: [],
-    language: [],
-  });
+    useEffect(() => {
+        getFutPremiumExpiry(params.id).then((res) => {
+            if (res.success) {
+                setPremiumExpire(res!.data);
+            }
+        });
+    }, [params.id]);
 
-  const [passwordData, setPasswordData] = useState({
-    newPassword: "",
-    confirmNewPassword: "",
-  });
+    const [formData, setFormData] = useState({
+        username: "",
+        riot_id: "",
+        bio: "",
+        avatar: "",
+        age: 18,
+        gender: "",
+        playstyles: [],
+        language: [],
+    });
 
-  const [options, setOptions] = useState({
-    genders: [],
-    playstyles: [],
-    languages: [],
-  });
+    const [passwordData, setPasswordData] = useState({
+        newPassword: "",
+        confirmNewPassword: "",
+    });
 
-  useEffect(() => {
-    if (!session) {
-      redirect("/auth/login");
-      return;
-    }
+    const [options, setOptions] = useState({
+        genders: [],
+        playstyles: [],
+        languages: [],
+    });
 
-    if (session.user.id !== params.id) {
-      redirect(`/profile/${session.user.id}/edit`);
-    }
-  }, [session, status, params.id]);
-
-  const fetchOptions = async () => {
-    try {
-      const [playstylesResponse, languagesResponse, gendersResponse] =
-        await Promise.all([
-          fetch("/api/profile/playstyles"),
-          fetch("/api/profile/languages"),
-          fetch("/api/profile/genders"),
-        ]);
-
-      const [playstyles, languages, genders] = await Promise.all([
-        playstylesResponse.json(),
-        languagesResponse.json(),
-        gendersResponse.json(),
-      ]);
-
-      setOptions({
-        playstyles,
-        languages,
-        genders,
-      });
-    } catch (error) {
-      console.error("Failed to fetch options:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchOptions();
-  }, []);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`/api/profile/${params.id}`);
-        if (response.ok) {
-          const user = await response.json();
-          setFormData({
-            username: user.username,
-            riot_id: user.riot_id,
-            bio: user.bio || "",
-            avatar: user.avatar,
-            age: user.age || 18,
-            gender: user.gender || "",
-            playstyles: user.playstyles || [],
-            language: user.language || [],
-          });
-        } else {
-          console.error("Failed to fetch user data");
+    useEffect(() => {
+        if (!session) {
+            redirect("/auth/login");
+            return;
         }
-      } catch (error) {
-        console.error("An error occurred:", error);
-      } finally {
-        setLoading(false);
-      }
+
+        if (session.user.id !== params.id) {
+            redirect(`/profile/${session.user.id}/edit`);
+        }
+    }, [session, status, params.id]);
+
+    const fetchOptions = async () => {
+        try {
+            const [playstylesResponse, languagesResponse, gendersResponse] =
+                await Promise.all([
+                    fetch("/api/profile/playstyles"),
+                    fetch("/api/profile/languages"),
+                    fetch("/api/profile/genders"),
+                ]);
+
+            const [playstyles, languages, genders] = await Promise.all([
+                playstylesResponse.json(),
+                languagesResponse.json(),
+                gendersResponse.json(),
+            ]);
+
+            setOptions({
+                playstyles,
+                languages,
+                genders,
+            });
+        } catch (error) {
+            console.error("Failed to fetch options:", error);
+        }
     };
 
-    fetchUserData();
-  }, [params.id]);
+    useEffect(() => {
+        fetchOptions();
+    }, []);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "avatar" && files && files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`/api/profile/${params.id}`);
+                if (response.ok) {
+                    const user = await response.json();
+                    setFormData({
+                        username: user.username,
+                        riot_id: user.riot_id,
+                        bio: user.bio || "",
+                        avatar: user.avatar,
+                        age: user.age || 18,
+                        gender: user.gender || "",
+                        playstyles: user.playstyles || [],
+                        language: user.language || [],
+                    });
+                } else {
+                    console.error("Failed to fetch user data");
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, [params.id]);
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        if (name === "avatar" && files && files.length > 0) {
+            const file = files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setFormData({
+                    ...formData,
+                    avatar: reader.result,
+                });
+            };
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
+    };
+
+    const handleSliderChange = (e) => {
         setFormData({
-          ...formData,
-          avatar: reader.result,
+            ...formData,
+            age: e.value,
         });
-      };
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
+    };
 
-  const handleSliderChange = (e) => {
-    setFormData({
-      ...formData,
-      age: e.value,
-    });
-  };
+    const handleCheckboxChange = (name, value) => {
+        setFormData((prevData) => {
+            const newArray = prevData[name].includes(value)
+                ? prevData[name].filter((item) => item !== value)
+                : [...prevData[name], value];
+            return { ...prevData, [name]: newArray };
+        });
+    };
 
-  const handleCheckboxChange = (name, value) => {
-    setFormData((prevData) => {
-      const newArray = prevData[name].includes(value)
-        ? prevData[name].filter((item) => item !== value)
-        : [...prevData[name], value];
-      return { ...prevData, [name]: newArray };
-    });
-  };
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setPasswordData({
+            ...passwordData,
+            [name]: value,
+        });
+    };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setPasswordData({
-      ...passwordData,
-      [name]: value,
-    });
-  };
+    const handlePasswordSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+            toast.error("New password and confirmation do not match!");
+            return;
+        }
 
-  const handlePasswordSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (passwordData.newPassword !== passwordData.confirmNewPassword) {
-      toast.error("New password and confirmation do not match!");
-      return;
-    }
+        try {
+            console.log(passwordData);
 
-    try {
-      console.log(passwordData);
+            const response = await fetch(
+                `/api/profile/${params.id}/changePassword`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(passwordData),
+                }
+            );
 
-      const response = await fetch(`/api/profile/${params.id}/changePassword`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(passwordData),
-      });
+            if (response.ok) {
+                const result = await response.json();
+                toast.success("Password changed successfully!");
+            } else {
+                const error = await response.json();
+                toast.error(`Password change failed: ${error.message}`);
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    };
 
-      if (response.ok) {
-        const result = await response.json();
-        toast.success("Password changed successfully!");
-      } else {
-        const error = await response.json();
-        toast.error(`Password change failed: ${error.message}`);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let avatarUrl = formData.avatar;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let avatarUrl = formData.avatar;
 
     if (!formData.gender || formData.gender === "select gender") {
       toast.error("Please select a gender.");
@@ -206,81 +220,99 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
           body: JSON.stringify({ file: formData.avatar }),
         });
 
-        if (uploadResponse.ok) {
-          const { url } = await uploadResponse.json();
-          avatarUrl = url;
-          console.log("Uploaded image to Cloudinary", avatarUrl);
-        } else {
-          console.error("Failed to upload image to Cloudinary");
-          return;
+                if (uploadResponse.ok) {
+                    const { url } = await uploadResponse.json();
+                    avatarUrl = url;
+                    console.log("Uploaded image to Cloudinary", avatarUrl);
+                } else {
+                    console.error("Failed to upload image to Cloudinary");
+                    return;
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
+                return;
+            }
         }
-      } catch (error) {
-        console.error("An error occurred:", error);
-        return;
-      }
-    }
 
-    try {
-      const response = await fetch(`/api/profile/${params.id}/updateProfile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          avatar: avatarUrl,
-        }),
-      });
-      if (response.ok) {
-        const result = await response.json();
-        toast.success("Profile updated successfully!");
-      } else {
-        const error = await response.json();
-        toast.error(`Profile update failed: ${error.message}`);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
+        try {
+            const response = await fetch(
+                `/api/profile/${params.id}/updateProfile`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        ...formData,
+                        avatar: avatarUrl,
+                    }),
+                }
+            );
+            if (response.ok) {
+                const result = await response.json();
+                toast.success("Profile updated successfully!");
+            } else {
+                const error = await response.json();
+                toast.error(`Profile update failed: ${error.message}`);
+            }
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    };
 
-  return (
-    <>
-      <Header />
-      <div className={styles.editProfile}>
-        <div className={styles.titleContainer}>
-          <Link href={`/profile/${params.id}`} className={styles.backButton}>
-            <TiArrowBackOutline size={40} fill="#ED154C" />
-          </Link>
-          <h2 className={`${styles.title} font-all-star`}>EDIT PROFILE</h2>{" "}
-          <div></div>
-        </div>
-        <div className={styles.container}>
-          <div className={styles.sidebar}>
-            <button
-              className={`${styles.tabButton} ${
-                activeTab === "basicInfo" ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab("basicInfo")}
-            >
-              <ImProfile size={32} />
-            </button>
-            <button
-              className={`${styles.tabButton} ${
-                activeTab === "avatar" ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab("avatar")}
-            >
-              <FaRegUserCircle size={32} />
-            </button>
-            <button
-              className={`${styles.tabButton} ${
-                activeTab === "account" ? styles.activeTab : ""
-              }`}
-              onClick={() => setActiveTab("account")}
-            >
-              <MdOutlineSecurity size={32} />
-            </button>
-          </div>
+    return (
+        <div className="bg-moodboard h-100">
+            <Header />
+            <div className={styles.editProfile}>
+                <div className={styles.titleContainer}>
+                    <Link
+                        href={`/profile/${params.id}`}
+                        className={styles.backButton}
+                    >
+                        <TiArrowBackOutline size={40} fill="#ED154C" />
+                    </Link>
+                    <h2 className={`${styles.title} font-all-star`}>
+                        EDIT PROFILE
+                    </h2>{" "}
+                    <div></div>
+                </div>
+                <div className={styles.container}>
+                    <div className={styles.sidebar}>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "basicInfo"
+                                    ? styles.activeTab
+                                    : ""
+                            }`}
+                            onClick={() => setActiveTab("basicInfo")}
+                        >
+                            <ImProfile size={32} />
+                        </button>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "avatar" ? styles.activeTab : ""
+                            }`}
+                            onClick={() => setActiveTab("avatar")}
+                        >
+                            <FaRegUserCircle size={32} />
+                        </button>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "account" ? styles.activeTab : ""
+                            }`}
+                            onClick={() => setActiveTab("account")}
+                        >
+                            <MdOutlineSecurity size={32} />
+                        </button>
+                        <button
+                            className={`${styles.tabButton} ${
+                                activeTab === "premium" ? styles.activeTab : ""
+                            }`}
+                            onClick={() => setActiveTab("premium")}
+                        >
+                            <FaHeart size={32} />
+                        </button>
+                    </div>
 
           {loading ? (
             <SkeletonTheme baseColor="#2a2a4a" highlightColor="#444">

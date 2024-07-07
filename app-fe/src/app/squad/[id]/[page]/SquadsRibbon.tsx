@@ -5,8 +5,8 @@ import { getUserActiveSquads } from "@/repositories/squadRepository";
 import { COLORS } from "@/utils/constants";
 import { CiCirclePlus } from "react-icons/ci";
 import IconLink from "@/components/IconLink";
-import { createSquad } from "./server";
 import { sessionOrLogin } from "@/utils/server";
+import { createSquad } from "@/server/squad.server";
 
 const SquadsRibbon = async ({}: SquadsRibbonProps) => {
     await dbConnect();

@@ -12,6 +12,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkQueueTime as repoCheckQueueTime } from "@/repositories/squadRepository";
 import { sessionOrLogin } from "@/utils/server";
+import { getFutPremiumExpiry } from "@/repositories/premiumRepository";
 
 async function requireLeader(squad: ISquad | string) {
     if (typeof squad === "string") {
@@ -24,7 +25,7 @@ async function requireLeader(squad: ISquad | string) {
         return { success: false, msg: "Only squad leader can do this action!" };
     }
 
-    return { success: true };
+    return { success: true, userId };
 }
 
 export async function updateFilter(
@@ -96,6 +97,7 @@ export async function updateSpecFilter(
 }
 
 export async function enterMatchmaking(squadId: string) {
+    let isBlocked = false;
     try {
         await dbConnect();
         const checkPriviledge = await requireLeader(squadId);
@@ -103,6 +105,27 @@ export async function enterMatchmaking(squadId: string) {
             return checkPriviledge;
         }
 
+        const expiry = await getFutPremiumExpiry(checkPriviledge.userId!);
+        if (!expiry) {
+            const squad = await Squads.findById(squadId).exec();
+            console.log({ squad });
+            if ((squad?.filter.memberCount ?? 0) > 5) {
+                isBlocked = true;
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        return {
+            success: false,
+            msg: "Error occured while enter match making! Please try again later!",
+        };
+    }
+
+    if (isBlocked) {
+        redirect("/compare-plans");
+    }
+
+    try {
         const willMatchAt = await enterQueue(squadId);
         revalidatePath(`/squad/${squadId}`);
         return { success: true, willMatchAt };

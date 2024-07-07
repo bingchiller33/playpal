@@ -23,6 +23,14 @@ const AdminNavigationPanel = () => {
                 <p className="m-0">Users</p>
             </Link>
 
+            <Link
+                href="/admin/masterdata"
+                className="d-flex align-items-center gap-2 admin-nav-item p-2 rounded"
+            >
+                <MdDashboard />
+                <p className="m-0">Master Data</p>
+            </Link>
+
             <h1 className="ms-4" style={{ fontSize: 16, fontWeight: "bold" }}>
                 Matchmaking
             </h1>

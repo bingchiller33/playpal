@@ -3,11 +3,11 @@ import IconLink from "@/components/IconLink";
 import { COLORS } from "@/utils/constants";
 import { CiBellOn, CiCirclePlus } from "react-icons/ci";
 import { IoIosArrowBack } from "react-icons/io";
-import { createSquad } from "../server";
 import SquadItem from "./SquadItem";
 import dbConnect from "@/lib/mongoConnect";
 import { getUserActiveSquads } from "@/repositories/squadRepository";
 import { sessionOrLogin } from "@/utils/server";
+import { createSquad } from "@/server/squad.server";
 
 const MySquadPage = async () => {
     await dbConnect();

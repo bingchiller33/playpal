@@ -45,7 +45,7 @@ const TabMembers = ({ members, membersRecommend, id }: MembersProps) => {
                         key={member.accountId._id.toString()}
                     >
                         <div className="">
-                            <IconLink href="/">
+                            <IconLink href={`/profile/${member.accountId._id}`}>
                                 {member.accountId.avatar ? (
                                     <Avatar
                                         size={36}

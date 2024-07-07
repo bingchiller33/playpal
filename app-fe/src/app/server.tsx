@@ -65,17 +65,6 @@ export async function weight() {
     });
 }
 
-export async function createSquad() {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-        redirect("/auth/login");
-    }
-
-    await dbConnect();
-    const newSquad = await createSquadByPlayer(session.user.id);
-    redirect(`/squad/${newSquad._id}/chat`);
-}
-
 export async function send() {
     const session = await getServerSession(authOptions);
     if (!session) {

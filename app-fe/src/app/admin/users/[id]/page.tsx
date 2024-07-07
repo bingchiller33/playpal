@@ -10,6 +10,8 @@ import { Button, Col, Row } from "react-bootstrap";
 import ManageUserView from "./View";
 import { jsonStrip } from "@/utils";
 import { redirect } from "next/navigation";
+import { getPremiumHistory } from "@/server/subscriptions.server";
+import { getFutPremiumExpiry } from "@/repositories/premiumRepository";
 
 const ManageUserPage = async ({ params }: NextPageProps) => {
     const { id } = params;
@@ -19,7 +21,8 @@ const ManageUserPage = async ({ params }: NextPageProps) => {
         redirect("/admin/users");
     }
 
-    return <ManageUserView user={user!} />;
+    const expires = await getFutPremiumExpiry(id);
+    return <ManageUserView user={user!} premiumExpire={expires} />;
 };
 
 export default ManageUserPage;

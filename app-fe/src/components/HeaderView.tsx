@@ -41,15 +41,24 @@ const HeaderView = ({ user }: HeaderProps) => {
                 </NavbarToggle>
                 <NavbarCollapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <NavLink href="" className="text-white header-element">
-                            Home
-                        </NavLink>
-                        <NavLink href="" className="text-white header-element">
+                        <Link
+                            href={"/about-us"}
+                            className="nav-link text-white header-element"
+                        >
                             About us
-                        </NavLink>
-                        <NavLink href="" className="text-white header-element">
+                        </Link>
+                        <Link
+                            href={"/compare-plans"}
+                            className="nav-link text-white header-element"
+                        >
+                            Plans
+                        </Link>
+                        <Link
+                            href={"/about-us"}
+                            className="nav-link text-white header-element"
+                        >
                             Blog
-                        </NavLink>
+                        </Link>
                     </Nav>
                     <div className="flex-grow-1 mx-3 px-5">
                         <SearchBar />

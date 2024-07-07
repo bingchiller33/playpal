@@ -3,8 +3,10 @@
 import dbConnect from "@/lib/mongoConnect";
 import { sendNotification } from "@/lib/pusher.server";
 import SquadInvitations, { ISquadInvitation } from "@/models/squadInvitation";
+import { getFutPremiumExpiry } from "@/repositories/premiumRepository";
 import {
     createInvitationMember,
+    getUserActiveSquads,
     joinSquad,
 } from "@/repositories/squadRepository";
 import { jsonStrip } from "@/utils";
@@ -67,8 +69,11 @@ export async function declineInvite(invitationId: string) {
 
 export async function acceptInvite(invitationId: string) {
     let squadId = undefined;
+    let isBlocked = false;
+    let userId = undefined;
     try {
         const session = await sessionOrLogin();
+        userId = session.user.id;
         await dbConnect();
         const invite = await SquadInvitations.findById(invitationId).exec();
         squadId = invite?.squadId as unknown as string;
@@ -76,12 +81,28 @@ export async function acceptInvite(invitationId: string) {
             return { success: false, msg: "Cannot find squad!" };
         }
 
-        await joinSquad(squadId, session.user.id);
+        const expiry = await getFutPremiumExpiry(userId);
+        if (!expiry) {
+            const squads = await getUserActiveSquads(userId);
+            isBlocked = squads.length >= 3;
+        }
+    } catch (e) {
+        console.error(e);
+        return { success: false, msg: "False to respond to invitation!" };
+    }
+
+    if (isBlocked) {
+        redirect(`/compare-plans`);
+    }
+
+    try {
+        await joinSquad(squadId, userId);
         await SquadInvitations.deleteOne({ _id: invitationId }).exec();
         revalidatePath(`/invitations/squad/`);
     } catch (e) {
         console.error(e);
         return { success: false, msg: "False to respond to invitation!" };
     }
+
     redirect(`/squad/${squadId}/chat`);
 }
