@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./SearchBar.module.css";
 import Link from "next/link";
+import Avatar from "./Avatar";
 
 interface User {
   id: string;
@@ -110,11 +111,13 @@ const SearchBar = () => {
                   className={styles.resultItem}
                   onClick={() => handleSearchSelect(user)}
                 >
-                  <img
-                    src={user.avatar}
-                    alt={user.username}
-                    className={styles.avatar}
-                  />
+                  <div className={styles.avatar}>
+                    <Avatar
+                      size={50}
+                      src={user.avatar}
+                      initials={user.username[0]}
+                    />
+                  </div>
                   <div className={styles.userInfo}>
                     <p style={{ fontWeight: "bold", fontSize: 24 }}>
                       {user.username}
@@ -132,11 +135,13 @@ const SearchBar = () => {
                 className={styles.resultItem}
                 onClick={() => handleSearchSelect(user)}
               >
-                <img
-                  src={user.avatar}
-                  alt={user.username}
-                  className={styles.avatar}
-                />
+                <div className={styles.avatar}>
+                  <Avatar
+                    size={50}
+                    src={user.avatar}
+                    initials={user.username[0]}
+                  />
+                </div>
                 <div className={styles.userInfo}>
                   <p
                     style={{
