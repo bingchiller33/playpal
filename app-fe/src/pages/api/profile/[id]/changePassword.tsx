@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "@/lib/mongoConnect";
 import Account from "@/models/account";
-import { getSession } from "next-auth/react";
 import bcrypt from "bcryptjs";
 import { getToken } from "next-auth/jwt";
 
