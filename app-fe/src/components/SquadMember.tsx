@@ -41,9 +41,7 @@ const SquadMember = async ({
     return (
         <div className="container-fluid">
             <div>
-                <a className="leave-chat-btn">
-                    <PiSignOutBold />
-                </a>
+                <LeaveSquadButton id={id} />
             </div>
 
             <div>
