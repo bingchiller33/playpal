@@ -79,7 +79,10 @@ const EditUserInfo: React.FC<UserEditProps> = ({ userId }) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value === "" ? null : value,
+    }));
   };
 
   const handleCheckboxChange = (
@@ -97,17 +100,15 @@ const EditUserInfo: React.FC<UserEditProps> = ({ userId }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!formData.gender || formData.gender === "select gender") {
-      toast.error("Please select a gender.");
-      return;
-    }
+    const gender = formData.gender === "" ? null : formData.gender;
+
     try {
       const res = await fetch(`/api/profile/${userId}/updateProfile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, gender: gender }),
       });
 
       if (res.ok) {
@@ -164,10 +165,10 @@ const EditUserInfo: React.FC<UserEditProps> = ({ userId }) => {
         <label>Gender</label>
         <select
           name="gender"
-          value={formData.gender}
+          value={formData.gender || ""}
           onChange={handleInputChange}
         >
-          <option disabled>Select Gender</option>
+          <option value="">Select Gender</option>
           {genderOptions.map((option) => (
             <option key={option._id} value={option._id}>
               {option.label}

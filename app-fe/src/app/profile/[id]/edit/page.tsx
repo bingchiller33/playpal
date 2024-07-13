@@ -139,7 +139,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
     } else {
       setFormData({
         ...formData,
-        [name]: value,
+        [name]: value === "" ? null : value,
       });
     }
   };
@@ -176,8 +176,6 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
     }
 
     try {
-      console.log(passwordData);
-
       const response = await fetch(`/api/profile/${params.id}/changePassword`, {
         method: "POST",
         headers: {
@@ -202,10 +200,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
     e.preventDefault();
     let avatarUrl = formData.avatar;
 
-    if (!formData.gender || formData.gender === "select gender") {
-      toast.error("Please select a gender.");
-      return;
-    }
+    const gender = formData.gender === "" ? null : formData.gender;
 
     if (formData.avatar && formData.avatar.startsWith("data:image")) {
       try {
@@ -239,6 +234,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
         },
         body: JSON.stringify({
           ...formData,
+          gender: gender,
           avatar: avatarUrl,
         }),
       });
@@ -409,7 +405,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                       value={formData.gender}
                       onChange={handleChange}
                     >
-                      <option disabled>Select Gender</option>
+                      <option value="">Select Gender</option>
                       {options.genders.map((gender) => (
                         <option key={gender._id} value={gender._id}>
                           {gender.label}
