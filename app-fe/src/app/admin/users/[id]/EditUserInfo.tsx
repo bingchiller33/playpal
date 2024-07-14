@@ -47,7 +47,6 @@ const EditUserInfo: React.FC<UserEditProps> = ({ userId }) => {
         setGenderOptions(await genderRes.json());
         setPlaystyleOptions(await playstyleRes.json());
         setLanguageOptions(await languageRes.json());
-        console.log(genderOptions, playstyleOptions, languageOptions);
       } catch (error) {
         console.error("Error fetching options:", error);
       }
