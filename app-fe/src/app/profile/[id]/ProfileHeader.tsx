@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
 import FriendsModal from "@/components/FriendsModal/FriendsModal";
@@ -6,7 +6,7 @@ import FriendRequests from "@/components/FriendsRequest/FriendRequests";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { IoSettings, IoSettingsOutline } from "react-icons/io5";
-import Avatar from "@/components/Avatar";
+import { FaUserCheck } from "react-icons/fa";
 
 interface ProfileHeaderProps {
   profile: any;
@@ -21,6 +21,8 @@ interface ProfileHeaderProps {
   handleAcceptProfile: () => void;
   handleAddFriend: () => void;
   handleAccept: (requestId: string) => void;
+  setFriends: (friends: any[]) => void;
+  handleCancelProfile: () => void;
 }
 
 interface Option {
@@ -41,6 +43,8 @@ const ProfileHeader = ({
   handleAddFriend,
   handleAccept,
   handleAcceptProfile,
+  handleCancelProfile,
+  setFriends,
 }: ProfileHeaderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFRModalOpen, setIsFRModalOpen] = useState(false);
@@ -51,8 +55,32 @@ const ProfileHeader = ({
   const openFRModal = () => setIsFRModalOpen(true);
   const closeFRModal = () => setIsFRModalOpen(false);
 
+  const [isFDropdownOpen, setIsFDropdownOpen] = useState(false);
+  const toggleDropdown = () => setIsFDropdownOpen(!isFDropdownOpen);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const [playstyleOptions, setPlaystyleOptions] = useState<Option[]>([]);
   const [languageOptions, setLanguageOptions] = useState<Option[]>([]);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsFDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isFDropdownOpen) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isFDropdownOpen]);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -121,29 +149,91 @@ const ProfileHeader = ({
           className={styles.friendContainer}
           style={{ display: "flex", gap: "30px", marginTop: "10px" }}
         >
+          {session?.user.id !== params.id && (
+            <div className={styles.friendButtonContainer}>
+              {isReceiver ? (
+                <div className={styles.friendRequestContainer}>
+                  <p>
+                    <b
+                      className={styles.username}
+                      style={{ fontSize: "18px", marginRight: 5 }}
+                    >
+                      {profile.username}
+                    </b>
+                    sent you a friend request
+                  </p>
+                  <div className={styles.friendRequestButtonContainer}>
+                    <button
+                      onClick={handleAcceptProfile}
+                      className={styles.acceptButton}
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      onClick={handleCancelProfile}
+                      className={styles.declineButton}
+                    >
+                      Decline
+                    </button>
+                  </div>
+                </div>
+              ) : isFriend ? (
+                <div className={styles.friendDropdown} ref={dropdownRef}>
+                  <button
+                    onClick={toggleDropdown}
+                    className={styles.friendsButton}
+                  >
+                    <FaUserCheck size={25} style={{ marginRight: "5px" }} />
+                    Friends
+                  </button>
+                  {isFDropdownOpen && (
+                    <div className={styles.dropdownMenu}>
+                      <button
+                        onClick={handleAddFriend}
+                        className={styles.dropdownItem}
+                      >
+                        Unfriend
+                      </button>
+                      {/* Add more options here in the future */}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  onClick={handleAddFriend}
+                  disabled={loading}
+                  className={styles.addFriendButton}
+                >
+                  {loading ? (
+                    "Sending..."
+                  ) : requestSent ? (
+                    <>
+                      <FaArrowRightLong fill="#ED154C" /> Cancel Request
+                    </>
+                  ) : (
+                    "Add Friend"
+                  )}
+                </button>
+              )}
+            </div>
+          )}
           <p
             onClick={openModal}
-            style={{ cursor: "pointer", fontSize: "22px" }}
+            style={{ cursor: "pointer", fontSize: "22px", marginTop: "8px" }}
           >
             {friends.length} <b>Friends</b>
           </p>
+
           {session?.user.id === params.id && (
             <p
               onClick={openFRModal}
-              style={{ cursor: "pointer", fontSize: "22px" }}
+              style={{ cursor: "pointer", fontSize: "22px", marginTop: "8px" }}
             >
               {friendRequests.length} <b>Friend Requests</b>
             </p>
           )}
         </div>
-        <div
-          className={styles.bioContainer}
-          style={{
-            wordWrap: "break-word",
-            overflowWrap: "break-word",
-            maxWidth: "500px",
-          }}
-        >
+        <div className={styles.bioContainer}>
           <p style={{ color: "gray" }}>{profile.bio}</p>
         </div>
         <div className={styles.pillsContainer}>
@@ -178,39 +268,15 @@ const ProfileHeader = ({
             </div>
           )}
         </div>
-
-        {session?.user.id !== params.id &&
-          (isReceiver ? (
-            <div>
-              <p>{profile.username} has sent you a friend request</p>
-              <button onClick={() => handleAcceptProfile()}>Confirm</button>
-              <button>Decline</button>
-            </div>
-          ) : (
-            <button
-              onClick={handleAddFriend}
-              disabled={loading}
-              className={styles.addFriendButton}
-            >
-              {loading ? (
-                "Sending..."
-              ) : isFriend ? (
-                "Unfriend"
-              ) : requestSent ? (
-                <>
-                  <FaArrowRightLong fill="#ED154C" /> Cancel Request
-                </>
-              ) : (
-                "Add Friend"
-              )}
-            </button>
-          ))}
       </div>
       {isModalOpen && (
         <FriendsModal
           friends={friends}
           onClose={closeModal}
           isCurrentUser={params.id === session?.user.id}
+          currentUserId={session?.user.id}
+          setIsFDropdownOpen={setIsFDropdownOpen}
+          setFriends={setFriends}
         />
       )}
       {isFRModalOpen && (

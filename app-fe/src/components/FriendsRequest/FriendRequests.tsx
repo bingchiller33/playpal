@@ -1,6 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "../FriendsModal/FriendsModal.module.css";
 import { IoCloseOutline } from "react-icons/io5";
+import { fetchProfile } from "@/hooks/useProfile";
 
 type FriendRequest = {
   id: string;
@@ -14,12 +15,19 @@ type FriendRequestsProps = {
   onClose: () => void;
 };
 
+type DetailedFriendRequest = {
+  id: string;
+  sender: { id: string; username: string; avatar: string; };
+};
+
 const FriendRequests: React.FC<FriendRequestsProps> = ({
   friendRequests,
   onAccept,
   onClose,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [detailedRequests, setDetailedRequests] = useState<DetailedFriendRequest[]>([]);
+  const [isLoading, setIsLoading] = useState(false); 
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -36,6 +44,29 @@ const FriendRequests: React.FC<FriendRequestsProps> = ({
     };
   }, [onClose]);
 
+  useEffect(() => {
+    const fetchDetails = async () => {
+      setIsLoading(true); // Start loading
+      try {
+        const requestsWithDetails = await Promise.all(friendRequests.map(async (request) => {
+          const sender = await fetchProfile(request.sender_id);
+          return { id: request._id, sender };
+        }));
+        setDetailedRequests(requestsWithDetails);
+      } catch (error) {
+        console.error("Failed to fetch sender details", error);
+      } finally {
+        setIsLoading(false); 
+      }
+    };
+    
+    fetchDetails();
+  }, [friendRequests]);
+  
+  if (isLoading) {
+    return <div>Loading...</div>; 
+  }
+
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent} ref={modalRef}>
@@ -48,17 +79,17 @@ const FriendRequests: React.FC<FriendRequestsProps> = ({
           </button>
         </div>
         <div className={styles.friendsList}>
-          {friendRequests.length > 0 ? (
-            friendRequests.map((request) => (
-              <div key={request._id} className={styles.friendItem}>
+          {detailedRequests.length > 0 ? (
+            detailedRequests.map((request) => (
+              <div key={request.id} className={styles.friendItem}>
                 <img
-                  src={request.avatar}
-                  alt={request.username}
+                  src={request.sender.avatar}
+                  alt={request.sender.username}
                   className={styles.friendAvatar}
                 />
-                <span className={styles.friendName}>{request.username}</span>
+                <span className={styles.friendName}>{request.sender.username}</span>
                 <button
-                  onClick={() => onAccept(request._id)}
+                  onClick={() => onAccept(request.id)}
                   className={styles.acceptButton}
                 >
                   Accept

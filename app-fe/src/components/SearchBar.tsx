@@ -155,8 +155,8 @@ const SearchBar = () => {
                   <p className={styles.userEmail}>{user.email}</p>
                 </div>
                 <div className={styles.userDetails}>
-                  <p>DIAMOND</p>
-                  <p>LEVEL 499</p>
+                  <p>.</p>
+                  <p>.</p>
                 </div>
               </Link>
             ))
