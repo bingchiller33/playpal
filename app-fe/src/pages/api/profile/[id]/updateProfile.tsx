@@ -45,7 +45,6 @@ export default async function handler(
         return res.status(404).json({ message: "Profile not found" });
       }
 
-      console.log("Updated profile:", profile);
       return res
         .status(200)
         .json({ message: "Profile updated successfully", profile });

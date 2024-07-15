@@ -81,6 +81,7 @@
     margin-left: 10px;
 }
 
+.acceptButton,
 .unfriendButton {
     background: #ED154C;
     border: none;
@@ -90,6 +91,7 @@
     cursor: pointer;
 }
 
+.acceptButton:hover,
 .unfriendButton:hover {
-    background: #ff1a1a;
+    background: #f14571;
 }

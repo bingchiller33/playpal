@@ -9,11 +9,12 @@
   display: flex;
   align-items: flex-start;
   gap: 100px;
-  height: 400px;
+  min-height: 400px;
 }
 
 .profileInfo {
   padding-top: 5%;
+  flex: 1;
 }
 
 .playerDetails,
@@ -42,6 +43,7 @@
 .editContainer {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .addFriendButton {
@@ -56,13 +58,20 @@
 
 .profileImage {
   max-width: 100%;
-  height: auto;
   margin-left: 100px;
   border-radius: 50%;
 }
 
-.username {
-  color: #ED154C;
+.roundAvatar {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ED154C;
+  font-size: 150px;
+  color: #fff;
 }
 
 .usernameContainer {
@@ -72,8 +81,11 @@
 }
 
 .username {
-  font-size: 30px;
+  font-size: 35px;
+  font-weight: bold;
+  margin: 0;
   margin-right: 10px;
+  color: #ED154C;
 }
 
 .editButton {
@@ -90,11 +102,116 @@
   background-color: #ff4060;
 }
 
+.pillsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pill {
+  background-color: #242034;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px solid #ED154C;
+  font-weight: 400;
+}
+
+.bioContainer {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 500px;
+}
+
+.friendRequestContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #12101b;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.friendRequestButtonContainer {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.acceptButton {
+  background: #ed154c;
+  color: white;
+  padding: 7px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 45%;
+}
+
+.declineButton {
+  background: #242526;
+  color: white;
+  padding: 7px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 45%;
+}
+
+.friendButtonContainer {
+  position: relative;
+}
+
+.friendsButton {
+  background: #ED154C;
+  color: #fff;
+  padding: 10px 25px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  border: 1px solid #ED154C;
+}
+
+.dropdownMenu {
+  position: absolute;
+  width: 200px;
+  top: 120%;
+  left: 0;
+  transform: translateX(50px);
+  background: #242034;
+  border: 1px solid #ED154C;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.dropdownItem {
+  padding: 10px 20px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #ED154C;
+  cursor: pointer;
+  text-align: left;
+}
+
+.friendsButton:hover {
+  background-color: #f03563;
+}
+
+.dropdownItem:hover {
+  background: rgba(237, 21, 76, 0.1);
+}
 
 .starsValueContainer {
   padding: 20px;
-  align-items: center; /* Align items vertically in the center */
-  margin-right: 20px; /* Add some space between starsValue and starSelectContainer */
+  align-items: center;
+  /* Align items vertically in the center */
+  margin-right: 20px;
+  /* Add some space between starsValue and starSelectContainer */
   width: 20%;
   display: flex;
   flex-direction: column;
@@ -114,7 +231,8 @@
 
 .starSelect {
   border: 1px solid #ED154C;
-  margin-right: 10px; /* Add some space between starSelect items */
+  margin-right: 10px;
+  /* Add some space between starSelect items */
   height: 50%;
   cursor: pointer;
   padding: 5px 10px;
@@ -127,11 +245,13 @@
 }
 
 .starSelect:hover {
-  background-color: #ed154c; /* Change background color on hover */
+  background-color: #ed154c;
+  /* Change background color on hover */
 }
 
-.starSelectContainer > .starSelect:last-child {
-  margin-right: 0; /* Remove the margin-right for the last item */
+.starSelectContainer>.starSelect:last-child {
+  margin-right: 0;
+  /* Remove the margin-right for the last item */
 }
 
 
@@ -274,17 +394,20 @@
 .star-rating .rating-svg {
   width: 24px;
   height: 24px;
-  fill: #d3d3d3; /* Default color */
+  fill: #d3d3d3;
+  /* Default color */
 }
 
 .star-rating .rating-svg.rating-fill {
-  fill: gold; /* Color of selected stars */
+  fill: gold;
+  /* Color of selected stars */
 }
 
 /* Change color on hover */
 .star-rating .rating-svg:hover,
-.star-rating .rating-svg:hover ~ .rating-svg {
-  fill: orange; /* Color of stars on hover */
+.star-rating .rating-svg:hover~.rating-svg {
+  fill: orange;
+  /* Color of stars on hover */
 }
 
 .dropbtn {
@@ -313,9 +436,12 @@
 .dropdownContent {
   display: none;
   position: absolute;
-  background-color: #242034; /* Background color */
-  border: 1px solid #ED154C; /* Border color */
-  border-radius: 8px; /* Rounded corners */
+  background-color: #242034;
+  /* Background color */
+  border: 1px solid #ED154C;
+  /* Border color */
+  border-radius: 8px;
+  /* Rounded corners */
   min-width: 200px;
   z-index: 1;
 }
@@ -325,7 +451,8 @@
 }
 
 .dropdownContent p {
-  color: white; /* Text color */
+  color: white;
+  /* Text color */
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -333,7 +460,8 @@
 }
 
 .dropdownContent p:hover {
-  background-color: #ED154C; /* Hover background color */
+  background-color: #ED154C;
+  /* Hover background color */
 }
 
 .dropdownFBItem {
@@ -348,29 +476,84 @@
   background-color: #ed154c;
 }
 
+
 @media screen and (max-width: 1350px) {
   .profileContainer {
     margin: 50px 20px;
   }
 
   .profileImage {
+    width: 300px;
+    height: 300px;
     margin: 0;
+  }
+
+  .bioContainer {
+    max-width: 420px;
   }
 }
 
 @media screen and (max-width: 900px) {
+  .profileContainer {
+    margin: 20px;
+  }
+
   .profileHeader {
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 20px;
-
+    text-align: center;
+    width: 100%;
   }
 
   .profileImage {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+    margin: 0;
   }
 
+  .roundAvatar {
+    width: 250px;
+    height: 250px;
+    font-size: 100px;
+  }
+
+  .profileInfo {
+    padding-top: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+
+  .friendContainer,
+  .bioContainer,
+  .editContainer {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+
+  .username {
+    font-size: 45px;
+  }
+
+  .pillsContainer {
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .addFriendButton {
+    padding: 8px 16px;
+  }
+
+  .pill {
+    font-size: 16px;
+    padding: 2px 8px;
+  }
 }

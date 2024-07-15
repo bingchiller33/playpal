@@ -31,6 +31,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [isFriend, setIsFriend] = useState(false);
   const [isReceiver, setIsReceiver] = useState(false);
   const [friendRequest, setFriendRequest] = useState("");
+  const [friendRequestBoth, setFriendRequestBoth] = useState("");
   const [feedback, setFeedback] = useState<any[]>([]);
 
   // FR: might put this in Header later
@@ -64,6 +65,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     ) {
       setIsReceiver(true);
       setFriendRequest(checkData.request_id);
+      setFriendRequestBoth(checkData);
     } else {
       setIsReceiver(false);
     }
@@ -86,11 +88,12 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     };
 
     const fetchData = async () => {
+      setLoading(true);
       await fetchAndSetFeedback();
       await fetchAndSetProfile();
       await fetchAndSetFriends();
       await checkFriendRequest();
-      console.log(feedback);
+      setLoading(false);
     };
 
     fetchData();
@@ -100,6 +103,8 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     try {
       await acceptFriendRequest(requestId);
       setFriendRequests((prev) => prev.filter((req) => req._id !== requestId));
+      const updatedFriends = await fetchFriends(session.user.id);
+      setFriends(updatedFriends);
     } catch (error) {
       console.error(error);
     }
@@ -138,6 +143,24 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     try {
       await acceptFriendRequest(friendRequest);
       setIsReceiver(false);
+      setIsFriend(true);
+      setRequestSent(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCancelProfile = async () => {
+    try {
+      console.log(friendRequest);
+
+      await cancelFriendRequest(
+        friendRequestBoth.sender_id,
+        friendRequestBoth.receiver_id
+      );
+      setIsReceiver(false);
+      setIsFriend(false);
+      setRequestSent(false);
     } catch (error) {
       console.error(error);
     }
@@ -178,7 +201,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     </SkeletonTheme>
   );
 
-  if (!profile) {
+  if (!profile || loading) {
     return (
       <>
         <Header />
@@ -223,7 +246,9 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           handleAddFriend={handleAddFriend}
           handleAccept={handleAccept}
           handleAcceptProfile={handleAcceptProfile}
+          handleCancelProfile={handleCancelProfile}
           isReceiver={isReceiver}
+          setFriends={setFriends}
         />
         <ProfileDetails
           profile={profile}
@@ -237,10 +262,6 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             CurrentUser={session?.user.id}
             feedbacks={feedback}
           />
-        </div>
-        <div className={styles.highlights}>
-          <h2>Highlights</h2>
-          {/* Highlights placeholder */}
         </div>
       </div>
       <Footer />

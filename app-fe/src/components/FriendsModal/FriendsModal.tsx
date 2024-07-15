@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./FriendsModal.module.css";
 import { IoCloseOutline } from "react-icons/io5";
+import { unfriend } from "@/hooks/useProfile";
+import Link from "next/link";
+import { FaUserTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 type Friend = {
-  id: string;
+  _id: string;
   username: string;
   avatar: string;
 };
@@ -12,12 +16,18 @@ type FriendsModalProps = {
   friends: Friend[];
   onClose: () => void;
   isCurrentUser: boolean;
+  currentUserId: string;
+  setIsFDropdownOpen: (value: boolean) => void;
+  setFriends: (friends: Friend[]) => void;
 };
 
 const FriendsModal: React.FC<FriendsModalProps> = ({
   friends,
   onClose,
   isCurrentUser,
+  currentUserId,
+  setIsFDropdownOpen,
+  setFriends,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -41,8 +51,19 @@ const FriendsModal: React.FC<FriendsModalProps> = ({
     friend.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const handleUnfriend = async (friendId: string) => {
-    alert(`Unfriend ${friendId}`);
+    setIsFDropdownOpen(false);
+    const success = await unfriend(currentUserId, friendId);
+    if (success) {
+      const updatedFriends = friends.filter(
+        (friend) => friend._id !== friendId
+      );
+      setFriends(updatedFriends);
+      toast.success("Unfriended successfully");
+    } else {
+      toast.error("Could not unfriend. Please try again.");
+    }
   };
+
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent} ref={modalRef}>
@@ -72,18 +93,21 @@ const FriendsModal: React.FC<FriendsModalProps> = ({
         <div className={styles.friendsList}>
           {filteredFriends.length > 0 ? (
             filteredFriends.map((friend) => (
-              <div key={friend.id} className={styles.friendItem}>
-                <img
-                  src={friend.avatar}
-                  alt={friend.username}
-                  className={styles.friendAvatar}
-                />
-                <span className={styles.friendName}>{friend.username}</span>
+              <div key={friend._id} className={styles.friendItem}>
+                <Link href={`/profile/${friend._id}`}>
+                  <img
+                    src={friend.avatar}
+                    alt={friend.username}
+                    className={styles.friendAvatar}
+                  />
+                  <span className={styles.friendName}>{friend.username}</span>
+                </Link>
                 {isCurrentUser && (
                   <button
-                    onClick={() => handleUnfriend(friend.id)}
+                    onClick={() => handleUnfriend(friend._id)}
                     className={styles.unfriendButton}
                   >
+                    <FaUserTimes size={26} style={{ marginRight: "3px" }} />
                     Unfriend
                   </button>
                 )}
