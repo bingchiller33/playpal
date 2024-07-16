@@ -50,42 +50,43 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
 
   const [player, id] = profile.riot_id ? profile.riot_id.split("#") : ["", ""];
 
-  useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
     if (profile.riot_id) {
-      const fetchData = async () => {
-        try {
-          const accountData = await fetchAccountV1(player, id);
-          setAccountInfo(accountData);
+      try {
+        const accountData = await fetchAccountV1(player, id);
+        setAccountInfo(accountData);
 
-          const summonerData = await fetchSummonerV4(accountData.puuid);
-          setSummonerInfo(summonerData);
+        const summonerData = await fetchSummonerV4(accountData.puuid);
+        setSummonerInfo(summonerData);
 
-          const leagueData = await fetchLeagueV4(summonerData.id);
-          setLeagueInfo(leagueData);
-          if (leagueData.length > 0) {
-            const tier = leagueData[0]?.tier.toLowerCase();
-            setTierIcon(tierIcons[tier] || tierIcons["unranked"]);
-          }
-
-          const matchIds = await fetchMatchesByPUUID(accountData.puuid);
-          setMatches(matchIds);
-
-          const matchDataPromises = matchIds.map((matchId: string) =>
-            fetchMatchById(matchId)
-          );
-          const matchesData = await Promise.all(matchDataPromises);
-          setMatchDetails(matchesData);
-        } catch (error) {
-          console.error("Failed to fetch Riot information", error);
-        } finally {
-          setLoading(false);
+        const leagueData = await fetchLeagueV4(summonerData.id);
+        setLeagueInfo(leagueData);
+        if (leagueData.length > 0) {
+          const tier = leagueData[0]?.tier.toLowerCase();
+          setTierIcon(tierIcons[tier] || tierIcons["unranked"]);
         }
-      };
 
-      fetchData();
+        const matchIds = await fetchMatchesByPUUID(accountData.puuid);
+        setMatches(matchIds);
+
+        const matchDataPromises = matchIds.map((matchId: string) =>
+          fetchMatchById(matchId)
+        );
+        const matchesData = await Promise.all(matchDataPromises);
+        setMatchDetails(matchesData);
+      } catch (error) {
+        console.error("Failed to fetch Riot information", error);
+      } finally {
+        setLoading(false);
+      }
     } else {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [profile.riot_id]);
 
   const handleRiotIdSave = async () => {
@@ -106,8 +107,8 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
 
         if (response.ok) {
           setShowRiotIdInput(false);
-          // Refresh the page or re-fetch the data to reflect the new Riot ID
-          window.location.reload();
+          profile.riot_id = riotId;
+          fetchData();
         } else {
           const error = await response.json();
           console.error(error.message);
@@ -151,41 +152,45 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
   const averageGoldPerMin = totalGold / totalDuration;
   const averageDamagePerGold = totalDamage / totalGold;
 
-  if (loading) return <p>Loading...</p>;
-
-  if (!profile.riot_id && isCurrentUser) {
-    return (
-      <div className={styles.container}>
-        <h3 className={styles.inputHeader}>
-          Please enter your Riot ID to fetch your League of Legends data:
-        </h3>
-        <input
-          type="text"
-          value={riotId}
-          onChange={(e) => setRiotId(e.target.value)}
-          placeholder="player#1234"
-          className={styles.inputField}
-        />
-        <button onClick={handleRiotIdSave} className={styles.saveButton}>
-          Save
-        </button>
-      </div>
-    );
-  }
-
-  if (!summonerInfo || !accountInfo) {
-    return <p>No data available</p>;
-  }
-
   return (
-    <div className={styles.container}>
+    <div
+      className={`${styles.container} ${
+        loading ? styles.blurred : styles.unblur
+      }`}
+    >
+      {loading && (
+        <div className={styles.overlay}>
+          <p className={styles.loadingText}>Loading...</p>
+        </div>
+      )}
+      {showRiotIdInput && (
+        <div className={styles.overlay}>
+          <div className={styles.inputContainer}>
+            <h3 className={styles.inputHeader}>
+              Please enter your Riot ID to fetch your League of Legends data:
+            </h3>
+            <input
+              type="text"
+              value={riotId}
+              onChange={(e) => setRiotId(e.target.value)}
+              placeholder="player#1234"
+              className={styles.inputField}
+            />
+            <button onClick={handleRiotIdSave} className={styles.saveButton}>
+              Save
+            </button>
+          </div>
+        </div>
+      )}
       <div className={styles.tabContainer}>
         <button className={styles.tabButton}>Valorant</button>
         <button className={`${styles.tabButton} ${styles.activeTab}`}>
           League Of Legends
         </button>
       </div>
-      <div className={styles.content}>
+      <div
+        className={`${styles.content} ${showRiotIdInput ? styles.blurred : ""}`}
+      >
         <div className={styles.playerInfo}>
           <h3>Player</h3>
           <div className={styles.iconContainer}>
@@ -194,11 +199,11 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
               alt="Player Icon"
               className={styles.playerIcon}
             />
-            <span className={styles.level}>{summonerInfo.summonerLevel}</span>
+            <span className={styles.level}>{summonerInfo?.summonerLevel}</span>
           </div>
           <div className={styles.nameTagContainer}>
-            <p>{accountInfo.gameName} </p>
-            <p style={{ color: "gray" }}> #{accountInfo.tagLine}</p>
+            <p>{accountInfo?.gameName}</p>
+            <p style={{ color: "gray" }}> #{accountInfo?.tagLine}</p>
           </div>
         </div>
         <div className={styles.overview}>
@@ -225,18 +230,18 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
             <div className={styles.rankWRContainer}>
               <div className={styles.tierRankContainer}>
                 <p style={{ color: "grey", fontWeight: "bold" }}>
-                  {leagueInfo[0].tier} {leagueInfo[0].rank}
+                  {leagueInfo?.[0]?.tier} {leagueInfo?.[0]?.rank}
                 </p>
                 <p className={styles.bigBold}>
-                  {leagueInfo[0].leaguePoints} LP
+                  {leagueInfo?.[0]?.leaguePoints} LP
                 </p>
               </div>
               <div className={styles.winrateContainer}>
                 <p style={{ color: "grey", fontWeight: "bold" }}>Win Rate:</p>
                 <p className={styles.bigBold}>
                   {(
-                    (leagueInfo[0].wins /
-                      (leagueInfo[0].wins + leagueInfo[0].losses)) *
+                    (leagueInfo?.[0]?.wins /
+                      (leagueInfo?.[0]?.wins + leagueInfo?.[0]?.losses)) *
                     100
                   ).toFixed(1)}
                   %

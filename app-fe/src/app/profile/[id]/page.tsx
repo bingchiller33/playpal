@@ -152,8 +152,6 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
 
   const handleCancelProfile = async () => {
     try {
-      console.log(friendRequest);
-
       await cancelFriendRequest(
         friendRequestBoth.sender_id,
         friendRequestBoth.receiver_id
