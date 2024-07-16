@@ -1,14 +1,23 @@
+"use client";
+
 import AdminNavigationPanel from "@/components/AdminNavigationPanel";
 import Header from "@/components/Header";
 
 import { Button, Col, Row, Table } from "react-bootstrap";
-import { IAccount } from "@/models/account";
-import { WithId } from "@/utils/types";
-import { getMasterData } from "@/repositories/masterDataRepository";
-import { saveMasterData } from "./server";
+import { getMd, saveMasterData } from "./server";
+import { useEffect, useState } from "react";
+import { IMasterData } from "@/models/masterDataModel";
+import { toast } from "react-toastify";
+import { reportToast } from "@/utils/client";
 
-const ManageMasterDataPage = async () => {
-    const data = await getMasterData();
+const ManageMasterDataPage = () => {
+    const [data, setData] = useState<IMasterData | undefined>();
+    useEffect(() => {
+        getMd().then((res) => {
+            console.log(res);
+            setData(res as any);
+        });
+    }, []);
 
     return (
         <div>
@@ -21,14 +30,19 @@ const ManageMasterDataPage = async () => {
                     <div className="background-1 border-primary-glow p-1 m-1 rounded">
                         <h1>Manage Master Data</h1>
 
-                        <form action={saveMasterData}>
+                        <form
+                            action={async (e) => {
+                                const res = await saveMasterData(e);
+                                reportToast(res!, "Saved");
+                            }}
+                        >
                             <label>Premium Price (VND)</label>
                             <input
                                 type="number"
                                 name="premiumPrice"
                                 className="pp-form-input"
                                 placeholder="Enter premium price"
-                                defaultValue={data.premiumPrice}
+                                defaultValue={data?.premiumPrice ?? 0}
                             />
 
                             <button

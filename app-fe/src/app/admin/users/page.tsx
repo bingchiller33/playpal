@@ -18,7 +18,7 @@ import Pagination from "@/components/Pagination";
 import Dividers from "@/components/Dividers";
 
 const isBanned = (user: WithId<IAccount>) => {
-    return user.banUntil && user.banUntil > new Date();
+    return user.banUntil && Date.parse(user.banUntil as any) > +new Date();
 };
 
 const ManageUsersPage = () => {

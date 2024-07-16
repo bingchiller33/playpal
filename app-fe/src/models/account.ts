@@ -57,6 +57,10 @@ const AccountSchema = new Schema<IAccount>(
         avatar: {
             type: String,
         },
+        role: {
+            type: String,
+            default: "user",
+        },
         bio: {
             type: String,
         },
