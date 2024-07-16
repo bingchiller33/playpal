@@ -21,10 +21,20 @@ import { IPremiumTransaction } from "@/models/premiumTransactionModel";
 import PremiumTransactionHistory from "@/components/PremiumTransactionHistory";
 import * as premiumServer from "@/server/subscriptions.server";
 
+function parseDate(date: string | Date | null) {
+    if (!date) {
+        return null;
+    }
+
+    return new Date(date).toISOString().split("T")[0];
+}
+
 const ManageUserView = ({ user, premiumExpire }: ManageUserViewProps) => {
     const [role, setRole] = useState(user.role);
-    const [banUntil, setBanUntil] = useState<Date | null>(null);
-    const [banReason, setBanReason] = useState("");
+    const [banUntil, setBanUntil] = useState<Date | null>(
+        user?.banUntil || null
+    );
+    const [banReason, setBanReason] = useState(user?.banReason || "");
     const [expiry, setExpiry] = useState<Date | undefined>(premiumExpire);
     const [gen, setGen] = useState(0);
 
@@ -140,9 +150,7 @@ const ManageUserView = ({ user, premiumExpire }: ManageUserViewProps) => {
                             <input
                                 type="date"
                                 className="searchForm pp-form-input"
-                                value={
-                                    banUntil?.toISOString().split("T")[0] || ""
-                                }
+                                value={parseDate(banUntil) || ""}
                                 onChange={(e) =>
                                     setBanUntil(new Date(e.target.value))
                                 }

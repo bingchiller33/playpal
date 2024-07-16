@@ -82,3 +82,45 @@ export async function removeSubscription(userId: string) {
         { to: newExp }
     ).exec();
 }
+
+export async function getDailyRevenueStream() {
+    const cdata = await PremiumTransactions.aggregate([
+        { $match: { status: "PAID" } },
+        {
+            $group: {
+                _id: {
+                    year: { $year: "$createdAt" },
+                    month: { $month: "$createdAt" },
+                    // day: { $dayOfMonth: "$createdAt" },
+                },
+                count: { $sum: "$finalPrice" },
+            },
+        },
+        {
+            $addFields: {
+                date: {
+                    $dateFromParts: {
+                        year: "$_id.year",
+                        month: "$_id.month",
+                        day: 1,
+                        // day: "$_id.day",
+                    },
+                },
+            },
+        },
+        { $sort: { date: 1 } },
+        { $project: { _id: 0, date: 1, count: 1 } },
+    ]).exec();
+
+    const rs: { x: number; y: number }[] = [];
+    let total = 0;
+    cdata.forEach((x) => {
+        rs.push({
+            x: Date.parse(x.date),
+            y: x.count,
+        });
+        total += x.count;
+    });
+
+    return rs;
+}
