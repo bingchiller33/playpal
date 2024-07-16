@@ -124,7 +124,7 @@ export default async function Home() {
                             <div className="landing-icon">
                                 <IoGameController fill={COLORS.PRIMARY_1} />
                             </div>
-                            <h2>11</h2>
+                            <h2>1</h2>
                             <p>Games supported</p>
                         </div>
                     </div>

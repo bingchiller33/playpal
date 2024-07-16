@@ -2,6 +2,8 @@
 
 import dbConnect from "@/lib/mongoConnect";
 import MasterDatas from "@/models/masterDataModel";
+import { getMasterData } from "@/repositories/masterDataRepository";
+import { jsonStrip } from "@/utils";
 import { adminOrLogin } from "@/utils/server";
 import { redirect } from "next/navigation";
 
@@ -21,10 +23,19 @@ export async function saveMasterData(data: FormData) {
                 upsert: true,
             }
         ).exec();
+        return { success: true };
     } catch (e) {
         console.error(e);
         return { success: false, msg: "False to sent invitation!" };
     }
+}
 
-    redirect("/admin");
+export async function getMd() {
+    try {
+        await dbConnect();
+        return jsonStrip(await getMasterData());
+    } catch (e) {
+        console.error(e);
+        return { success: false, msg: "False to sent invitation!" };
+    }
 }

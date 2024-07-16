@@ -10,6 +10,7 @@ import {
     getUserGrowthLastMonth,
     getUserGrowthThisMonth,
 } from "@/repositories/accountRepository";
+import { getDailyRevenueStream } from "@/repositories/premiumRepository";
 import {
     getActiveSquad,
     getGameDistribution,
@@ -26,9 +27,7 @@ const AdminPage = async () => {
     const squadData = await getActiveSquad();
     const gameData = await getGameDistribution();
     const filterData = await getFilterDistribution();
-    // TODO: Queue Times
-
-    console.log(await sessionOrLogin())
+    const revenueData = await getDailyRevenueStream();
 
     return (
         <div>
@@ -50,6 +49,7 @@ const AdminPage = async () => {
                             squads={squadData}
                             filters={filterData}
                             games={gameData}
+                            revenue={revenueData}
                         />
                     </div>
                 </Col>

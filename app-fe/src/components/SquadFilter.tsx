@@ -24,7 +24,9 @@ const SquadFilter = async (props: SquadFilterProps) => {
 
     let spec;
     if (props.squad.filter.gameId.toString() === "6656b7cc0342bce980eeb7cb") {
-        const ranks = jsonStrip(await FilterLOLRanks.find({}).exec());
+        const ranks = jsonStrip(
+            await FilterLOLRanks.find({}).sort({ order: "asc" }).exec()
+        );
         const servers = jsonStrip(await FilterLOLServers.find({}).exec());
         spec = (
             <LolSpecFilter

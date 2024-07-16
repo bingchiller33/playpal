@@ -17,18 +17,13 @@ const OtherCharts = (props: OtherChartsProps) => {
                 </Col>
                 <Col md={6}>
                     <div className="d-flex align-items-center gap-2">
-                        <h2 className="m-0">Queue times</h2>
-                        <Link
-                            href="/admin/algo"
-                            className="btn bg-primary-1 border-0 "
-                            style={{ color: "white" }}
-                        >
-                            Manage algorithm variables
-                        </Link>
+                        <h2 className="m-0">Revenue</h2>
                     </div>
-                    <RangeSelector />
-                    <LineChart data={props.squads} label="Queue time" />
-                    <p>Average queue time</p>
+                    <div style={{ opacity: 0 }}>
+                        <RangeSelector />
+                    </div>
+                    <LineChart data={props.revenue} label="Revenue" />
+                    <p>Revenue stream daily</p>
                 </Col>
             </Row>
             <Row>
@@ -60,6 +55,7 @@ export interface OtherChartsProps {
     squads: LineChartData;
     filters: PieChartData;
     games: PieChartData;
+    revenue: LineChartData;
 }
 
 export default OtherCharts;

@@ -48,7 +48,6 @@ const SquadHeader = (props: SquadHeaderProp) => {
 
     const handleSquadImgChange = async (result: any) => {
         const newImageUrl = result?.info?.secure_url;
-        console.log(newImageUrl);
 
         if (newImageUrl) {
             await changeSquadImage(id, newImageUrl);

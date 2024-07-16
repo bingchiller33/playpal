@@ -18,7 +18,7 @@ export async function getPremiumHistory(
     try {
         const session = await sessionOrLogin();
         await dbConnect();
-        const user = await Account.findById(session.user.id).exec();
+        const user = jsonStrip(await Account.findById(session.user.id).exec());
         if (!user) {
             return { success: false, msg: "Error: Unauthorized!" };
         }

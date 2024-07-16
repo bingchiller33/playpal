@@ -108,7 +108,6 @@ export async function enterMatchmaking(squadId: string) {
         const expiry = await getFutPremiumExpiry(checkPriviledge.userId!);
         if (!expiry) {
             const squad = await Squads.findById(squadId).exec();
-            console.log({ squad });
             if ((squad?.filter.memberCount ?? 0) > 5) {
                 isBlocked = true;
             }

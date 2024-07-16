@@ -56,6 +56,11 @@ const AccountSchema = new Schema<IAccount>(
         },
         avatar: {
             type: String,
+            default: "/assets/images/avatar-guest.png",
+        },
+        role: {
+            type: String,
+            default: "user",
         },
         bio: {
             type: String,

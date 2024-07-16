@@ -10,6 +10,9 @@ export async function searchPlayers(
     page: number
 ) {
     const pageSize = 50;
+
+    const never = new Date();
+    never.setFullYear(2000);
     try {
         let ban = [] as any[];
         if (accountStatus === "active") {
@@ -20,7 +23,7 @@ export async function searchPlayers(
         } else if (accountStatus === "banned") {
             ban = [{ banUntil: { $gt: new Date() } }];
         } else {
-            ban = [{ banUntil: { $ne: "rv" } }];
+            ban = [{ banUntil: { $ne: never } }];
         }
 
         const query = {

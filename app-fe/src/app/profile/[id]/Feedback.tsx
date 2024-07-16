@@ -66,7 +66,7 @@ const Feedback = ({
     setDropdownVisible(false);
   };
 
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
   const totalPages = Math.ceil(ifeedbacks.length / itemsPerPage);
   const currentFeedback = ifeedbacks.slice(
     (currentPage - 1) * itemsPerPage,

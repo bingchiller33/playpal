@@ -2,7 +2,7 @@
 
 import dbConnect from "@/lib/mongoConnect";
 import DefaultFilters from "@/models/defaultFiltersModel";
-import FilterGameModes from "@/models/filterGameModeModel";
+import FilterLOLRanks from "@/models/filterLOLRankModel";
 import { jsonStrip } from "@/utils";
 import { adminOrLogin, sessionOrLogin } from "@/utils/server";
 import { revalidatePath } from "next/cache";
@@ -10,22 +10,30 @@ import { revalidatePath } from "next/cache";
 export async function create() {
     await dbConnect();
     const session = await adminOrLogin();
-    const item = await FilterGameModes.create({
-        name: "New Game Mode",
-        gameId: "6656b7cc0342bce980eeb7cb",
+    const item = await FilterLOLRanks.create({
+        name: "New Rank",
+        iconUrl: "/assets/games/lol/rank-badges/unranked.webp",
+        value: 0,
+        order: 0,
     });
 
     revalidatePath("/admin/filter/general");
     return jsonStrip(item);
 }
 
-export async function updateOption(id: string, name: string, iconUrl: string) {
+export async function updateOption(
+    id: string,
+    name: string,
+    iconUrl: string,
+    value: number,
+    order: number
+) {
     try {
         await dbConnect();
         const session = await adminOrLogin();
-        const item = await FilterGameModes.updateOne(
+        const item = await FilterLOLRanks.updateOne(
             { _id: id },
-            { name, iconUrl }
+            { name, iconUrl, order, value }
         );
         revalidatePath("/admin/filter/lol");
         return { success: true };
@@ -54,7 +62,7 @@ export async function deleteOption(id: string) {
     try {
         await dbConnect();
         const session = await adminOrLogin();
-        const item = await FilterGameModes.deleteOne({ _id: id });
+        const item = await FilterLOLRanks.deleteOne({ _id: id });
         revalidatePath("/admin/filter/lol");
         return { success: true };
     } catch (e) {

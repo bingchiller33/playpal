@@ -51,7 +51,7 @@ const PremiumTransactionHistory = ({
                         <th>Subcribe Date</th>
                         <th>Expiry</th>
                         <th>Price</th>
-                        <th>ID</th>
+                        <th>Transaction ID</th>
                     </tr>
                 </thead>
                 <tbody>
