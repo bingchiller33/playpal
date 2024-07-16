@@ -154,19 +154,19 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         }
     };
 
-    const handleCancelProfile = async () => {
-        try {
-            await cancelFriendRequest(
-                friendRequestBoth.sender_id,
-                friendRequestBoth.receiver_id
-            );
-            setIsReceiver(false);
-            setIsFriend(false);
-            setRequestSent(false);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+  const handleCancelProfile = async () => {
+    try {
+      await cancelFriendRequest(
+        friendRequestBoth.sender_id,
+        friendRequestBoth.receiver_id
+      );
+      setIsReceiver(false);
+      setIsFriend(false);
+      setRequestSent(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
     useEffect(() => {
         const fetchAndSetFriendRequests = async () => {
