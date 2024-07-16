@@ -13,11 +13,13 @@ import { addMonth } from "@/utils";
 export interface ChoosePremiumButtonProps {
     exp?: Date;
     premiumPrice: number;
+    hidden?: boolean;
 }
 
 const ChoosePremiumButton = ({
     exp,
     premiumPrice,
+    hidden,
 }: ChoosePremiumButtonProps) => {
     const [showModal, setShowModal] = useState(false);
     const [duration, setDuration] = useState(1); // [1, 3, 12]
@@ -43,7 +45,10 @@ const ChoosePremiumButton = ({
             <button
                 className={cx(
                     styles["plan-btn"],
-                    "btn btn-primary bg-primary-1 position-absolute px-5 py-2 "
+                    "btn btn-primary bg-primary-1 position-absolute px-5 py-2 ",
+                    {
+                        "d-none": hidden,
+                    }
                 )}
                 onClick={() => setShowModal(true)}
             >
@@ -73,7 +78,11 @@ const ChoosePremiumButton = ({
 
                     <div className="modal-body">
                         <h2>You are about to subcribe to PlayPal Premium!</h2>
-                        <PremiumCard exp={exp} premiumPrice={premiumPrice} />
+                        <PremiumCard
+                            exp={exp}
+                            premiumPrice={premiumPrice}
+                            hidden={true}
+                        />
 
                         <p className="m-0">Duration: </p>
                         <div className="d-flex gap-2">

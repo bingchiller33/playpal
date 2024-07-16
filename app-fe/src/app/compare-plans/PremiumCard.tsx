@@ -7,7 +7,7 @@ import styles from "./page.module.css";
 import cx from "classnames";
 import ChoosePremiumButton from "./ChoosePremiumButton";
 
-const PremiumCard = ({ exp, premiumPrice }: PremiumCardProps) => {
+const PremiumCard = ({ exp, premiumPrice, hidden }: PremiumCardProps) => {
     return (
         <div
             className="bg-1 border-primary-glow rounded p-3 p-lg-4 py-4 m-1  my-3 position-relative"
@@ -54,7 +54,11 @@ const PremiumCard = ({ exp, premiumPrice }: PremiumCardProps) => {
                 </li>
             </ul>
 
-            <ChoosePremiumButton exp={exp} premiumPrice={premiumPrice} />
+            <ChoosePremiumButton
+                exp={exp}
+                premiumPrice={premiumPrice}
+                hidden={hidden}
+            />
         </div>
     );
 };
@@ -64,4 +68,5 @@ export default PremiumCard;
 export interface PremiumCardProps {
     exp?: Date;
     premiumPrice: number;
+    hidden?: boolean;
 }

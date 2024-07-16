@@ -25,6 +25,7 @@ const ManageMasterDataPage = async () => {
                             <label>Premium Price (VND)</label>
                             <input
                                 type="number"
+                                name="premiumPrice"
                                 className="pp-form-input"
                                 placeholder="Enter premium price"
                                 defaultValue={data.premiumPrice}
