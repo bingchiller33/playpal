@@ -33,7 +33,6 @@ const ManageUsersPage = () => {
     useEffect(() => {
         searchPlayers(search, roleFilter, accountStatus, page - 1).then(
             (res) => {
-                console.log(res);
                 if (res.success) {
                     setUsers(res.data!);
                     setPageCount(res.pageCount!);

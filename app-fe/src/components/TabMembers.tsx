@@ -115,7 +115,7 @@ const TabMembers = ({ members, membersRecommend, id }: MembersProps) => {
                                 </form>
                             </div>
 
-                            <div className="inviteMemberFriends">
+                            {/* <div className="inviteMemberFriends">
                                 <div className="row">
                                     <div className="col-1">
                                         {" "}
@@ -150,7 +150,7 @@ const TabMembers = ({ members, membersRecommend, id }: MembersProps) => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="inviteMemberFriends">
                                 <div className="row">

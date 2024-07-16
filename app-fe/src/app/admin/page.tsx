@@ -28,8 +28,6 @@ const AdminPage = async () => {
     const filterData = await getFilterDistribution();
     // TODO: Queue Times
 
-    console.log(await sessionOrLogin())
-
     return (
         <div>
             <Header />

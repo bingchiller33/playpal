@@ -9,7 +9,6 @@ const NotificationManager = (props: NotificationManagerProps) => {
 
     useUserNotification(props.userId, false, (cb) => {
         const old = notifications.find((n) => n.tag === cb.tag && n.tag);
-        console.log("GG");
         if (old) {
             clearTimeout(old.task);
             Object.assign(old, cb);

@@ -521,6 +521,11 @@ a {
     color: white;
 }
 
+.inviteMemberSearch .searchForm:focus {
+    background-color: transparent !important;
+    color: white;
+}
+
 .inviteMemberSearch .searchForm:disabled {
     background-color: transparent;
 }

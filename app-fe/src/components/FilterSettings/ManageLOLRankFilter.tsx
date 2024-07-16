@@ -86,9 +86,19 @@ export interface ManageLanguageFilterProps {
 const Item = ({ item }: { item: WithId<any> }) => {
     const [label, setLebel] = useState(item.name);
     const [img, setImg] = useState(item.iconUrl);
+    const [value, setValue] = useState(item.value);
+    const [order, setOrder] = useState(item.order);
 
     return (
         <div className="inviteMemberSearch d-flex py-1">
+            <input
+                className="searchForm form-control me-2"
+                type="number"
+                placeholder="order"
+                aria-label="order"
+                value={order}
+                onChange={(e) => setOrder(e.target.value)}
+            />
             <input
                 className="searchForm form-control me-2"
                 type="text"
@@ -104,6 +114,14 @@ const Item = ({ item }: { item: WithId<any> }) => {
                 aria-label="Name"
                 value={label}
                 onChange={(e) => setLebel(e.target.value)}
+            />
+            <input
+                className="searchForm form-control me-2"
+                type="number"
+                placeholder="Value"
+                aria-label="Value"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
             />
             <Image alt="icon" src={img} width={50} height={50} />
             <input
@@ -130,7 +148,13 @@ const Item = ({ item }: { item: WithId<any> }) => {
             <Button
                 variant="success"
                 onClick={async () => {
-                    const result = await updateOption(item._id, label, img);
+                    const result = await updateOption(
+                        item._id,
+                        label,
+                        img,
+                        value,
+                        order
+                    );
                     if (result.success) {
                         toast.success("Update successfully!");
                     }

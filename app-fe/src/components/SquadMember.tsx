@@ -11,6 +11,7 @@ import Squads from "@/models/squadModel";
 import { jsonStrip } from "@/utils";
 import dbConnect from "@/lib/mongoConnect";
 import Image from "next/image";
+import Avatar from "./Avatar";
 
 const SquadMember = async ({
     params,
@@ -20,10 +21,7 @@ const SquadMember = async ({
     const { id, page } = params;
     await dbConnect();
     const squad = jsonStrip(await Squads.findById(id).exec());
-    console.log(squad);
-
     const squadImgUrl = squad?.img || "/images/test.jpg";
-    console.log(squadImgUrl);
 
     let activePage;
     if (page === "request") {
@@ -46,13 +44,14 @@ const SquadMember = async ({
 
             <div>
                 <div className="col text-center squadChat-head">
-                    <Image
-                        src={squadImgUrl}
-                        alt="Squad Image"
-                        width={80}
-                        height={80}
-                        style={{ borderRadius: "50%", height: "5rem" }}
-                    />
+                    <div className="d-flex justify-content-center">
+                        <Avatar
+                            src={squad?.img}
+                            initials={squad?.name?.[0] || "S"}
+                            size={80}
+                        />
+                    </div>
+
                     <h4 className="mt-3 mb-3 ">{squad?.name}</h4>
                 </div>
                 <div className="col btnLine text-center mb-4">

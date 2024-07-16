@@ -4,6 +4,7 @@ export interface IFilterLOLRank {
     name: string;
     iconUrl: string;
     value: number;
+    order: number;
 }
 
 const FilterLOLRankSchema = new Schema(
@@ -18,6 +19,10 @@ const FilterLOLRankSchema = new Schema(
             required: [true, "iconIUrl is required!"],
         },
         value: {
+            type: Number,
+            required: true,
+        },
+        order: {
             type: Number,
             required: true,
         },

@@ -24,7 +24,9 @@ const AdminPage = async () => {
     );
 
     const filterServers = jsonStrip(await FilterLOLServers.find({}).exec());
-    const filterRanks = jsonStrip(await FilterLOLRanks.find({}).exec());
+    const filterRanks = jsonStrip(
+        await FilterLOLRanks.find({}).sort({ order: "asc" }).exec()
+    );
     const defaults = jsonStrip(await DefaultFilters.find({}).exec())?.[0];
     return (
         <div>
