@@ -16,7 +16,12 @@ import { useSquadMemberChanged } from "@/lib/usePusherEvents";
 import { revalidatePath } from "next/cache";
 import { revalidateFilters } from "./SquadFilter.server";
 
-const TabMembers = ({ members, membersRecommend, id }: MembersProps) => {
+const TabMembers = ({
+    members,
+    membersRecommend,
+    id,
+    leader,
+}: MembersProps) => {
     const [user, setUser] = React.useState<WithId<IAccount> | undefined>();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -62,8 +67,11 @@ const TabMembers = ({ members, membersRecommend, id }: MembersProps) => {
                                 )}
                             </IconLink>
                         </div>
-                        <div className=" members-name d-flex align-items-center text-overflow-ellipsis">
+                        <div className=" members-name d-flex align-items-center text-overflow-ellipsis gap-2">
                             <p>{member.accountId.username}</p>
+                            {leader === member.accountId._id.toString() && (
+                                <span className="badge bg-danger">Leader</span>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -189,6 +197,7 @@ export interface MembersProps {
     members: ISquadEnrollment[];
     membersRecommend: WithId<IAccount>[];
     id: string;
+    leader: string;
 }
 
 export default TabMembers;

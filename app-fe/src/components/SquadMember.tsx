@@ -31,6 +31,7 @@ const SquadMember = async ({
             <TabMembers
                 members={members}
                 membersRecommend={membersRecommend}
+                leader={squad?.leader.toString() || ""}
                 id={params.id}
             />
         );
