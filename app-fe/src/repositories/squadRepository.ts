@@ -28,6 +28,7 @@ import { GAME_ID_LOL } from "@/utils/constants";
 import { SquadInput, matchTime, varianceRand } from "@/utils/matchmakingAlgos";
 import { WithId } from "@/utils/types";
 import { getData } from "./masterDataAlgoRepository";
+import * as env from "@/utils/env";
 
 // Write common database query here, dont write basic crud here, use the Collection directly
 export async function createSquad(leader: string) {
@@ -330,7 +331,7 @@ async function matchSquadIfNotExist(qi: IMatchMakingQueue) {
             content: `We have found a squad that have similar interests with yours. Click here to accept!`,
             img: squadBInfo?.img,
             user: squadAInfo!.leader.toString(),
-            href: `/squad/${squadAInfo?._id}/request`,
+            href: `${env.HOST}/squad/${squadAInfo?._id}/request`,
             tag: "request",
             saveHistory: true,
         });
@@ -340,7 +341,7 @@ async function matchSquadIfNotExist(qi: IMatchMakingQueue) {
             content: `We have found a squad that have similar interests with yours. Click here to accept!`,
             img: squadAInfo?.img,
             user: squadBInfo!.leader.toString(),
-            href: `/squad/${squadBInfo?._id}/request`,
+            href: `${env.HOST}/squad/${squadBInfo?._id}/request`,
             tag: "request",
             saveHistory: true,
         });

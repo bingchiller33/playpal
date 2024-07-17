@@ -72,7 +72,10 @@ const RootProviders = ({ children, session }: RootProvidersProps) => {
                 <PrimeReactProvider>
                     {children}
                     <ToastContainer theme="dark" />
-                    <NotificationManager userId={session?.user.id} />
+                    <NotificationManager
+                        userId={session?.user.id}
+                        key={Math.random()}
+                    />
                 </PrimeReactProvider>
             </PusherProvider>
         </SessionProvider>

@@ -83,17 +83,17 @@ export function useUserNotification(
     const channel = useChannel(`user.${userId}`);
     const channelAll = useChannel(`user.all`);
     useEvent(channel, EVENT_USER_NOTIFICATION, (data) => {
-        if (systemNotification) {
-            return;
-        }
+        // if (systemNotification) {
+        //     return;
+        // }
 
         cb(data);
     });
 
     useEvent(channelAll, EVENT_USER_NOTIFICATION, (data) => {
-        if (systemNotification) {
-            return;
-        }
+        // if (systemNotification) {
+        //     return;
+        // }
 
         cb(data);
     });
