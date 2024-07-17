@@ -69,9 +69,9 @@ export async function declineInvite(invitationId: string) {
 }
 
 export async function acceptInvite(invitationId: string) {
-    let squadId = undefined;
+    let squadId: string | undefined = undefined;
     let isBlocked = false;
-    let userId = undefined;
+    let userId: string | undefined = undefined;
     try {
         const session = await sessionOrLogin();
         userId = session.user.id;

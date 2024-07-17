@@ -3,14 +3,7 @@ import styles from "./page.module.css";
 import Button from "react-bootstrap/Button";
 import dbConnect from "@/lib/mongoConnect";
 import Aaas from "@/models/aaaModel";
-import {
-    create,
-    createSquad,
-    callToAction,
-    send,
-    sendTag,
-    weight,
-} from "./server";
+import { create, callToAction, send, sendTag, weight } from "./server";
 import { Button as B2r } from "primereact/button";
 import Dropdown from "@/components/Dropdown";
 import Footer from "@/components/Footer";
@@ -57,7 +50,7 @@ export default async function Home() {
                                 type="submit"
                                 className="btn-noBorder mt-3 p-3 rounded w-100 color-white"
                             >
-                                LET'S TEAM UP
+                                LET&apos;S TEAM UP
                             </button>
                         </form>
                     </div>
@@ -155,9 +148,9 @@ export default async function Home() {
                         <h3> Match Squad</h3>
                         <p>
                             Easily find the perfect squad using our advanced
-                            matching system. Whether you're a casual or
-                            competitive gamer, you'll be paired with players who
-                            fit your style.
+                            matching system. Whether you&apos;re a casual or
+                            competitive gamer, you&apos;ll be paired with
+                            players who fit your style.
                         </p>
                     </div>
                     <div className="col-sm-4 landing-5-content">

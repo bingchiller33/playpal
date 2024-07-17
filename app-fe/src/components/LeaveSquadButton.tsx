@@ -3,7 +3,7 @@
 import { PiSignOutBold } from "react-icons/pi";
 import IconButton from "./IconButton";
 import { COLORS } from "@/utils/constants";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineStar } from "react-icons/md";
@@ -17,7 +17,7 @@ const LeaveSquadButton = (props: LeaveSquadButtonProps) => {
     const [isConfirm, setIsConfirm] = useState(false);
     const [rating, setRating] = useState(3);
 
-    const starVal = [];
+    const starVal: ReactNode[] = [];
     for (let i = 1; i <= rating; i++) {
         starVal.push(
             <MdOutlineStar

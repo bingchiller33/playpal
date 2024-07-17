@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import Header from "@/components/Header";
@@ -18,6 +18,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import PremiumTransactionHistory from "@/components/PremiumTransactionHistory";
 import { getFutPremiumExpiry } from "@/server/subscriptions.server";
+import { IFilterGender } from "@/models/filterGenderModel";
+import { WithId } from "@/utils/types";
 
 const EditProfile = ({ params }: { params: { id: string } }) => {
     const { data: session, status } = useSession();
@@ -33,7 +35,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
         });
     }, [params.id]);
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<any>({
         username: "",
         riot_id: "",
         bio: "",
@@ -50,9 +52,9 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
     });
 
     const [options, setOptions] = useState({
-        genders: [],
-        playstyles: [],
-        languages: [],
+        genders: [] as WithId<IFilterGender>[],
+        playstyles: [] as WithId<IFilterGender>[],
+        languages: [] as WithId<IFilterGender>[],
     });
 
     useEffect(() => {
@@ -133,7 +135,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
             reader.onloadend = () => {
                 setFormData({
                     ...formData,
-                    avatar: reader.result,
+                    avatar: reader.result!.toString(),
                 });
             };
         } else {
@@ -436,8 +438,8 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                                             </option>
                                             {options.genders.map((gender) => (
                                                 <option
-                                                    key={gender._id}
-                                                    value={gender._id}
+                                                    key={gender._id.toString()}
+                                                    value={gender._id.toString()}
                                                 >
                                                     {gender.label}
                                                 </option>
@@ -452,7 +454,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                                             {options.playstyles.map(
                                                 (playstyle) => (
                                                     <label
-                                                        key={playstyle._id}
+                                                        key={playstyle._id.toString()}
                                                         className={
                                                             formData.playstyles.includes(
                                                                 playstyle._id
@@ -481,7 +483,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                                             {options.languages.map(
                                                 (language) => (
                                                     <label
-                                                        key={language._id}
+                                                        key={language._id.toString()}
                                                         className={
                                                             formData.language.includes(
                                                                 language._id
@@ -518,7 +520,7 @@ const EditProfile = ({ params }: { params: { id: string } }) => {
                                                     document
                                                         .getElementById(
                                                             "avatar"
-                                                        )
+                                                        )!
                                                         .click()
                                                 }
                                             />

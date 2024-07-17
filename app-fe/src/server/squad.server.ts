@@ -10,7 +10,7 @@ import { sessionOrLogin } from "@/utils/server";
 import { redirect } from "next/navigation";
 
 export async function createSquad() {
-    let redir = undefined;
+    let redir: string | undefined = undefined;
     try {
         await dbConnect();
         const session = await sessionOrLogin();

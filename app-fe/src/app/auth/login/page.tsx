@@ -49,7 +49,7 @@ export default function Login() {
                         <div className={styles["form-container"]}>
                             <h2 className={styles["title"]}>Welcome back!</h2>
                             <p style={{ fontSize: "0.9rem" }} className="">
-                                Don't have an account?{" "}
+                                Don&apos;t have an account?{" "}
                                 <a
                                     href="/auth/register"
                                     style={{ textDecoration: "none" }}
@@ -60,7 +60,7 @@ export default function Login() {
                                 </a>
                             </p>
                             <p style={{ fontSize: "0.9rem" }} className="">
-                                It's FREE! Take less than a minute
+                                It&apos;s FREE! Take less than a minute
                             </p>
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group

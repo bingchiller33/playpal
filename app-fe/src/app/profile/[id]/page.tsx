@@ -31,11 +31,11 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
     const [isFriend, setIsFriend] = useState(false);
     const [isReceiver, setIsReceiver] = useState(false);
     const [friendRequest, setFriendRequest] = useState("");
-    const [friendRequestBoth, setFriendRequestBoth] = useState("");
+    const [friendRequestBoth, setFriendRequestBoth] = useState<any>("");
     const [feedback, setFeedback] = useState<any[]>([]);
 
     // FR: might put this in Header later
-    const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
+    const [friendRequests, setFriendRequests] = useState<any[]>([]);
 
     const checkFriendRequest = async () => {
         if (!session) {
@@ -105,7 +105,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
             setFriendRequests((prev) =>
                 prev.filter((req) => req._id !== requestId)
             );
-            const updatedFriends = await fetchFriends(session.user.id);
+            const updatedFriends = await fetchFriends(session!.user.id);
             setFriends(updatedFriends);
         } catch (error) {
             console.error(error);
@@ -154,19 +154,19 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         }
     };
 
-  const handleCancelProfile = async () => {
-    try {
-      await cancelFriendRequest(
-        friendRequestBoth.sender_id,
-        friendRequestBoth.receiver_id
-      );
-      setIsReceiver(false);
-      setIsFriend(false);
-      setRequestSent(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const handleCancelProfile = async () => {
+        try {
+            await cancelFriendRequest(
+                friendRequestBoth.sender_id,
+                friendRequestBoth.receiver_id
+            );
+            setIsReceiver(false);
+            setIsFriend(false);
+            setRequestSent(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
         const fetchAndSetFriendRequests = async () => {

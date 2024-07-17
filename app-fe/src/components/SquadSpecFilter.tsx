@@ -29,7 +29,7 @@ export function LolSpecFilter(props: LolSpecFilterProps) {
 
     const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
         const result = await updateSpecFilter(props.id, update);
-        result.success || toast.error(result.msg);
+        result.success || toast.error((result as any).msg);
     }, 1000);
 
     const saUpdateFilter = async (update: Record<string, any>) => {
