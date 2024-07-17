@@ -39,7 +39,7 @@ export function nonNormalDynWeight(
 }
 
 export function normalizeDynWeight(u: Record<string, number>) {
-    const minU = minMap(u);
+    const minU = minMap(u)!;
     if (minU < 0) {
         for (const item in u) {
             u[item] += 1 - minU;

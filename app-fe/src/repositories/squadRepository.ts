@@ -210,7 +210,7 @@ function avgWeightOf(
                 (t) => t.mode === mode
             )?.weights;
             if (!weights) {
-                const newWeights: any = { mode };
+                const newWeights: any = {};
                 for (const w of commonWeights) {
                     newWeights[w] = 1 / totalWeights;
                 }
@@ -221,7 +221,7 @@ function avgWeightOf(
 
                 weights = newWeights;
             }
-            return weights as IWeight;
+            return { ...weights, mode } as IWeight;
         })
         .reduce((a: any, b: any) => {
             const res = {} as any;
@@ -375,6 +375,7 @@ async function recalcQueueFor(squadId: string) {
             curSquad,
             algoSettings.variance
         );
+        // console.log(curInput, otherInput, algoSettings.base, algoSettings.exp);
         const time = matchTime(
             curInput,
             otherInput,
@@ -383,7 +384,7 @@ async function recalcQueueFor(squadId: string) {
         );
         const willMatchAt = new Date(Date.now() + time * 1000);
         const [squadA, squadB] = [squadId, other._id.toString()].toSorted();
-
+        // console.log({ squadA, squadB, willMatchAt, time });
         updateTasks.push(
             MatchMakingQueues.findOneAndUpdate(
                 {
@@ -396,6 +397,7 @@ async function recalcQueueFor(squadId: string) {
                         squadB,
                         //  TODO: Remove test code
                         willMatchAt: new Date(Date.now() + 10 * 1000),
+                        // willMatchAt,
                     },
                 },
                 { upsert: true }
@@ -532,7 +534,7 @@ export async function squadToAlgoInput(
                 avg: squad.avgTraits.get("rank")!,
                 ideal: rankInfo?.value ?? 0,
                 random: varianceRand(randomVariance),
-                weight: (squad.squadWeights as ILOLWeight).rank,
+                weight: (squad.squadWeights as ILOLWeight).rank ?? 0.2,
             };
             break;
     }
