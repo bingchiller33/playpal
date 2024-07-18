@@ -107,7 +107,7 @@ a {
 }
 
 .font-all-star {
-    font-family: "AllStar", sans-serif;
+    font-family: "AllStar", var(--font-all-star), sans-serif;
 }
 
 .bg-1 {

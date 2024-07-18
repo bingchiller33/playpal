@@ -5,8 +5,14 @@ import RootProviders from "@/components/RootProviders";
 import cx from "classnames";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import localFont from "next/font/local";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const allStar = localFont({
+    src: "./Allstar4.ttf",
+    variable: "--font-all-star",
+});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -20,7 +26,7 @@ export default async function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={cx(inter.className)}>
+            <body className={cx(inter.className, allStar.variable)}>
                 <RootProviders session={await getServerSession(authOptions)}>
                     {children}
                 </RootProviders>
