@@ -35,12 +35,13 @@
         "react-chartjs-2": "^5.2.0",
         "react-dom": "^18",
         "react-icons": "^5.2.1",
+        "react-loading-skeleton": "^3.4.0",
         "react-simple-star-rating": "^5.1.7",
         "react-spinners": "^0.13.8",
         "react-stars": "^2.2.5",
         "react-toastify": "^10.0.5",
-        "react-loading-skeleton": "^3.4.0",
         "relative-time-format": "^1.1.6",
+        "sharp": "^0.33.4",
         "vnpay": "^1.5.1"
     },
     "devDependencies": {
