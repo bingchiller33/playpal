@@ -12,6 +12,7 @@ export async function sendFriendRequestNotification(receiverId: string) {
     redirect("/auth/login");
     return;
   }
+  console.log(session.user);
 
   await dbConnect();
   sendNotification({
