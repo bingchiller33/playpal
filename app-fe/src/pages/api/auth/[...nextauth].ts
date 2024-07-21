@@ -30,10 +30,11 @@ export const authOptions: NextAuthOptions = {
             userExist?.password
           );
           if (isPasswordValid && userExist?.verified) {
+            console.log(userExist);
             return {
               id: userExist._id.toString(),
               email: userExist.email as string,
-              // Add any additional fields you want to include in the session
+              username: userExist.username as string,
             };
           }
         }
@@ -72,6 +73,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.username = user.username;
       }
       return token;
     },
@@ -79,6 +81,7 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
+        session.user.username = token.username as string;
       }
       return session;
     },
