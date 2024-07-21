@@ -74,7 +74,8 @@ const SquadPage = async (pageProps: NextPageProps) => {
                     overflow: "auto",
                 }}
             >
-                <SquadHeader squad={squad!} {...pageProps} />
+                <SquadHeader squad={squad!} {...jsonStrip(pageProps)} />
+
                 <div className={cx(styles["main-inner"])}>
                     <div
                         className="h-100 d-none d-md-block "

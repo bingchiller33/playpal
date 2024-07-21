@@ -1,0 +1,18 @@
+version: "3"
+services:
+    app:
+        build: ./app-fe
+        ports:
+            - "80:3000"
+        environment:
+            - MONGO_URI=mongodb://db:27017/playpal
+            - HOST="https://playpal.shutano.com"
+            - NEXTAUTH_URL="https://play.shutano.com"
+    db:
+        image: mongo
+        ports:
+            - "27017:27017"
+        environment:
+            - MONGO_INITDB_DATABASE=playpal
+        volumes:
+            - ./data:/data/db

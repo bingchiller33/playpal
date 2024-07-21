@@ -14,7 +14,6 @@ const ManageMasterDataPage = () => {
     const [data, setData] = useState<IMasterData | undefined>();
     useEffect(() => {
         getMd().then((res) => {
-            console.log(res);
             setData(res as any);
         });
     }, []);
@@ -38,6 +37,7 @@ const ManageMasterDataPage = () => {
                         >
                             <label>Premium Price (VND)</label>
                             <input
+                                key={data?.premiumPrice ?? 0}
                                 type="number"
                                 name="premiumPrice"
                                 className="pp-form-input"

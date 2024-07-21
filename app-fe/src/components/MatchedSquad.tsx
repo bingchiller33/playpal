@@ -13,12 +13,10 @@ const MatchedSquad = async (props: MatchedSquadProps) => {
         <div className="container-fluid groupMember-request my-2">
             <div className="row  group-header">
                 <div className="col-2">
-                    <Image
-                        alt="Squad image"
-                        src={squad.img ?? "/images/test.jpg"}
-                        style={{ borderRadius: "50%", height: "3rem" }}
-                        width={50}
-                        height={50}
+                    <Avatar
+                        size={50}
+                        src={squad.img}
+                        initials={squad.name?.[0] ?? "S"}
                     />
                 </div>
                 <div className="col-8 members-name d-flex align-items-center">

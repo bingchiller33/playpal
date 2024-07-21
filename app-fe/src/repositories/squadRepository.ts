@@ -166,6 +166,7 @@ export function getModeDiscriminant(gameId: string, modeId: string) {
 }
 
 export async function updateSquadAvgStats(squadId: string) {
+    return;
     await calcAvgTraits(squadId);
     await calcAvgWeights(squadId);
 }
@@ -312,40 +313,52 @@ async function matchSquadIfNotExist(qi: IMatchMakingQueue) {
         ],
     }).exec();
 
-    if (!exists) {
-        await SquadMatchs.create({
-            squadA: qi.squadA,
-            squadB: qi.squadB,
-        });
-
-        await squadMatched(qi.squadA.toString(), qi.squadB.toString());
-
-        const squadAInfo = await Squads.findById(qi.squadA).exec();
-        const squadAName = squadAInfo?.name ?? "a squad";
-
-        const squadBInfo = await Squads.findById(qi.squadB).exec();
-        const squadBName = squadBInfo?.name ?? "a squad";
-
-        await sendNotification({
-            title: `You have matched with ${squadBName}!`,
-            content: `We have found a squad that have similar interests with yours. Click here to accept!`,
-            img: squadBInfo?.img,
-            user: squadAInfo!.leader.toString(),
-            href: `${env.HOST}/squad/${squadAInfo?._id}/request`,
-            tag: "request",
-            saveHistory: true,
-        });
-
-        await sendNotification({
-            title: `You have matched with ${squadAName}!`,
-            content: `We have found a squad that have similar interests with yours. Click here to accept!`,
-            img: squadAInfo?.img,
-            user: squadBInfo!.leader.toString(),
-            href: `${env.HOST}/squad/${squadBInfo?._id}/request`,
-            tag: "request",
-            saveHistory: true,
-        });
+    if (exists) {
+        return;
     }
+
+    let sqA = await Squads.findById(qi.squadA).exec();
+    if (sqA?.disbandedAt) {
+        return;
+    }
+
+    let sqB = await Squads.findById(qi.squadB).exec();
+    if (sqB?.disbandedAt) {
+        return;
+    }
+
+    await SquadMatchs.create({
+        squadA: qi.squadA,
+        squadB: qi.squadB,
+    });
+
+    await squadMatched(qi.squadA.toString(), qi.squadB.toString());
+
+    const squadAInfo = await Squads.findById(qi.squadA).exec();
+    const squadAName = squadAInfo?.name ?? "a squad";
+
+    const squadBInfo = await Squads.findById(qi.squadB).exec();
+    const squadBName = squadBInfo?.name ?? "a squad";
+
+    await sendNotification({
+        title: `You have matched with ${squadBName}!`,
+        content: `We have found a squad that have similar interests with yours. Click here to accept!`,
+        img: squadBInfo?.img,
+        user: squadAInfo!.leader.toString(),
+        href: `${env.HOST}/squad/${squadAInfo?._id}/request`,
+        tag: "request",
+        saveHistory: true,
+    });
+
+    await sendNotification({
+        title: `You have matched with ${squadAName}!`,
+        content: `We have found a squad that have similar interests with yours. Click here to accept!`,
+        img: squadAInfo?.img,
+        user: squadBInfo!.leader.toString(),
+        href: `${env.HOST}/squad/${squadBInfo?._id}/request`,
+        tag: "request",
+        saveHistory: true,
+    });
 }
 
 async function recalcQueueFor(squadId: string) {
@@ -365,24 +378,27 @@ async function recalcQueueFor(squadId: string) {
     const algoSettings = await getData();
     const updateTasks = [] as Promise<Date>[];
     for (const other of squads.filter((x) => x._id.toString() !== squadId)) {
-        const curInput = await squadToAlgoInput(
-            curSquad,
-            other,
-            algoSettings.variance
-        );
-        const otherInput = await squadToAlgoInput(
-            other,
-            curSquad,
-            algoSettings.variance
-        );
+        // TODO: Fix algo bug
+        // const curInput = await squadToAlgoInput(
+        //     curSquad,
+        //     other,
+        //     algoSettings.variance
+        // );
+        // const otherInput = await squadToAlgoInput(
+        //     other,
+        //     curSquad,
+        //     algoSettings.variance
+        // );
         // console.log(curInput, otherInput, algoSettings.base, algoSettings.exp);
-        const time = matchTime(
-            curInput,
-            otherInput,
-            algoSettings.base,
-            algoSettings.exp
-        );
-        const willMatchAt = new Date(Date.now() + time * 1000);
+        // const time = matchTime(
+        //     curInput,
+        //     otherInput,
+        //     algoSettings.base,
+        //     algoSettings.exp
+        // );
+        //  TODO: Remove test code
+        // const willMatchAt = new Date(Date.now() + time * 1000);
+        const willMatchAt = new Date(Date.now() + 10 * 1000);
         const [squadA, squadB] = [squadId, other._id.toString()].toSorted();
         // console.log({ squadA, squadB, willMatchAt, time });
         updateTasks.push(
@@ -395,9 +411,7 @@ async function recalcQueueFor(squadId: string) {
                     $set: {
                         squadA,
                         squadB,
-                        //  TODO: Remove test code
-                        willMatchAt: new Date(Date.now() + 10 * 1000),
-                        // willMatchAt,
+                        willMatchAt,
                     },
                 },
                 { upsert: true }
@@ -407,10 +421,14 @@ async function recalcQueueFor(squadId: string) {
         );
     }
 
-    const waitTime = await Promise.all(updateTasks).then((x) =>
-        x.reduce((a, b) => (a < b ? a : b))
-    );
-    await queueWaitTimeUpdated(squadId, waitTime);
+    const waitTime = await Promise.all(updateTasks).then((x) => {
+        if (x.length > 0) {
+            return x.reduce((a, b) => (a < b ? a : b));
+        }
+    });
+    if (waitTime) {
+        await queueWaitTimeUpdated(squadId, waitTime);
+    }
     await checkForMatchedSquads();
     return waitTime;
 }
@@ -557,8 +575,11 @@ export async function createInvitationMember(
         .populate("inviterId")
         .populate("squadId")
         .exec();
-
-    return newInvite;
+    return await SquadInvitations.findOne({
+        squadId,
+        accountId,
+        inviterId,
+    }).exec();
 }
 
 export async function getAllInvitationToSquad(accountId: string) {

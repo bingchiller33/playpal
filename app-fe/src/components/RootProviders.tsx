@@ -60,6 +60,10 @@ const RootProviders = ({ children, session }: RootProvidersProps) => {
                 )
                 .catch(console.error);
         }
+
+        return () => {
+            beamsClient.stop().catch(console.error);
+        };
     }, [session?.user.id]);
 
     return (
