@@ -48,7 +48,7 @@ const SquadFilterView = (props: SquadFilterProps) => {
 
     const pdUpdateFilter = promisedb(async (update: Record<string, any>) => {
         const result = await updateFilter(id, update);
-        result.success || toast.error(result.msg);
+        result.success || toast.error((result as any).msg);
     }, 1000);
 
     const saUpdateFilter = async (update: Record<string, any>) => {

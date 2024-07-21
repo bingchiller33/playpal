@@ -7,7 +7,7 @@ import { sessionOrLogin } from "@/utils/server";
 import { redirect } from "next/navigation";
 
 export async function pay(months: number) {
-    let url = undefined;
+    let url: string | undefined = undefined;
     try {
         const session = await sessionOrLogin();
         await dbConnect();

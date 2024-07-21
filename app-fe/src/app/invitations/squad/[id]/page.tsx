@@ -1,10 +1,11 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import InviteResponseCard from "@/components/InviteResponseCard";
+import { ISquadInvitation } from "@/models/squadInvitation";
 import { getAllInvitationToSquad } from "@/repositories/squadRepository";
 import { jsonStrip } from "@/utils";
 import { sessionOrLogin } from "@/utils/server";
-import { NextPageProps } from "@/utils/types";
+import { NextPageProps, WithId } from "@/utils/types";
 import { Container, Modal } from "react-bootstrap";
 
 const ReceiveRequestJoinSquad = async (pageProps: NextPageProps) => {
@@ -12,7 +13,7 @@ const ReceiveRequestJoinSquad = async (pageProps: NextPageProps) => {
     const { id } = params;
     const session = await sessionOrLogin();
     let invites = jsonStrip(await getAllInvitationToSquad(session.user.id));
-    let highlight = undefined;
+    let highlight: WithId<ISquadInvitation> | undefined = undefined;
     if (id !== "all" && !!id) {
         highlight = invites.find((inv) => inv._id.toString() === id);
         invites = invites.filter((inv) => inv._id.toString() !== id);

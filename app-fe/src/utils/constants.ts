@@ -9,7 +9,7 @@ export const FAKE_DEFAULT_LOL_WEIGHTS = {};
 export const FAKE_DEFAULT_ANY_WEIGHTS = {};
 
 function generateTimeFilterOptions() {
-    const options = [];
+    const options: { value: string; label: string }[] = [];
     const intervals = 15 * 60; // 15 minutes in seconds
     const dayInSeconds = 24 * 60 * 60; // Total seconds in a day
     const formatTime = (hours: number, minutes: number) => {

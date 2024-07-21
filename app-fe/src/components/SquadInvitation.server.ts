@@ -13,6 +13,7 @@ import { jsonStrip } from "@/utils";
 import { sessionOrLogin } from "@/utils/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import * as env from "@/utils/env";
 
 export async function createInvitation(squadId: string, accountId: string) {
     try {
@@ -35,7 +36,7 @@ export async function createInvitation(squadId: string, accountId: string) {
             content: `${inviterName} wants you to join ${squadName}! Click here to join now.`,
             user: invite.accountId.toString(),
             saveHistory: true,
-            href: `/invitations/squad/${invite._id}`,
+            href: `${env.HOST}/invitations/squad/${invite._id}`,
         });
 
         return { success: true, data: jsonStrip(invite) };
@@ -68,9 +69,9 @@ export async function declineInvite(invitationId: string) {
 }
 
 export async function acceptInvite(invitationId: string) {
-    let squadId = undefined;
+    let squadId: string | undefined = undefined;
     let isBlocked = false;
-    let userId = undefined;
+    let userId: string | undefined = undefined;
     try {
         const session = await sessionOrLogin();
         userId = session.user.id;

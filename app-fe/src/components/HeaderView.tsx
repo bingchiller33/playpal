@@ -21,6 +21,7 @@ import { COLORS } from "@/utils/constants";
 import { IoMdMenu } from "react-icons/io";
 import { signOut } from "next-auth/react";
 import { WithId } from "@/utils/types";
+import { redirectOrCreateSquad } from "@/server/squad.server";
 
 const HeaderView = ({ user }: HeaderProps) => {
     const isAdmin = user?.role === "admin";
@@ -41,12 +42,20 @@ const HeaderView = ({ user }: HeaderProps) => {
                 </NavbarToggle>
                 <NavbarCollapse id="basic-navbar-nav">
                     <Nav className="me-auto">
+                        <button
+                            onClick={async () => await redirectOrCreateSquad()}
+                            className="nav-link text-white header-element"
+                            style={{ marginRight: "auto" }}
+                        >
+                            Squads
+                        </button>
                         <Link
                             href={"/about-us"}
                             className="nav-link text-white header-element"
                         >
                             About us
                         </Link>
+
                         <Link
                             href={"/compare-plans"}
                             className="nav-link text-white header-element"

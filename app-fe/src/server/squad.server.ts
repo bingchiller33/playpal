@@ -10,7 +10,7 @@ import { sessionOrLogin } from "@/utils/server";
 import { redirect } from "next/navigation";
 
 export async function createSquad() {
-    let redir = undefined;
+    let redir: string | undefined = undefined;
     try {
         await dbConnect();
         const session = await sessionOrLogin();
@@ -30,5 +30,18 @@ export async function createSquad() {
 
     if (redir) {
         redirect(redir);
+    }
+}
+
+export async function redirectOrCreateSquad() {
+    const session = await sessionOrLogin();
+    await dbConnect();
+    const squads = await getUserActiveSquads(session.user.id);
+    if (squads.length == 0) {
+        const newSquad = await createSquadByPlayer(session.user.id);
+        redirect(`/squad/${newSquad._id}/chat`);
+    } else {
+        console.log(`/squad/${squads[0].squadId._id}/chat`);
+        redirect(`/squad/${squads[0].squadId._id}/chat`);
     }
 }

@@ -3,6 +3,7 @@ function loadenv(name: string) {
 }
 
 export const MONGO_URI = loadenv("MONGO_URI");
+export const HOST = loadenv("HOST");
 export const EMAIL_USER = loadenv("EMAIL_USER");
 export const EMAIL_PASS = loadenv("EMAIL_PASS");
 export const NEXTAUTH_URL = loadenv("NEXTAUTH_URL");

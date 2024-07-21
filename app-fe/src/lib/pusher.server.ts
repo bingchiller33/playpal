@@ -53,7 +53,6 @@ export async function sendNotification({
         href,
         data,
     });
-
     beamServer.publishToUsers([user], {
         web: {
             notification: {

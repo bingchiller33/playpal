@@ -63,7 +63,7 @@ export async function declideMatch(squadId: string, matchId: string) {
 }
 
 export async function acceptMatch(squadId: string, matchId: string) {
-    let redir = undefined;
+    let redir: string | undefined = undefined;
     try {
         const session = await sessionOrLogin();
         // check is squad leader
