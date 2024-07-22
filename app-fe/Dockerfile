@@ -20,7 +20,7 @@ RUN \
     fi
 
 
-FROM node:18-alpine as runner
+FROM node:20-alpine as runner
 WORKDIR /app
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone .

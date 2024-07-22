@@ -579,7 +579,10 @@ export async function createInvitationMember(
         squadId,
         accountId,
         inviterId,
-    }).exec();
+    })
+        .populate("inviterId")
+        .populate("squadId")
+        .exec();
 }
 
 export async function getAllInvitationToSquad(accountId: string) {
