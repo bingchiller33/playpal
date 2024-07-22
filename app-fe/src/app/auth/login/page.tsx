@@ -11,6 +11,7 @@ import { signIn } from "next-auth/react";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
+
 export default function Login() {
     const router = useRouter();
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

@@ -9,6 +9,13 @@ import { getUserActiveSquads } from "@/repositories/squadRepository";
 import { sessionOrLogin } from "@/utils/server";
 import { createSquad } from "@/server/squad.server";
 import NotificationIcon from "@/components/NotificationIcon";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "My Squads | PlayPal",
+};
+
+
 
 const MySquadPage = async () => {
     await dbConnect();
