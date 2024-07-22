@@ -35,7 +35,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
   const [feedback, setFeedback] = useState<any[]>([]);
 
   // FR: might put this in Header later
-  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
+  const [friendRequests, setFriendRequests] = useState<any[]>([]);
 
   const checkFriendRequest = useCallback(async () => {
     if (!session) {
