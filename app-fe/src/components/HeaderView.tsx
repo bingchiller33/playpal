@@ -130,7 +130,13 @@ const HeaderView = ({ user }: HeaderProps) => {
                                         <></>
                                     )}
                                     <div className="dropdown-divider"></div>
-                                    <Dropdown.Item onClick={() => signOut()}>
+                                    <Dropdown.Item
+                                        onClick={() =>
+                                            signOut({
+                                                callbackUrl: "/auth/login",
+                                            })
+                                        }
+                                    >
                                         Sign out
                                     </Dropdown.Item>
                                 </DropdownMenu>

@@ -23,7 +23,11 @@ const NotificationPanelItem = ({
                     return;
                 }
 
-                notification.href && router.push(notification.href);
+                console.log(notification);
+                notification.href &&
+                    router.push(
+                        notification.href.replace("localhost:3000", "")
+                    );
             }}
             className="text-decoration-none"
         >

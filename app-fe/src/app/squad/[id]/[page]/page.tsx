@@ -20,6 +20,20 @@ import SquadEnrollments from "@/models/squadEnrollmentModel";
 import { sessionOrLogin } from "@/utils/server";
 import { redirect } from "next/navigation";
 
+import type { Metadata } from "next";
+
+export async function generateMetadata(
+    pageProps: NextPageProps
+): Promise<Metadata> {
+    const id = pageProps.params.id;
+    await dbConnect();
+    const squad = jsonStrip(await Squads.findOne({ _id: id }).exec());
+    const name = squad?.name ?? "";
+    return {
+        title: `${name} Squad | PlayPal`,
+    };
+}
+
 const SquadPage = async (pageProps: NextPageProps) => {
     const { params } = pageProps;
     const { id, page } = params;
@@ -54,7 +68,7 @@ const SquadPage = async (pageProps: NextPageProps) => {
     }
 
     return (
-        <div className={cx(styles.layout, "pb-1")} style={{ height: "100vh" }}>
+        <div className={cx(styles.layout, "pb-1")} style={{ height: "100dvh" }}>
             <div className="pb-2  d-none d-md-block" style={{ gridArea: "h" }}>
                 <Header />
             </div>
@@ -74,7 +88,8 @@ const SquadPage = async (pageProps: NextPageProps) => {
                     overflow: "auto",
                 }}
             >
-                <SquadHeader squad={squad!} {...pageProps} />
+                <SquadHeader squad={squad!} {...jsonStrip(pageProps)} />
+
                 <div className={cx(styles["main-inner"])}>
                     <div
                         className="h-100 d-none d-md-block "

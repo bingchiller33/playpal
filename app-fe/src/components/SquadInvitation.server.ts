@@ -41,6 +41,7 @@ export async function createInvitation(squadId: string, accountId: string) {
 
         return { success: true, data: jsonStrip(invite) };
     } catch (e) {
+        console.error(e);
         return { success: false, msg: "False to sent invitation!" };
     }
 }

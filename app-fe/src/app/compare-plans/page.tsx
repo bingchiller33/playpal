@@ -11,6 +11,13 @@ import PremiumCard from "./PremiumCard";
 import dbConnect from "@/lib/mongoConnect";
 import { getFutPremiumExpiry } from "@/repositories/premiumRepository";
 import { getMasterData } from "@/repositories/masterDataRepository";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Compare Plans | PlayPal",
+};
+
+
 
 const HEIGHT = 500;
 

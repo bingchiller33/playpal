@@ -8,11 +8,11 @@ import { redirect } from "next/navigation";
 import * as env from "@/utils/env";
 
 export async function sendFriendRequestNotification(receiverId: string) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/auth/login");
-    return;
-  }
+    const session: any = await getServerSession(authOptions);
+    if (!session) {
+        redirect("/auth/login");
+        return;
+    }
 
     await dbConnect();
     sendNotification({

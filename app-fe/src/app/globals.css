@@ -85,7 +85,7 @@ body {
 }
 
 body {
-    height: 100vh;
+    height: 100dvh;
     color: rgb(var(--foreground-rgb));
     background: #000 !important;
 }

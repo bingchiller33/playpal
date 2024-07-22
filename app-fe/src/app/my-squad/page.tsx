@@ -8,6 +8,14 @@ import dbConnect from "@/lib/mongoConnect";
 import { getUserActiveSquads } from "@/repositories/squadRepository";
 import { sessionOrLogin } from "@/utils/server";
 import { createSquad } from "@/server/squad.server";
+import NotificationIcon from "@/components/NotificationIcon";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "My Squads | PlayPal",
+};
+
+
 
 const MySquadPage = async () => {
     await dbConnect();
@@ -29,9 +37,7 @@ const MySquadPage = async () => {
                 </h1>
 
                 <div className="ms-auto">
-                    <IconButton>
-                        <CiBellOn fill={COLORS.PRIMARY_1} size={28} />
-                    </IconButton>
+                    <NotificationIcon />
                 </div>
                 <form action={createSquad}>
                     <IconButton>
