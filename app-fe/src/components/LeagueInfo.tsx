@@ -75,9 +75,10 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
   const fetchLeagueData = useCallback(async (summonerId: string) => {
     try {
       const leagueData = await fetchLeagueV4(summonerId);
-      setLeagueInfo(leagueData[1]);
+      const leagueDataV1 = leagueData.find(data => data.tier) || leagueData[0];
+      setLeagueInfo(leagueDataV1);
       if (leagueData.length > 0) {
-        const tier = leagueData[1]?.tier.toLowerCase();
+        const tier = leagueDataV1?.tier.toLowerCase();
         setTierIcon(tierIcons[tier] || tierIcons["unranked"]);
       }
       return leagueData;
