@@ -5,7 +5,7 @@ import {
   fetchMatchesByPUUID,
   fetchSummonerV4,
 } from "@/hooks/useRiotAPI";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./LeagueInfo.module.css";
 import { IoIosStats } from "react-icons/io";
 import { PiClockCountdownFill } from "react-icons/pi";
@@ -93,11 +93,26 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
       const matchIds = await fetchMatchesByPUUID(puuid);
       setMatches(matchIds);
 
-        const matchDataPromises = matchIds.map((matchId: string) =>
-          fetchMatchById(matchId)
-        );
-        const matchesData = await Promise.all(matchDataPromises);
-        setMatchDetails(matchesData);
+      const matchDataPromises = matchIds.map((matchId: string) =>
+        fetchMatchById(matchId)
+      );
+      const matchesData = await Promise.all(matchDataPromises);
+      setMatchDetails(matchesData);
+      return matchesData;
+    } catch (error) {
+      console.error("Failed to fetch matches data", error);
+      throw error;
+    }
+  }, []);
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    if (profile.riot_id) {
+      try {
+        const accountData = await fetchAccountData();
+        const summonerData = await fetchSummonerData(accountData.puuid);
+        await fetchLeagueData(summonerData.id);
+        await fetchMatchesData(accountData.puuid);
       } catch (error) {
         console.error("Failed to fetch Riot information", error);
       } finally {
@@ -106,11 +121,17 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
     } else {
       setLoading(false);
     }
-  };
+  }, [
+    profile.riot_id,
+    fetchAccountData,
+    fetchSummonerData,
+    fetchLeagueData,
+    fetchMatchesData,
+  ]);
 
   useEffect(() => {
     fetchData();
-  }, [profile.riot_id]);
+  }, [profile.riot_id, fetchData]);
 
   const handleRiotIdSave = async () => {
     if (riotId.includes("#")) {
@@ -186,7 +207,7 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
           <p className={styles.loadingText}>Loading...</p>
         </div>
       )}
-      {showRiotIdInput && (
+      {showRiotIdInput && isCurrentUser && (
         <div className={styles.overlay}>
           <div className={styles.inputContainer}>
             <h3 className={styles.inputHeader}>
@@ -253,18 +274,16 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
             <div className={styles.rankWRContainer}>
               <div className={styles.tierRankContainer}>
                 <p style={{ color: "grey", fontWeight: "bold" }}>
-                  {leagueInfo?.[0]?.tier} {leagueInfo?.[0]?.rank}
+                  {leagueInfo?.tier} {leagueInfo?.rank}
                 </p>
-                <p className={styles.bigBold}>
-                  {leagueInfo?.[0]?.leaguePoints} LP
-                </p>
+                <p className={styles.bigBold}>{leagueInfo?.leaguePoints} LP</p>
               </div>
               <div className={styles.winrateContainer}>
                 <p style={{ color: "grey", fontWeight: "bold" }}>Win Rate:</p>
                 <p className={styles.bigBold}>
                   {(
-                    (leagueInfo?.[0]?.wins /
-                      (leagueInfo?.[0]?.wins + leagueInfo?.[0]?.losses)) *
+                    (leagueInfo?.wins /
+                      (leagueInfo?.wins + leagueInfo?.losses)) *
                     100
                   ).toFixed(1)}
                   %
