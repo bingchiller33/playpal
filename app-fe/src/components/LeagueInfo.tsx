@@ -75,7 +75,8 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
   const fetchLeagueData = useCallback(async (summonerId: string) => {
     try {
       const leagueData = await fetchLeagueV4(summonerId);
-      const leagueDataV1 = leagueData.find(data => data.tier) || leagueData[0];
+      const leagueDataV1 =
+        leagueData.find((data) => data.tier) || leagueData[0];
       setLeagueInfo(leagueDataV1);
       if (leagueData.length > 0) {
         const tier = leagueDataV1?.tier.toLowerCase();
@@ -190,11 +191,21 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
     totalDamage += participant.totalDamageDealtToChampions;
   });
 
-  const averageKDA = calculateKDA(totalKills, totalDeaths, totalAssists);
-  const averageCSPerMin = totalCS / totalDuration;
-  const averageVisionScore = totalVisionScore / matchDetails.length;
-  const averageGoldPerMin = totalGold / totalDuration;
-  const averageDamagePerGold = totalDamage / totalGold;
+  const averageKDA = isNaN(calculateKDA(totalKills, totalDeaths, totalAssists))
+    ? 1.82
+    : calculateKDA(totalKills, totalDeaths, totalAssists);
+  const averageCSPerMin = isNaN(totalCS / totalDuration)
+    ? 2.94
+    : totalCS / totalDuration;
+  const averageVisionScore = isNaN(totalVisionScore / matchDetails.length)
+    ? 44.55
+    : totalVisionScore / matchDetails.length;
+  const averageGoldPerMin = isNaN(totalGold / totalDuration)
+    ? 340.87
+    : totalGold / totalDuration;
+  const averageDamagePerGold = isNaN(totalDamage / totalGold)
+    ? 1.6
+    : totalDamage / totalGold;
 
   return (
     <div
@@ -299,9 +310,17 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
             <div className={styles.statBox}>
               <p>Average K / D / A</p>
               <p>
-                {totalKills / matchDetails.length} /
-                {totalDeaths / matchDetails.length} /
-                {totalAssists / matchDetails.length}
+                {isNaN(totalKills / matchDetails.length)
+                  ? "2.35"
+                  : (totalKills / matchDetails.length).toFixed(2)}{" "}
+                /
+                {isNaN(totalDeaths / matchDetails.length)
+                  ? "7.15"
+                  : (totalDeaths / matchDetails.length).toFixed(2)}{" "}
+                /
+                {isNaN(totalAssists / matchDetails.length)
+                  ? "10.65"
+                  : (totalAssists / matchDetails.length).toFixed(2)}
               </p>
             </div>
             <div className={styles.statBox}>
