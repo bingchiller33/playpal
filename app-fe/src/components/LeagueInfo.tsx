@@ -194,7 +194,7 @@ const LeagueInfo = ({ profile, isCurrentUser }: LeagueInfoProps) => {
   const calculatedKDA = calculateKDA(totalKills, totalDeaths, totalAssists);
 
   const averageKDA = calculatedKDA === 0 ? 1.82 : calculatedKDA;
-  
+
   const averageCSPerMin = isNaN(totalCS / totalDuration)
     ? 2.94
     : totalCS / totalDuration;
